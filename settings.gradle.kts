@@ -8,28 +8,28 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "0.5.0"
+    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
 if (!file(".git").exists()) {
     val errorText = """
         
         =====================[ ERROR ]=====================
-         The Tentacles project directory is not a properly cloned Git repository.
+         The Nautilus project directory is not a properly cloned Git repository.
          
-         In order to build Tentacles from source you must clone
+         In order to build Nautilus from source you must clone
          the repository using Git, not download a code zip from GitHub.
          
          See https://github.com/PurpurMC/Purpur/blob/HEAD/CONTRIBUTING.md
-         for further information on building and modifying Purpur.
+         for further information on building and modifying Nautilus.
         ===================================================
     """.trimIndent()
     error(errorText)
 }
 
-rootProject.name = "tentacles"
+rootProject.name = "nautilus"
 
-for (name in listOf("tentacles-api", "tentacles-server")) {
+for (name in listOf("nautilus-api", "nautilus-server")) {
     val projName = name.lowercase(Locale.ENGLISH)
     include(projName)
     findProject(":$projName")!!.projectDir = file(name)

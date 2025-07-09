@@ -1,4 +1,4 @@
-package org.purpurmc.testplugin;
+package win.obydux.testplugin;
 
 public class TestPluginLoader {
 }
