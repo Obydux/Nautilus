@@ -1,5 +1,13 @@
 --- a/purpur-api/build.gradle.kts
 +++ b/purpur-api/build.gradle.kts
+@@ -40,6 +_,7 @@
+ }
+ 
+ dependencies {
++    api("io.sentry:sentry:5.4.0") // Pufferfish
+     // api dependencies are listed transitively to API consumers
+     api("com.google.guava:guava:33.3.1-jre")
+     api("com.google.code.gson:gson:2.11.0")
 @@ -101,17 +_,21 @@
          java {
              srcDir(generatedDir)
@@ -22,3 +30,28 @@
          }
      }
  }
+@@ -159,6 +_,13 @@
+     }
+ }
+ 
++// Pufferfish Start
++tasks.withType<JavaCompile> {
++        val compilerArgs = options.compilerArgs
++        compilerArgs.add("--add-modules=jdk.incubator.vector")
++    }
++// Pufferfish End
++
+ tasks.jar {
+     from(generateApiVersioningFile.map { it.outputs.files.singleFile }) {
+         into("META-INF/maven/${project.group}/${project.name}")
+@@ -180,7 +_,10 @@
+     //(options as StandardJavadocDocletOptions).addStringOption("-add-modules", "jdk.incubator.vector") // Purpur - our javadocs need this for pufferfish's SIMD patch
+     (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet") // Purpur - silence Paper's bajillion javadoc warnings
+     val options = options as StandardJavadocDocletOptions
++    // Pufferfish start
++    options.addStringOption("-add-modules", "jdk.incubator.vector")
+     options.overview = "../paper-api/src/main/javadoc/overview.html"
++    // Pufferfish end
+     options.use()
+     options.isDocFilesSubDirs = true
+     options.links(
