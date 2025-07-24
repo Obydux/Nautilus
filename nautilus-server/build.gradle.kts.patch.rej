@@ -1,0 +1,22 @@
+++++ REJECTED HUNK: 4
+@@ -236,14 +264,14 @@
+         val gitBranch = git.exec(providers, "rev-parse", "--abbrev-ref", "HEAD").get().trim()
+         attributes(
+             "Main-Class" to "org.bukkit.craftbukkit.Main",
+-            "Implementation-Title" to "Purpur", // Purpur
++            "Implementation-Title" to "Nautilus", // Purpur // Nautilus
+             "Implementation-Version" to implementationVersion,
+             "Implementation-Vendor" to date,
+-            "Specification-Title" to "Purpur", // Purpur
++            "Specification-Title" to "Nautilus", // Purpur // Nautilus
+             "Specification-Version" to project.version,
+-            "Specification-Vendor" to "Purpur Team", // Purpur
+-            "Brand-Id" to "purpurmc:purpur", // Purpur
+-            "Brand-Name" to "Purpur", // Purpur
++            "Specification-Vendor" to "Obydux", // Purpur // Nautilus
++            "Brand-Id" to "obydux:nautilus", // Purpur // Nautilus
++            "Brand-Name" to "Nautilus", // Purpur // Nautilus
+             "Build-Number" to (build ?: ""),
+             "Build-Time" to buildTime.toString(),
+             "Git-Branch" to gitBranch,
+++++ END HUNK
