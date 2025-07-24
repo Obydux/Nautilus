@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/entity/player/Inventory.java
++++ b/net/minecraft/world/entity/player/Inventory.java
+@@ -572,11 +_,14 @@
+     }
+ 
+     public boolean contains(ItemStack stack) {
+-        for (ItemStack itemStack : this) {
++        // Pufferfish start - don't allocate iterators
++        for (int slot = 0; slot < this.getContainerSize(); slot++) {
++            ItemStack itemStack = this.getItem(slot);
+             if (!itemStack.isEmpty() && ItemStack.isSameItemSameComponents(itemStack, stack)) {
+                 return true;
+             }
+         }
++        // Pufferfish end - don't allocate iterators
+ 
+         return false;
+     }

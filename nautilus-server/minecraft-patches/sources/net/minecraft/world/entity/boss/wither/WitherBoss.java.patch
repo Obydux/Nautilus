@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/entity/boss/wither/WitherBoss.java
++++ b/net/minecraft/world/entity/boss/wither/WitherBoss.java
+@@ -235,6 +_,13 @@
+     }
+     // Purpur end - Mobs always drop experience
+ 
++    // Pufferfish start - optimize suffocation
++    @Override
++    public boolean shouldCheckForSuffocation() {
++        return true;
++    }
++    // Pufferfish end
++
+     @Override
+     protected PathNavigation createNavigation(Level level) {
+         FlyingPathNavigation flyingPathNavigation = new FlyingPathNavigation(this, level);

@@ -1,0 +1,19 @@
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -194,6 +_,8 @@
+         org.purpurmc.purpur.PurpurConfig.registerCommands();
+         // Purpur end - Purpur config files
+         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
++        gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
++        gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
+ 
+         this.setPvpAllowed(properties.pvp);
+         this.setFlightAllowed(properties.allowFlight);
+@@ -344,6 +_,7 @@
+ 
+             org.purpurmc.purpur.task.BossBarTask.startAll(); // Purpur - Implement TPSBar
+             if (org.purpurmc.purpur.PurpurConfig.beeCountPayload) org.purpurmc.purpur.task.BeehiveTask.instance().register(); // Purpur - Give bee counts in beehives to Purpur clients
++            if (gg.pufferfish.pufferfish.PufferfishConfig.enableAsyncMobSpawning) mobSpawnExecutor.start(); // Pufferfish
+             return true;
+         }
+     }

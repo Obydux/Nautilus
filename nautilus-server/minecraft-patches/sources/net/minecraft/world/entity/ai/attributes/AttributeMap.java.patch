@@ -1,0 +1,27 @@
+--- a/net/minecraft/world/entity/ai/attributes/AttributeMap.java
++++ b/net/minecraft/world/entity/ai/attributes/AttributeMap.java
+@@ -19,6 +_,7 @@
+     private final Set<AttributeInstance> attributesToUpdate = new ObjectOpenHashSet<>();
+     private final AttributeSupplier supplier;
+     private final net.minecraft.world.entity.LivingEntity entity; // Purpur - Ridables
++    private final java.util.function.Function<Holder<Attribute>, AttributeInstance> createInstance; // Pufferfish
+ 
+     public AttributeMap(AttributeSupplier supplier) {
+         // Purpur start - Ridables
+@@ -28,6 +_,7 @@
+         this.entity = entity;
+         // Purpur end - Ridables
+         this.supplier = defaultAttributes;
++        this.createInstance = holder -> this.supplier.createInstance(this::onAttributeModified, holder); // Pufferfish
+     }
+ 
+     private void onAttributeModified(AttributeInstance instance) {
+@@ -51,7 +_,7 @@
+ 
+     @Nullable
+     public AttributeInstance getInstance(Holder<Attribute> attribute) {
+-        return this.attributes.computeIfAbsent(attribute, holder -> this.supplier.createInstance(this::onAttributeModified, (Holder<Attribute>)holder));
++        return this.attributes.computeIfAbsent(attribute, this.createInstance); // Pufferfish - cache lambda, as for some reason java allocates it anyways
+     }
+ 
+     public boolean hasAttribute(Holder<Attribute> attribute) {

@@ -1,0 +1,30 @@
+--- a/net/minecraft/world/level/chunk/LevelChunk.java
++++ b/net/minecraft/world/level/chunk/LevelChunk.java
+@@ -93,6 +_,18 @@
+     public boolean needsDecoration;
+     // CraftBukkit end
+ 
++    // Pufferfish start - instead of using a random every time the chunk is ticked, define when lightning strikes preemptively
++    private int lightningTick;
++    // shouldDoLightning compiles down to 29 bytes, which with the default of 35 byte inlining should guarantee an inline
++    public final boolean shouldDoLightning(net.minecraft.util.RandomSource random) {
++        if (this.lightningTick-- <= 0) {
++            this.lightningTick = random.nextInt(this.level.spigotConfig.thunderChance) << 1;
++            return true;
++        }
++        return false;
++    }
++    // Pufferfish end
++
+     // Paper start
+     boolean loadedTicketLevel;
+     // Paper end
+@@ -154,6 +_,8 @@
+                 this.heightmaps.put(types, new Heightmap(this, types));
+             }
+         }
++
++        this.lightningTick = new java.util.Random().nextInt(100000) << 1; // Pufferfish - initialize lightning tick
+ 
+         this.postLoad = postLoad;
+         this.blockTicks = blockTicks;

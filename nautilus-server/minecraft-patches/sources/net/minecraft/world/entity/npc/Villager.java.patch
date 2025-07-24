@@ -1,0 +1,24 @@
+--- a/net/minecraft/world/entity/npc/Villager.java
++++ b/net/minecraft/world/entity/npc/Villager.java
+@@ -386,6 +_,10 @@
+     }
+     // Paper end - EAR 2
+ 
++    // Pufferfish start
++    public long nextGolemPanic = -1;
++    private int behaviorTick = 0;
++    // Pufferfish end
+     @Override
+     protected void customServerAiStep(ServerLevel level) {
+         // Paper start - EAR 2
+@@ -404,8 +_,8 @@
+         }
+         // Purpur end - Lobotomize stuck villagers
+         // Pufferfish start
+-        if (!inactive && (getRider() == null || !this.isControllable()) /*&& this.behaviorTick++ % this.activatedPriority == 0*/) { // Purpur - Ridables
+-            this.getBrain().tick(level, this); // Paper - EAR 2
++        if (!inactive && this.behaviorTick++ % this.activatedPriority == 0) {
++            this.getBrain().tick((ServerLevel) this.level(), this); // Paper - EAR 2
+         }
+         else if (this.isLobotomized && shouldRestock()) restock(); // Purpur - Lobotomize stuck villagers
+         // Pufferfish end

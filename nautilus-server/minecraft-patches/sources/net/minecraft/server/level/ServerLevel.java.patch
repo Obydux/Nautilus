@@ -1,0 +1,40 @@
+--- a/net/minecraft/server/level/ServerLevel.java
++++ b/net/minecraft/server/level/ServerLevel.java
+@@ -813,6 +_,7 @@
+             this.entityTickList
+                 .forEach(
+                     entity -> {
++                        entity.activatedPriorityReset = false; // Pufferfish - DAB
+                         if (!entity.isRemoved()) {
+                             if (!tickRateManager.isEntityFrozen(entity)) {
+                                 profilerFiller.push("checkDespawn");
+@@ -829,7 +_,19 @@
+                                     }
+ 
+                                     profilerFiller.push("tick");
+-                                    this.guardEntityTick(this::tickNonPassenger, entity);
++                                    // Pufferfish start - copied from this.guardEntityTick
++                                    try {
++                                        this.tickNonPassenger(entity);
++                                    } catch (Throwable var6) {
++                                        // Paper start - Prevent block entity and entity crashes
++                                        final String msg = String.format("Entity threw exception at %s:%s,%s,%s", entity.level().getWorld().getName(), entity.getX(), entity.getY(), entity.getZ());
++                                        MinecraftServer.LOGGER.error(msg, var6);
++                                        getCraftServer().getPluginManager().callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerInternalException(msg, var6))); // Paper - ServerExceptionEvent
++                                        entity.discard(org.bukkit.event.entity.EntityRemoveEvent.Cause.DISCARD);
++                                        // Paper end - Prevent block entity and entity crashes
++                                    }
++                                    this.moonrise$midTickTasks(); // Paper - rewrite chunk system
++                                    // Pufferfish end
+                                     profilerFiller.pop();
+                                 }
+                             }
+@@ -985,7 +_,7 @@
+         int minBlockZ = pos.getMinBlockZ();
+         ProfilerFiller profilerFiller = Profiler.get();
+         profilerFiller.push("thunder");
+-        if (!this.paperConfig().environment.disableThunder && isRaining && this.isThundering() && this.spigotConfig.thunderChance > 0 && this.random.nextInt(this.spigotConfig.thunderChance) == 0) { // Spigot // Paper - Option to disable thunder
++        if (!this.paperConfig().environment.disableThunder && isRaining && this.isThundering() && this.spigotConfig.thunderChance > 0 && /*simpleRandom.nextInt(this.spigotConfig.thunderChance) == 0*/ chunk.shouldDoLightning(this.random)) { // Spigot // Paper - Option to disable thunder // Paper - optimise random ticking // Pufferfish - replace random with shouldDoLightning
+             BlockPos blockPos = this.findLightningTargetAround(this.getBlockRandomPos(minBlockX, 0, minBlockZ, 15));
+             if (this.isRainingAt(blockPos)) {
+                 DifficultyInstance currentDifficultyAt = this.getCurrentDifficultyAt(blockPos);

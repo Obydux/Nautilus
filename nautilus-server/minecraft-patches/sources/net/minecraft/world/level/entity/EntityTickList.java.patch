@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/level/entity/EntityTickList.java
++++ b/net/minecraft/world/level/entity/EntityTickList.java
+@@ -9,7 +_,7 @@
+ import net.minecraft.world.entity.Entity;
+ 
+ public class EntityTickList {
+-    private final ca.spottedleaf.moonrise.common.list.IteratorSafeOrderedReferenceSet<net.minecraft.world.entity.Entity> entities = new ca.spottedleaf.moonrise.common.list.IteratorSafeOrderedReferenceSet<>(); // Paper - rewrite chunk system
++    public final ca.spottedleaf.moonrise.common.list.IteratorSafeOrderedReferenceSet<net.minecraft.world.entity.Entity> entities = new ca.spottedleaf.moonrise.common.list.IteratorSafeOrderedReferenceSet<>(); // Paper - rewrite chunk system // Pufferfish - public access
+ 
+     private void ensureActiveIsNotIterated() {
+         // Paper - rewrite chunk system

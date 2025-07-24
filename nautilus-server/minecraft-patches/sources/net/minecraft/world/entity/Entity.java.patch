@@ -1,0 +1,11 @@
+--- a/net/minecraft/world/entity/Entity.java
++++ b/net/minecraft/world/entity/Entity.java
+@@ -374,6 +_,8 @@
+     public boolean isTemporarilyActive;
+     public long activatedImmunityTick = Integer.MIN_VALUE;
+     public @Nullable Boolean immuneToFire = null; // Purpur - Fire immune API
++    public boolean activatedPriorityReset = false; // Pufferfish - DAB
++    public int activatedPriority = gg.pufferfish.pufferfish.PufferfishConfig.maximumActivationPrio; // Pufferfish - DAB (golf score)
+ 
+     public void inactiveTick() {
+     }
