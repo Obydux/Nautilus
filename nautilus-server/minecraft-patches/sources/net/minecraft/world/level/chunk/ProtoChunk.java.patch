@@ -1,0 +1,49 @@
+--- a/net/minecraft/world/level/chunk/ProtoChunk.java
++++ b/net/minecraft/world/level/chunk/ProtoChunk.java
+@@ -201,6 +_,46 @@
+         return this.blockEntities.get(pos);
+     }
+ 
++    @Override
++    public BlockState pluto$getBlockState(int x, int y, int z) {
++        return null;
++    }
++
++    @Override
++    public BlockState pluto$getBlockState(long packedPos) {
++        return null;
++    }
++
++    @Override
++    public @org.jetbrains.annotations.Nullable BlockState pluto$getBlockStateIfLoaded(int x, int y, int z) {
++        return null;
++    }
++
++    @Override
++    public @org.jetbrains.annotations.Nullable BlockState pluto$getBlockStateIfLoaded(long packedPos) {
++        return null;
++    }
++
++    @Override
++    public FluidState pluto$getFluidState(int x, int y, int z) {
++        return null;
++    }
++
++    @Override
++    public FluidState pluto$getFluidState(long packedPos) {
++        return null;
++    }
++
++    @Override
++    public @org.jetbrains.annotations.Nullable FluidState pluto$getFluidStateIfLoaded(int x, int y, int z) {
++        return null;
++    }
++
++    @Override
++    public @org.jetbrains.annotations.Nullable FluidState pluto$getFluidStateIfLoaded(long packedPos) {
++        return null;
++    }
++
+     public Map<BlockPos, BlockEntity> getBlockEntities() {
+         return this.blockEntities;
+     }
