@@ -1,0 +1,18 @@
+--- a/net/minecraft/world/level/block/CoralBlock.java
++++ b/net/minecraft/world/level/block/CoralBlock.java
+@@ -66,8 +_,13 @@
+ 
+     protected boolean scanForWater(BlockGetter level, BlockPos pos) {
+         if (!((net.minecraft.world.level.LevelAccessor) level).getMinecraftWorld().purpurConfig.coralDieOutsideWater) return true; // Purpur - Config to not let coral die
+-        for (Direction direction : Direction.values()) {
+-            FluidState fluidState = level.getFluidState(pos.relative(direction));
++        // Pluto start - Memory allocation optimisations
++        final int x = pos.getX();
++        final int y = pos.getY();
++        final int z = pos.getZ();
++        // Pluto end - Memory allocation optimisations
++        for (Direction direction : Direction.VALUES) { // Pluto - Avoid excessive calls to Enum#values
++            FluidState fluidState = level.pluto$getFluidState(x + direction.getStepX(), y + direction.getStepY(), z + direction.getStepZ()); // Pluto - Memory allocation optimisations
+             if (fluidState.is(FluidTags.WATER)) {
+                 return true;
+             }

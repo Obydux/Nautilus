@@ -1,0 +1,28 @@
+--- a/net/minecraft/server/level/ServerPlayer.java
++++ b/net/minecraft/server/level/ServerPlayer.java
+@@ -840,6 +_,16 @@
+                 super.tick();
+             }
+ 
++            // Pluto start - Only tick inventory slots that are important
++            // This drops the ticked inventory slots from 41 -> 2.
++            if (this.level().plutoConfig().playerInventoryOnlyUpdateImportantSlots) { // FIXME: If mojang expects this to handle non-map items.
++                ItemStack mainHand = this.getInventory().getSelectedItem();
++                if (!mainHand.isEmpty()) synchronizeSpecialItemUpdates(mainHand);
++
++                ItemStack offHand = this.getInventory().equipment.get(EquipmentSlot.OFFHAND);
++                if (!offHand.isEmpty()) synchronizeSpecialItemUpdates(offHand);
++            } else
++            // Pluto end - Only tick inventory slots that are important
+             for (int i = 0; i < this.getInventory().getContainerSize(); i++) {
+                 ItemStack item = this.getInventory().getItem(i);
+                 if (!item.isEmpty()) {
+@@ -1359,7 +_,7 @@
+             return Optional.empty();
+         } else {
+             boolean isPossibleToRespawnInThis = block.isPossibleToRespawnInThis(blockState);
+-            BlockState blockState1 = level.getBlockState(blockPos.above());
++            BlockState blockState1 = level.pluto$getBlockState(blockPos.getX(), blockPos.getY() + 1, blockPos.getZ()); // Pluto - Memory allocation optimisations
+             boolean isPossibleToRespawnInThis1 = blockState1.getBlock().isPossibleToRespawnInThis(blockState1);
+             return isPossibleToRespawnInThis && isPossibleToRespawnInThis1
+                 ? Optional.of(new ServerPlayer.RespawnPosAngle(new Vec3(blockPos.getX() + 0.5, blockPos.getY() + 0.1, blockPos.getZ() + 0.5), f, false, false, null)) // Paper - Fix SPIGOT-5989

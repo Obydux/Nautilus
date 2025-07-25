@@ -1,5 +1,240 @@
 --- a/net/minecraft/world/level/Level.java
 +++ b/net/minecraft/world/level/Level.java
+@@ -140,7 +_,7 @@
+ 
+     public boolean captureBlockStates = false;
+     public boolean captureTreeGeneration = false;
+-    public Map<BlockPos, org.bukkit.craftbukkit.block.CraftBlockState> capturedBlockStates = new java.util.LinkedHashMap<>(); // Paper
++    public Map<Long, org.bukkit.craftbukkit.block.CraftBlockState> capturedBlockStates = new it.unimi.dsi.fastutil.longs.Long2ObjectLinkedOpenHashMap<>(); // Paper // Pluto - Memory allocation optimisations
+     public Map<BlockPos, BlockEntity> capturedTileEntities = new java.util.LinkedHashMap<>(); // Paper - Retain block place order when capturing blockstates
+     @Nullable
+     public List<net.minecraft.world.entity.item.ItemEntity> captureDrops;
+@@ -160,6 +_,9 @@
+     }
+     // Paper end - add paper world config
+ 
++    private final dev.yive.pluto.PlutoConfig.WorldConfig plutoConfig; public dev.yive.pluto.PlutoConfig.WorldConfig plutoConfig() { return this.plutoConfig; } // Pluto - Config
++    private final java.util.concurrent.ExecutorService pluto$spawningChunksExecutor; public java.util.concurrent.ExecutorService plutoSpawningChunksExecutor() { return pluto$spawningChunksExecutor; } // Pluto - Async spawning chunks
++
+     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur - Purpur config files
+     public static @Nullable BlockPos lastPhysicsProblem; // Spigot
+     private int tileTickPosition;
+@@ -645,7 +_,7 @@
+ 
+         final BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+         final ca.spottedleaf.moonrise.patches.collisions.CollisionUtil.LazyEntityCollisionContext collisionShape = new ca.spottedleaf.moonrise.patches.collisions.CollisionUtil.LazyEntityCollisionContext(entity);
+-        BlockPos selected = null;
++        Long selected = null; // Pluto - Memory allocation optimisations
+         double selectedDistance = Double.MAX_VALUE;
+         final Vec3 entityPos = entity.position();
+ 
+@@ -719,7 +_,7 @@
+                                 }
+ 
+                                 final double distance = mutablePos.distToCenterSqr(entityPos);
+-                                if (distance > selectedDistance || (distance == selectedDistance && selected.compareTo(mutablePos) >= 0)) {
++                                if (distance > selectedDistance || (distance == selectedDistance && selected.compareTo(mutablePos.asLong()) >= 0)) { // Pluto - Memory allocation optimisations
+                                     continue;
+                                 }
+ 
+@@ -741,24 +_,38 @@
+                                     }
+ 
+                                     // avoid VoxelShape#move by shifting the entity collision shape instead
+-                                    final AABB shiftedAABB = aabb.move(-(double)blockX, -(double)blockY, -(double)blockZ);
++                                    // Pluto start - Memory allocation optimisations
++                                    final double x1 = aabb.minX + (-(double)blockX);
++                                    final double x2 = aabb.maxX + (-(double)blockX);
++                                    final double y1 = aabb.minY + (-(double)blockY);
++                                    final double y2 = aabb.maxY + (-(double)blockY);
++                                    final double z1 = aabb.minZ + (-(double)blockZ);
++                                    final double z2 = aabb.maxZ + (-(double)blockZ);
++
++                                    final double minX = Math.min(x1, x2);
++                                    final double minY = Math.min(y1, y2);
++                                    final double minZ = Math.min(z1, z2);
++                                    final double maxX = Math.max(x1, x2);
++                                    final double maxY = Math.max(y1, y2);
++                                    final double maxZ = Math.max(z1, z2);
++                                    // Pluto end - Memory allocation optimisations
+ 
+                                     final AABB singleAABB = ((ca.spottedleaf.moonrise.patches.collisions.shape.CollisionVoxelShape)blockCollision).moonrise$getSingleAABBRepresentation();
+                                     if (singleAABB != null) {
+-                                        if (!ca.spottedleaf.moonrise.patches.collisions.CollisionUtil.voxelShapeIntersect(singleAABB, shiftedAABB)) {
++                                        if (!ca.spottedleaf.moonrise.patches.collisions.CollisionUtil.voxelShapeIntersect(singleAABB, minX, minY, minZ, maxX, maxY, maxZ)) { // Pluto - Memory allocation optimisations
+                                             continue;
+                                         }
+ 
+-                                        selected = mutablePos.immutable();
++                                        selected = mutablePos.asLong(); // Pluto - Memory allocation optimisations
+                                         selectedDistance = distance;
+                                         continue;
+                                     }
+ 
+-                                    if (!ca.spottedleaf.moonrise.patches.collisions.CollisionUtil.voxelShapeIntersectNoEmpty(blockCollision, shiftedAABB)) {
++                                    if (!ca.spottedleaf.moonrise.patches.collisions.CollisionUtil.pluto$voxelShapeIntersectNoEmpty(blockCollision, minX, minY, minZ, maxX, maxY, maxZ)) { // Pluto - Memory allocation optimisations
+                                         continue;
+                                     }
+ 
+-                                    selected = mutablePos.immutable();
++                                    selected = mutablePos.asLong(); // Pluto - Memory allocation optimisations
+                                     selectedDistance = distance;
+                                     continue;
+                                 }
+@@ -769,7 +_,7 @@
+             }
+         }
+ 
+-        return java.util.Optional.ofNullable(selected);
++        return java.util.Optional.ofNullable(selected == null ? null : BlockPos.of(selected)); // Pluto - Memory allocation optimisations
+     }
+     // Paper end - optimise collisions
+     // Paper start - getblock optimisations - cache world height/sections
+@@ -886,6 +_,8 @@
+         this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper - create paper world config
+         this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName(), environment); // Purpur - Purpur config files
+         this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur - Add adjustable breeding cooldown to config
++        this.plutoConfig = new dev.yive.pluto.PlutoConfig.WorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName()); // Pluto - Config
++        this.pluto$spawningChunksExecutor = java.util.concurrent.Executors.newSingleThreadExecutor(new com.google.common.util.concurrent.ThreadFactoryBuilder().setNameFormat(((net.minecraft.world.level.storage.PrimaryLevelData) levelData).getLevelName() + " - Spawning Chunks Executor").build()); // Pluto - Async spawning chunks
+         this.generator = generator;
+         this.world = new CraftWorld((ServerLevel) this, generator, biomeProvider, environment);
+ 
+@@ -1065,7 +_,7 @@
+     public final BlockState getBlockStateIfLoaded(BlockPos pos) {
+         // CraftBukkit start - tree generation
+         if (this.captureTreeGeneration) {
+-            CraftBlockState previous = this.capturedBlockStates.get(pos);
++            CraftBlockState previous = this.capturedBlockStates.get(pos.asLong()); // Pluto - Memory allocation optimisations
+             if (previous != null) {
+                 return previous.getHandle();
+             }
+@@ -1130,15 +_,16 @@
+     @Override
+     public boolean setBlock(BlockPos pos, BlockState state, int flags, int recursionLeft) {
+         // CraftBukkit start - tree generation
++        long posLong = pos.asLong(); // Pluto - Memory allocation optimisations
+         if (this.captureTreeGeneration) {
+             // Paper start - Protect Bedrock and End Portal/Frames from being destroyed
+             BlockState type = getBlockState(pos);
+             if (!type.isDestroyable()) return false;
+             // Paper end - Protect Bedrock and End Portal/Frames from being destroyed
+-            CraftBlockState blockstate = this.capturedBlockStates.get(pos);
++            CraftBlockState blockstate = this.capturedBlockStates.get(posLong); // Pluto - Memory allocation optimisations
+             if (blockstate == null) {
+                 blockstate = org.bukkit.craftbukkit.block.CapturedBlockState.getTreeBlockState(this, pos, flags);
+-                this.capturedBlockStates.put(pos.immutable(), blockstate);
++                this.capturedBlockStates.put(posLong, blockstate); // Pluto - Memory allocation optimisations
+             }
+             blockstate.setData(state);
+             blockstate.setFlags(flags);
+@@ -1156,12 +_,12 @@
+             boolean captured = false;
+             if (this.captureBlockStates) {
+                 final CraftBlockState snapshot;
+-                if (!this.capturedBlockStates.containsKey(pos)) {
++                if (!this.capturedBlockStates.containsKey(posLong)) { // Pluto - Memory allocation optimisations
+                     snapshot = (CraftBlockState) org.bukkit.craftbukkit.block.CraftBlock.at(this, pos).getState(); // Paper - use CB getState to get a suitable snapshot
+-                    this.capturedBlockStates.put(pos.immutable(), snapshot);
++                    this.capturedBlockStates.put(posLong, snapshot); // Pluto - Memory allocation optimisations
+                     captured = true;
+                 } else {
+-                    snapshot = this.capturedBlockStates.get(pos);
++                    snapshot = this.capturedBlockStates.get(posLong); // Pluto - Memory allocation optimisations
+                 }
+                 snapshot.setFlags(flags); // Paper - always set the flag of the most recent call to mitigate issues with multiple update at the same pos with different flags
+             }
+@@ -1171,7 +_,7 @@
+             if (blockState == null) {
+                 // CraftBukkit start - remove blockstate if failed (or the same)
+                 if (this.captureBlockStates && captured) {
+-                    this.capturedBlockStates.remove(pos);
++                    this.capturedBlockStates.remove(posLong); // Pluto - Memory allocation optimisations
+                 }
+                 // CraftBukkit end
+                 return false;
+@@ -1369,11 +_,81 @@
+         return this.getChunkSource().getLightEngine();
+     }
+ 
++    // Pluto start - Memory allocation optimisations
++    @Override
++    public BlockState pluto$getBlockState(int x, int y, int z) {
++        if (this.captureTreeGeneration) {
++            CraftBlockState previous = this.capturedBlockStates.get(BlockPos.asLong(x, y, z)); // Paper
++            if (previous != null) {
++                return previous.getHandle();
++            }
++        }
++
++        if (this.isOutsideBuildHeight(y))
++            return Blocks.VOID_AIR.defaultBlockState();
++
++        return this.getChunk(x >> 4, z >> 4, ChunkStatus.FULL, true).getBlockState(x, y, z);
++    }
++
++    @Override
++    public BlockState pluto$getBlockState(long packedPos) {
++        return pluto$getBlockState(BlockPos.getX(packedPos), BlockPos.getY(packedPos), BlockPos.getZ(packedPos));
++    }
++
++    @Override
++    public @Nullable BlockState pluto$getBlockStateIfLoaded(int x, int y, int z) {
++        if (this.captureTreeGeneration) {
++            CraftBlockState previous = this.capturedBlockStates.get(BlockPos.asLong(x, y, z));
++            if (previous != null) {
++                return previous.getHandle();
++            }
++        }
++
++        if (this.isOutsideBuildHeight(y))
++            return Blocks.VOID_AIR.defaultBlockState();
++
++        ChunkAccess chunk = this.getChunkIfLoadedImmediately(x >> 4, z >> 4);
++        return chunk == null ? null : chunk.getBlockState(x, y, z);
++    }
++
++    @Override
++    public @Nullable BlockState pluto$getBlockStateIfLoaded(long packedPos) {
++        return pluto$getBlockStateIfLoaded(BlockPos.getX(packedPos), BlockPos.getY(packedPos), BlockPos.getZ(packedPos));
++    }
++
++    @Override
++    public FluidState pluto$getFluidState(int x, int y, int z) {
++        if (this.isOutsideBuildHeight(y))
++            return Fluids.EMPTY.defaultFluidState();
++
++        return this.getChunk(x >> 4, z >> 4).pluto$getFluidState(x, y, z);
++    }
++
++    @Override
++    public FluidState pluto$getFluidState(long packedPos) {
++        return pluto$getFluidState(BlockPos.getX(packedPos), BlockPos.getY(packedPos), BlockPos.getZ(packedPos));
++    }
++
++    @Override
++    public @Nullable FluidState pluto$getFluidStateIfLoaded(int x, int y, int z) {
++        if (this.isOutsideBuildHeight(y))
++            return Fluids.EMPTY.defaultFluidState();
++
++        ChunkAccess chunk = this.getChunkIfLoadedImmediately(x >> 4, z >> 4);
++        return chunk == null ? null : chunk.pluto$getFluidState(x, y, z);
++    }
++
++    @Override
++    public @Nullable FluidState pluto$getFluidStateIfLoaded(long packedPos) {
++        return pluto$getFluidStateIfLoaded(BlockPos.getX(packedPos), BlockPos.getY(packedPos), BlockPos.getZ(packedPos));
++    }
++    // Pluto end - Memory allocation optimisations
++
+     @Override
+     public BlockState getBlockState(BlockPos pos) {
+         // CraftBukkit start - tree generation
+         if (this.captureTreeGeneration) {
+-            CraftBlockState previous = this.capturedBlockStates.get(pos); // Paper
++            CraftBlockState previous = this.capturedBlockStates.get(pos.asLong()); // Paper // Pluto - Memory allocation optimisations
+             if (previous != null) {
+                 return previous.getHandle();
+             }
 @@ -1527,12 +_,12 @@
      public <T extends Entity> void guardEntityTick(Consumer<T> consumerEntity, T entity) {
          try {
@@ -15,3 +250,61 @@
              // Paper end - Prevent block entity and entity crashes
          }
          this.moonrise$midTickTasks(); // Paper - rewrite chunk system
+@@ -1902,8 +_,11 @@
+     public abstract Collection<EnderDragonPart> dragonParts();
+ 
+     public void blockEntityChanged(BlockPos pos) {
+-        if (this.hasChunkAt(pos)) {
+-            this.getChunkAt(pos).markUnsaved();
++        // Pluto start - Decrease chunk/block lookups
++        LevelChunk chunk = this.getChunkIfLoaded(pos);
++        if (chunk != null) {
++            chunk.markUnsaved();
++            // Pluto end - Decrease chunk/block lookups
+         }
+     }
+ 
+@@ -2020,17 +_,21 @@
+     public abstract Scoreboard getScoreboard();
+ 
+     public void updateNeighbourForOutputSignal(BlockPos pos, Block block) {
+-        for (Direction direction : Direction.Plane.HORIZONTAL) {
+-            BlockPos blockPos = pos.relative(direction);
+-            if (this.hasChunkAt(blockPos)) {
+-                BlockState blockState = this.getBlockState(blockPos);
++        for (Direction direction : Direction.Plane.HORIZONTAL.faces) { // Pluto - Expose Direction$Plane's faces
++            // Pluto start - Decrease chunk/block lookups
++            final int x = pos.getX() + direction.getStepX();
++            final int z = pos.getZ() + direction.getStepZ();
++            LevelChunk chunk = this.getChunkIfLoaded(x >> 4, z >> 4);
++            if (chunk != null) {
++                BlockState blockState = chunk.getBlockState(x, pos.getY() + direction.getStepY(), z);
++                BlockPos blockPos = pos.relative(direction);
+                 if (blockState.is(Blocks.COMPARATOR)) {
+                     this.neighborChanged(blockState, blockPos, block, null, false);
+                 } else if (blockState.isRedstoneConductor(this, blockPos)) {
+-                    blockPos = blockPos.relative(direction);
+-                    blockState = this.getBlockState(blockPos);
++                    // Pluto end - Decrease chunk/block lookups
++                    blockState = this.pluto$getBlockState(blockPos.getX() + direction.getStepX(), blockPos.getY() + direction.getStepY(), blockPos.getZ() + direction.getStepZ()); // Pluto - Memory allocation optimisations
+                     if (blockState.is(Blocks.COMPARATOR)) {
+-                        this.neighborChanged(blockState, blockPos, block, null, false);
++                        this.neighborChanged(blockState, blockPos.relative(direction), block, null, false); // Pluto - Memory allocation optimisat
+                     }
+                 }
+             }
+@@ -2041,9 +_,12 @@
+     public DifficultyInstance getCurrentDifficultyAt(BlockPos pos) {
+         long l = 0L;
+         float f = 0.0F;
+-        if (this.hasChunkAt(pos)) {
++        // Pluto start - Decrease chunk/block lookups
++        LevelChunk chunk = this.getChunkIfLoaded(pos);
++        if (chunk != null) {
++            // Pluto end - Decrease chunk/block lookups
+             f = this.getMoonBrightness();
+-            l = this.getChunkAt(pos).getInhabitedTime();
++            l = chunk.getInhabitedTime(); // Pluto - Decrease chunk/block lookups
+         }
+ 
+         return new DifficultyInstance(this.getDifficulty(), this.getDayTime(), l, f);

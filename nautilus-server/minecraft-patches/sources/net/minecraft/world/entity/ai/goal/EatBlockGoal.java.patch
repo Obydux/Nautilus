@@ -1,0 +1,16 @@
+--- a/net/minecraft/world/entity/ai/goal/EatBlockGoal.java
++++ b/net/minecraft/world/entity/ai/goal/EatBlockGoal.java
+@@ -35,7 +_,12 @@
+             return false;
+         } else {
+             BlockPos blockPos = this.mob.blockPosition();
+-            return IS_EDIBLE.test(this.level.getBlockState(blockPos)) || this.level.getBlockState(blockPos.below()).is(Blocks.GRASS_BLOCK);
++            // Pluto start - Decrease chunk/block lookups
++            net.minecraft.world.level.chunk.LevelChunk chunk = this.level.getChunkIfLoaded(blockPos);
++            if (chunk == null) return false;
++
++            return IS_EDIBLE.test(chunk.getBlockState(blockPos)) || chunk.getBlockState(blockPos.getX(), blockPos.getY() - 1, blockPos.getZ()).is(Blocks.GRASS_BLOCK);
++            // Pluto end - Decrease chunk/block lookups
+         }
+     }
+ 

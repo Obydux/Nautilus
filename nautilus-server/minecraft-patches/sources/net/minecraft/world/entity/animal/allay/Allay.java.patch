@@ -14,3 +14,20 @@
          this.getBrain().tick(level, this);
          profilerFiller.pop();
          profilerFiller.push("allayActivityUpdate");
+@@ -446,6 +_,7 @@
+     @Override
+     public void updateDynamicGameEventListener(BiConsumer<DynamicGameEventListener<?>, ServerLevel> listenerConsumer) {
+         if (this.level() instanceof ServerLevel serverLevel) {
++            if (serverLevel.plutoConfig().disableAllayGameEventListening) return; // Pluto - Allay Configuration
+             listenerConsumer.accept(this.dynamicVibrationListener, serverLevel);
+             listenerConsumer.accept(this.dynamicJukeboxListener, serverLevel);
+         }
+@@ -552,7 +_,7 @@
+     }
+ 
+     public boolean canDuplicate() {
+-        return this.entityData.get(DATA_CAN_DUPLICATE);
++        return !this.level().plutoConfig().disableAllayDuplication && this.entityData.get(Allay.DATA_CAN_DUPLICATE); // Pluto - Allay configuration
+     }
+ 
+     private void removeInteractionItem(Player player, ItemStack stack) {

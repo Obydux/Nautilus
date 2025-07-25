@@ -1,0 +1,134 @@
+--- a/net/minecraft/world/level/block/BambooStalkBlock.java
++++ b/net/minecraft/world/level/block/BambooStalkBlock.java
+@@ -82,11 +_,16 @@
+     @Nullable
+     @Override
+     public BlockState getStateForPlacement(BlockPlaceContext context) {
+-        FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
++        // Pluto start - Decrease chunk/block lookups
++        net.minecraft.world.level.chunk.LevelChunk chunk = context.getLevel().getChunkIfLoaded(context.getClickedPos());
++        if (chunk == null) return null;
++
++        FluidState fluidState = chunk.getFluidState(context.getClickedPos());
++        // Pluto end - Decrease chunk/block lookups
+         if (!fluidState.isEmpty()) {
+             return null;
+         } else {
+-            BlockState blockState = context.getLevel().getBlockState(context.getClickedPos().below());
++            BlockState blockState = chunk.getBlockState(context.getClickedPos().getX(), context.getClickedPos().getY() - 1, context.getClickedPos().getZ()); // Pluto - Decrease chunk/block lookups
+             if (blockState.is(BlockTags.BAMBOO_PLANTABLE_ON)) {
+                 if (blockState.is(Blocks.BAMBOO_SAPLING)) {
+                     return this.defaultBlockState().setValue(AGE, 0);
+@@ -94,7 +_,7 @@
+                     int i = blockState.getValue(AGE) > 0 ? 1 : 0;
+                     return this.defaultBlockState().setValue(AGE, i);
+                 } else {
+-                    BlockState blockState1 = context.getLevel().getBlockState(context.getClickedPos().above());
++                    BlockState blockState1 = chunk.getBlockState(context.getClickedPos().getX(), context.getClickedPos().getY() + 1, context.getClickedPos().getZ()); // Pluto - Decrease chunk/block lookups
+                     return blockState1.is(Blocks.BAMBOO)
+                         ? this.defaultBlockState().setValue(AGE, blockState1.getValue(AGE))
+                         : Blocks.BAMBOO_SAPLING.defaultBlockState();
+@@ -120,7 +_,7 @@
+     @Override
+     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+         if (state.getValue(STAGE) == 0) {
+-            if (random.nextFloat() < (level.spigotConfig.bambooModifier / (100.0F * 3)) && level.isEmptyBlock(pos.above()) && level.getRawBrightness(pos.above(), 0) >= 9) { // Spigot - SPIGOT-7159: Better modifier resolution
++            if (random.nextFloat() < (level.spigotConfig.bambooModifier / (100.0F * 3)) && level.pluto$isEmptyBlock(pos.getX(), pos.getY() + 1, pos.getZ()) && (level.plutoConfig().bambooStalkIgnoreLightLevel || level.getRawBrightness(pos.above(), 0) >= 9)) { // Spigot - SPIGOT-7159: Better modifier resolution // Pluto - Toggle for light lookups on certain flora // Pluto - Memory allocation optimisations
+                 int i = this.getHeightBelowUpToMax(level, pos) + 1;
+                 if (i < level.paperConfig().maxGrowthHeight.bamboo.max) { // Paper - Configurable cactus/bamboo/reed growth height
+                     this.growBamboo(state, level, pos, random, i);
+@@ -131,7 +_,7 @@
+ 
+     @Override
+     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+-        return level.getBlockState(pos.below()).is(BlockTags.BAMBOO_PLANTABLE_ON);
++        return level.pluto$getBlockState(pos.getX(), pos.getY() - 1, pos.getZ()).is(BlockTags.BAMBOO_PLANTABLE_ON); // Pluto - Memory allocation optimisations
+     }
+ 
+     @Override
+@@ -158,7 +_,7 @@
+     public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+         int heightAboveUpToMax = this.getHeightAboveUpToMax(level, pos);
+         int heightBelowUpToMax = this.getHeightBelowUpToMax(level, pos);
+-        return heightAboveUpToMax + heightBelowUpToMax + 1 < ((Level) level).paperConfig().maxGrowthHeight.bamboo.max && level.getBlockState(pos.above(heightAboveUpToMax)).getValue(STAGE) != 1; // Paper - Configurable cactus/bamboo/reed growth height
++        return heightAboveUpToMax + heightBelowUpToMax + 1 < ((Level) level).paperConfig().maxGrowthHeight.bamboo.max && level.pluto$getBlockState(pos.getX(), pos.getY() + heightAboveUpToMax, pos.getZ()).getValue(STAGE) != 1; // Paper - Configurable cactus/bamboo/reed growth height // Pluto - Memory allocation optimisations
+     }
+ 
+     @Override
+@@ -173,23 +_,32 @@
+         int i = heightAboveUpToMax + heightBelowUpToMax + 1;
+         int i1 = 1 + random.nextInt(2);
+ 
++        // Pluto start - Memory allocation optimisations
++        final int x = pos.getX();
++        final int y = pos.getY();
++        final int z = pos.getZ();
+         for (int i2 = 0; i2 < i1; i2++) {
+-            BlockPos blockPos = pos.above(heightAboveUpToMax);
+-            BlockState blockState = level.getBlockState(blockPos);
+-            if (i >= level.paperConfig().maxGrowthHeight.bamboo.max || !blockState.is(Blocks.BAMBOO) || blockState.getValue(BambooStalkBlock.STAGE) == 1 || !level.isEmptyBlock(blockPos.above())) { // CraftBukkit - If the BlockSpreadEvent was cancelled, we have no bamboo here // Paper - Configurable cactus/bamboo/reed growth height
++            final int y1 = y + heightAboveUpToMax;
++            BlockState blockState = level.pluto$getBlockState(x, y1, z);
++            if (i >= level.paperConfig().maxGrowthHeight.bamboo.max || !blockState.is(Blocks.BAMBOO) || blockState.getValue(BambooStalkBlock.STAGE) == 1 || !level.pluto$isEmptyBlock(x, y1 + 1, z)) { // CraftBukkit - If the BlockSpreadEvent was cancelled, we have no bamboo here // Paper - Configurable cactus/bamboo/reed growth height
++                // Pluto end - Memory allocation optimisations
+                 return;
+             }
+ 
+-            this.growBamboo(blockState, level, blockPos, random, i);
++            this.growBamboo(blockState, level, new BlockPos(x, y1, z), random, i); // Pluto - Memory allocation optimisations
+             heightAboveUpToMax++;
+             i++;
+         }
+     }
+ 
+     protected void growBamboo(BlockState state, Level level, BlockPos pos, RandomSource random, int age) {
+-        BlockState blockState = level.getBlockState(pos.below());
+-        BlockPos blockPos = pos.below(2);
+-        BlockState blockState1 = level.getBlockState(blockPos);
++        // Pluto start - Decrease chunk/block lookups
++        net.minecraft.world.level.chunk.LevelChunk chunk = level.getChunkIfLoaded(pos);
++        if (chunk == null) return;
++
++        BlockState blockState = chunk.getBlockState(pos.getX(), pos.getY() - 1, pos.getZ());
++        BlockState blockState1 = chunk.getBlockState(pos.getX(), pos.getY() - 2, pos.getZ());
++        // Pluto end - Decrease chunk/block lookups
+         BambooLeaves bambooLeaves = BambooLeaves.NONE;
+         boolean shouldUpdateOthers = false; // CraftBukkit
+         if (age >= 1) {
+@@ -213,7 +_,7 @@
+         if (org.bukkit.craftbukkit.event.CraftEventFactory.handleBlockSpreadEvent(level, pos, pos.above(), this.defaultBlockState().setValue(AGE, i).setValue(LEAVES, bambooLeaves).setValue(STAGE, i1), 3)) {
+             if (shouldUpdateOthers) {
+                 level.setBlock(pos.below(), blockState.setValue(BambooStalkBlock.LEAVES, BambooLeaves.SMALL), 3);
+-                level.setBlock(blockPos, blockState1.setValue(BambooStalkBlock.LEAVES, BambooLeaves.NONE), 3);
++                level.setBlock(pos.below(2), blockState1.setValue(BambooStalkBlock.LEAVES, BambooLeaves.NONE), 3); // Pluto - Decrease chunk/block lookups
+             }
+         }
+         // CraftBukkit end
+@@ -222,7 +_,12 @@
+     protected int getHeightAboveUpToMax(BlockGetter level, BlockPos pos) {
+         int i = 0;
+ 
+-        while (i < ((Level) level).paperConfig().maxGrowthHeight.bamboo.max && level.getBlockState(pos.above(i + 1)).is(Blocks.BAMBOO)) { // Paper - Configurable cactus/bamboo/reed growth height
++        // Pluto start - Memory allocation optimisations
++        final int x = pos.getX();
++        final int y = pos.getY();
++        final int z = pos.getZ();
++        while (i < ((Level) level).paperConfig().maxGrowthHeight.bamboo.max && level.pluto$getBlockState(x, y + (i + 1), z).is(Blocks.BAMBOO)) { // Paper - Configurable cactus/bamboo/reed growth height
++            // Pluto end - Memory allocation optimisations
+             i++;
+         }
+ 
+@@ -232,7 +_,12 @@
+     protected int getHeightBelowUpToMax(BlockGetter level, BlockPos pos) {
+         int i = 0;
+ 
+-        while (i < ((Level) level).paperConfig().maxGrowthHeight.bamboo.max && level.getBlockState(pos.below(i + 1)).is(Blocks.BAMBOO)) { // Paper - Configurable cactus/bamboo/reed growth height
++        // Pluto start - Memory allocation optimisations
++        final int x = pos.getX();
++        final int y = pos.getY();
++        final int z = pos.getZ();
++        while (i < ((Level) level).paperConfig().maxGrowthHeight.bamboo.max && level.pluto$getBlockState(x, y - (i + 1), z).is(Blocks.BAMBOO)) { // Paper - Configurable cactus/bamboo/reed growth height
++            // Pluto end - Memory allocation optimisations
+             i++;
+         }
+ 

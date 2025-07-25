@@ -1,8 +1,55 @@
 --- a/net/minecraft/world/entity/player/Inventory.java
 +++ b/net/minecraft/world/entity/player/Inventory.java
-@@ -572,11 +_,14 @@
+@@ -115,6 +_,13 @@
+         return this.player.getBukkitEntity();
      }
  
++    // Pluto start - Allow toggling snapshots for certain blocks
++    @Override
++    public org.bukkit.inventory.InventoryHolder getOwner(boolean useSnapshot) {
++        return this.player.getBukkitEntity();
++    }
++    // Pluto end - Allow toggling snapshots for certain blocks
++
+     @Override
+     public int getMaxStackSize() {
+         return this.maxStack;
+@@ -343,6 +_,29 @@
+     }
+ 
+     public void tick() {
++        // Pluto start - Only tick inventory slots that are important
++        if (this.player.level().plutoConfig().playerInventoryOnlyTickImportantSlots) {
++            ItemStack offHand = this.equipment.get(EquipmentSlot.OFFHAND);
++            if (!offHand.isEmpty())
++                offHand.inventoryTick(this.player.level(), this.player, null);
++
++            if (this.player.level().plutoConfig().playerInventoryOnlyTickHandSlots) {
++                ItemStack mainHand = this.getSelectedItem();
++                if (!mainHand.isEmpty())
++                    mainHand.inventoryTick(this.player.level(), this.player, EquipmentSlot.MAINHAND);
++                return;
++            }
++
++            for (int slot = 0; slot < SELECTION_SIZE; slot++) {
++                ItemStack item = this.getItem(slot);
++                if (item.isEmpty()) continue;
++
++                item.inventoryTick(this.player.level(), this.player, slot == this.selected ? EquipmentSlot.MAINHAND : null);
++            }
++            return;
++        }
++        // Pluto end - Only tick inventory slots that are important
++
+         for (int i = 0; i < this.items.size(); i++) {
+             ItemStack item = this.getItem(i);
+             if (!item.isEmpty()) {
+@@ -571,12 +_,17 @@
+         return true;
+     }
+ 
++    @Override public boolean stillValid() { return true; } // Pluto - Hoppers cache containers
++
      public boolean contains(ItemStack stack) {
 -        for (ItemStack itemStack : this) {
 +        // Pufferfish start - don't allocate iterators

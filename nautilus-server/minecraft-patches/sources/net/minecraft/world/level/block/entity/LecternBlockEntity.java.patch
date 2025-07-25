@@ -1,0 +1,25 @@
+--- a/net/minecraft/world/level/block/entity/LecternBlockEntity.java
++++ b/net/minecraft/world/level/block/entity/LecternBlockEntity.java
+@@ -75,6 +_,13 @@
+             return LecternBlockEntity.this.getOwner();
+         }
+ 
++        // Pluto start - Allow toggling snapshots for certain blocks
++        @Override
++        public org.bukkit.inventory.InventoryHolder getOwner(boolean useSnapshot) {
++            return LecternBlockEntity.this.getOwner(useSnapshot);
++        }
++        // Pluto end - Allow toggling snapshots for certain blocks
++
+         public LecternBlockEntity getLectern() {
+             return LecternBlockEntity.this;
+         }
+@@ -147,6 +_,8 @@
+         public boolean stillValid(Player player) {
+             return Container.stillValidBlockEntity(LecternBlockEntity.this, player) && LecternBlockEntity.this.hasBook();
+         }
++
++        @Override public boolean stillValid() { return !LecternBlockEntity.this.isRemoved(); } // Pluto - Hoppers cache containers
+ 
+         @Override
+         public boolean canPlaceItem(int slot, ItemStack stack) {

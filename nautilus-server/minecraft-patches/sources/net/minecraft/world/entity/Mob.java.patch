@@ -11,11 +11,11 @@
          super.inactiveTick();
 -        if (this.goalSelector.inactiveTick()) {
 +        boolean isThrottled = gg.pufferfish.pufferfish.PufferfishConfig.throttleInactiveGoalSelectorTick && _pufferfish_inactiveTickDisableCounter++ % 20 != 0; // Pufferfish - throttle inactive goal selector ticking
-+        if (this.goalSelector.inactiveTick(this.activatedPriority, true) && !isThrottled) { // Pufferfish - pass activated priroity // Pufferfish - throttle inactive goal selector ticking
++        if (!this.level().plutoConfig().disableGoalSelector && this.goalSelector.inactiveTick(this.activatedPriority, true) && !isThrottled) { // Pufferfish - pass activated priroity // Pufferfish - throttle inactive goal selector ticking // Pluto - Option to disable entity target/goal selectors
              this.goalSelector.tick();
          }
 -        if (this.targetSelector.inactiveTick()) {
-+        if (this.targetSelector.inactiveTick(this.activatedPriority, true)) { // Pufferfish - pass activated priority
++        if (!this.level().plutoConfig().disableTargetSelector && this.targetSelector.inactiveTick(this.activatedPriority, true)) { // Pufferfish - pass activated priority // Pluto - Option to disable entity target/goal selectors
              this.targetSelector.tick();
          }
      }
@@ -23,20 +23,43 @@
          int i = this.tickCount + this.getId();
          if (i % 2 != 0 && this.tickCount > 1) {
              profilerFiller.push("targetSelector");
-+            if (this.targetSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking
++            if (!this.level().plutoConfig().disableTargetSelector && this.targetSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking // Pluto - Option to disable entity target/goal selectors
              this.targetSelector.tickRunningGoals(false);
              profilerFiller.pop();
              profilerFiller.push("goalSelector");
-+            if (this.goalSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking
++            if (!this.level().plutoConfig().disableGoalSelector && this.goalSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking // Pluto - Option to disable entity target/goal selectors
              this.goalSelector.tickRunningGoals(false);
              profilerFiller.pop();
          } else {
              profilerFiller.push("targetSelector");
-+            if (this.targetSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking
++            if (!this.level().plutoConfig().disableTargetSelector && this.targetSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking // Pluto - Option to disable entity target/goal selectors
              this.targetSelector.tick();
              profilerFiller.pop();
              profilerFiller.push("goalSelector");
-+            if (this.goalSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking
++            if (!this.level().plutoConfig().disableGoalSelector && this.goalSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking // Pluto - Option to disable entity target/goal selectors
              this.goalSelector.tick();
              profilerFiller.pop();
          }
+@@ -945,6 +_,8 @@
+                 return player.getVehicle() == Mob.this || player.canInteractWithEntity(Mob.this, 4.0);
+             }
+ 
++            @Override public boolean stillValid() { return !Mob.this.isRemoved(); } // Pluto - Hoppers cache containers
++
+             // Paper start
+             private final List<org.bukkit.entity.HumanEntity> viewers = new java.util.ArrayList<>();
+             private int maxStackSize = MAX_STACK;
+@@ -981,6 +_,13 @@
+                 }
+                 return null;
+             }
++
++            // Pluto start - Allow toggling snapshots for certain blocks
++            @Override
++            public @Nullable org.bukkit.inventory.InventoryHolder getOwner(boolean useSnapshot) {
++                return getOwner();
++            }
++            // Pluto end - Allow toggling snapshots for certain blocks
+ 
+             @Override
+             public void setMaxStackSize(final int size) {
