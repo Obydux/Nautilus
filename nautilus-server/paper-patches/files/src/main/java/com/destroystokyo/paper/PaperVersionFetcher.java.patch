@@ -1,0 +1,40 @@
+--- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+@@ -36,7 +_,7 @@
+     private static final int DISTANCE_ERROR = -1;
+     private static final int DISTANCE_UNKNOWN = -2;
+     // Purpur start - Rebrand
+-    private static final String DOWNLOAD_PAGE = "https://purpurmc.org/downloads";
++    private static final String DOWNLOAD_PAGE = "https://ci.obydux.win/job/Nautilus/"; // Nautilus
+     private static int distance = DISTANCE_UNKNOWN; public int distance() { return distance; }
+     // Purpur end - Rebrand
+ 
+@@ -52,7 +_,7 @@
+         if (build.buildNumber().isEmpty() && build.gitCommit().isEmpty()) {
+             updateMessage = text("You are running a development version without access to version information", color(0xFF5300));
+         } else {
+-            updateMessage = getUpdateStatusMessage("PurpurMC/Purpur", build); // Purpur - Rebrand
++            updateMessage = getUpdateStatusMessage("Obydux/Nautilus", build); // Purpur - Rebrand // Nautilus
+         }
+         final @Nullable Component history = this.getHistory();
+ 
+@@ -62,16 +_,18 @@
+     private static Component getUpdateStatusMessage(final String repo, final ServerBuildInfo build) {
+         //int distance = DISTANCE_ERROR; // Purpur - use field - Rebrand
+ 
++        /* // Nautilus start
+         final OptionalInt buildNumber = build.buildNumber();
+         if (buildNumber.isPresent()) {
+             distance = fetchDistanceFromSiteApi(build, buildNumber.getAsInt());
+         } else {
++        */ // Nautilus end
+             final Optional<String> gitBranch = build.gitBranch();
+             final Optional<String> gitCommit = build.gitCommit();
+             if (gitBranch.isPresent() && gitCommit.isPresent()) {
+                 distance = fetchDistanceFromGitHub(repo, gitBranch.get(), gitCommit.get());
+             }
+-        }
++        //} // Nautilus
+ 
+         return switch (distance) {
+             case DISTANCE_ERROR -> text("* Error obtaining version information", NamedTextColor.RED); // Purpur - Rebrand
