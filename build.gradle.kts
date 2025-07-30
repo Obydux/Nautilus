@@ -76,6 +76,19 @@ subprojects {
             events(TestLogEvent.STANDARD_OUT)
         }
     }
+
+    extensions.configure<PublishingExtension> {
+        repositories {
+            maven {
+                name = "obyduxRepo"
+                url = uri("https://repo.obydux.win/snapshots")
+                credentials {
+                    username = (System.getenv("OBYDUX_REPO_USERNAME") ?: project.property("obyduxRepoUsername")).toString()
+                    password = (System.getenv("OBYDUX_REPO_PASSWORD") ?: project.property("obyduxRepoPassword")).toString()
+                }
+            }
+        }
+    }
 }
 
 tasks.register("printMinecraftVersion") {
