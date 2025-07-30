@@ -13,6 +13,40 @@ Pufferfish's changes are coming from Yive's version of the software which has be
 ## Downloads
 You can download the latest JAR file [here](https://ci.obydux.win/job/Nautilus/).
 
+## API
+You can find the javadocs [here](https://repo.obydux.win/javadoc/snapshots/win/obydux/nautilus/nautilus-api/1.21.8-R0.1-SNAPSHOT).
+
+Maven:
+```xml
+<repositories>
+    <repository>
+        <id>obydux-repo</id>
+        <url>https://repo.obydux.win/snapshots</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>win.obydux.nautilus</groupId>
+        <artifactId>nautilus-api</artifactId>
+        <version>1.21.8-R0.1-SNAPSHOT</version>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+```
+Gradle:
+```groovy
+repositories {
+    maven {
+        url = 'https://repo.obydux.win/snapshots'
+    }
+}
+
+dependencies {
+    compileOnly 'win.obydux.nautilus:nautilus-api:1.21.8-R0.1-SNAPSHOT'
+}
+```
+
 ## Building
 
 ```bash
