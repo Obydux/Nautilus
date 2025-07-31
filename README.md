@@ -50,6 +50,6 @@ dependencies {
 ## Building
 
 ```bash
-./gradlew applyPatches
+./gradlew applyAllPatches
 ./gradlew createMojmapPaperclipJar
 ```
