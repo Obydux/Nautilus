@@ -8,7 +8,7 @@
  
      public static <S extends MinecraftServer> S spin(Function<Thread, S> threadFunction) {
          ca.spottedleaf.dataconverter.minecraft.datatypes.MCTypeRegistry.init(); // Paper - rewrite data converter system
-@@ -2632,6 +_,7 @@
+@@ -2635,6 +_,7 @@
      // CraftBukkit end
  
      private ProfilerFiller createProfiler() {
