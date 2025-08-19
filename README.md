@@ -3,6 +3,20 @@
   <h3>Fork of Purpur with optimizations from Pufferfish and Pluto.</h3>
 </div>
 
+<div align="center">
+  <a href="https://discord.gg/sQ6VmWDzN3" class="badge-link" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/discord/1383468620566237234" alt="Discord" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+  </a>
+        
+  <a href="https://ci.obydux.win/job/Nautilus/job/1.21.8/" class="badge-link" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/jenkins/build?jobUrl=https://ci.obydux.win/job/Nautilus/job/1.21.8/" alt="Jenkins Build" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+  </a>
+        
+  <a href="https://github.com/sponsors/Obydux" class="badge-link" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/github/sponsors/Obydux" alt="GitHub Sponsors" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+  </a>
+</div>
+
 ## Features
 
 Nautilus is a drop-in replacement for [Paper](https://papermc.io), [Purpur](https://purpurmc.org), [Pufferfish](https://github.com/Yive/Tetraodontidae) and [Pluto](https://github.com/Yive/Pluto) Minecraft server softwares offering features, optimizations and APIs present in mentioned softwares.
