@@ -119,6 +119,15 @@
              if (!flag) {
                  for (ItemEntity itemEntity : getItemsAtAndAbove(level, hopper)) {
                      if (addItem(hopper, itemEntity)) {
+@@ -752,7 +_,7 @@
+     @Nullable
+     private static Container getSourceContainer(Level level, Hopper hopper, BlockPos pos, BlockState state) {
+         // Paper start
+-        final Container inventory = HopperBlockEntity.getContainerAt(level, pos, state, hopper.getLevelX(), hopper.getLevelY() + 1.0D, hopper.getLevelZ());
++        final Container inventory = HopperBlockEntity.getContainerAt(level, hopper, pos, state, hopper.getLevelX(), hopper.getLevelY() + 1.0D, hopper.getLevelZ(), false); // Pluto - Entities search for hoppers
+         if (org.bukkit.event.inventory.HopperInventorySearchEvent.getHandlerList().getRegisteredListeners().length == 0) return inventory;
+ 
+         final BlockPos hopperPos = BlockPos.containing(hopper.getLevelX(), hopper.getLevelY(), hopper.getLevelZ());
 @@ -774,20 +_,20 @@
  
      @Nullable
