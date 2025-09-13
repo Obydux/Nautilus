@@ -9,7 +9,7 @@
  
      public ServerChunkCache(
          ServerLevel level,
-@@ -521,6 +_,43 @@
+@@ -521,6 +_,45 @@
  
              this.broadcastChangedChunks(profilerFiller);
              profilerFiller.pop();
@@ -20,12 +20,14 @@
 +                    // Paper start - per player mob spawning backoff
 +                    for (int ii = 0; ii < ServerPlayer.MOBCATEGORY_TOTAL_ENUMS; ii++) {
 +                        player.mobCounts[ii] = 0;
++                        if (this.level.plutoConfig().useAsyncSpawningChunks) player.mobCountsAsync.put(ii, 0); // Pluto - Async Spawning Chunks
 +
 +                        int newBackoff = player.mobBackoffCounts[ii] - 1; // TODO make configurable bleed // TODO use nonlinear algorithm?
 +                        if (newBackoff < 0) {
 +                            newBackoff = 0;
 +                        }
 +                        player.mobBackoffCounts[ii] = newBackoff;
++                        if (this.level.plutoConfig().useAsyncSpawningChunks) player.mobBackoffCountsAsync.put(ii, newBackoff); // Pluto - Async Spawning Chunks
 +                    }
 +                    // Paper end - per player mob spawning backoff
 +                }
@@ -53,7 +55,7 @@
          }
      }
  
-@@ -544,6 +_,7 @@
+@@ -544,26 +_,31 @@
          // Paper start - Optional per player mob spawns
          NaturalSpawner.SpawnState spawnState;
          if ((this.spawnFriendlies || this.spawnEnemies) && this.level.paperConfig().entities.spawning.perPlayerMobSpawns) { // don't count mobs when animals and monsters are disabled
@@ -61,7 +63,16 @@
              // re-set mob counts
              for (ServerPlayer player : this.level.players) {
                  // Paper start - per player mob spawning backoff
-@@ -558,12 +_,14 @@
+                 for (int ii = 0; ii < ServerPlayer.MOBCATEGORY_TOTAL_ENUMS; ii++) {
+                     player.mobCounts[ii] = 0;
++                    if (this.level.plutoConfig().useAsyncSpawningChunks) player.mobCountsAsync.put(ii, 0); // Pluto - Async Spawning Chunks
+ 
+                     int newBackoff = player.mobBackoffCounts[ii] - 1; // TODO make configurable bleed // TODO use nonlinear algorithm?
+                     if (newBackoff < 0) {
+                         newBackoff = 0;
+                     }
+                     player.mobBackoffCounts[ii] = newBackoff;
++                    if (this.level.plutoConfig().useAsyncSpawningChunks) player.mobBackoffCountsAsync.put(ii, newBackoff); // Pluto - Async Spawning Chunks
                  }
                  // Paper end - per player mob spawning backoff
              }

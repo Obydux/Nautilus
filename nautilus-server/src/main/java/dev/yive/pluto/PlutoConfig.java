@@ -1094,5 +1094,49 @@ public class PlutoConfig {
                 )
             );
         }
+
+        public boolean disablePlayerTracking = false;
+        private void disablePlayerTracking() {
+            disablePlayerTracking = getBoolean("misc.tracker.disable-player-tracking", disablePlayerTracking);
+            setComments("misc.tracker.disable-player-tracking",
+                List.of(
+                    "Makes players no longer appear visually to other players.",
+                    "More efficient this way than using a plugin to hide everyone.",
+                    "Only useful on limbo or hubs."
+                )
+            );
+        }
+
+        public boolean disableAllSounds = false;
+        private void disableAllSounds() {
+            disableAllSounds = getBoolean("misc.networking.disable-all-sound-packets", disableAllSounds);
+            setComments("misc.networking.disable-all-sound-packets",
+                List.of(
+                    "Prevents the server from sending sound packets.",
+                    "",
+                    "NOTE:",
+                    "- Packets sent via packet api plugins might bypass this.",
+                    "- Not all sounds are handled by the server. Break breaking for example.",
+                    "",
+                    "Only useful on limbo or hubs."
+                )
+            );
+        }
+
+        public boolean disableAllParticles = false;
+        private void disableAllParticles() {
+            disableAllParticles = getBoolean("misc.networking.disable-all-particle-packets", disableAllParticles);
+            setComments("misc.networking.disable-all-sound-packets",
+                List.of(
+                    "Prevents the server from sending particle packets.",
+                    "",
+                    "NOTE:",
+                    "- Packets sent via packet api plugins might bypass this.",
+                    "- Not all particles are handled by the server. Break breaking for example.",
+                    "",
+                    "Only useful on limbo or hubs."
+                )
+            );
+        }
     }
 }
