@@ -104,3 +104,15 @@
                  if (flag) {
                      // Purpur start - Special mobs naturally spawn
                      net.minecraft.world.entity.animal.horse.AbstractHorse skeletonHorse;
+@@ -1101,7 +_,10 @@
+     public BlockPos findLightningTargetAround(BlockPos pos, boolean returnNullWhenNoTarget) {
+         // Paper end - Add methods to find targets for lightning strikes
+         BlockPos heightmapPos = this.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos);
+-        Optional<BlockPos> optional = this.findLightningRod(heightmapPos);
++        // Pluto start - Async Spawning Chunks
++        final BlockPos heightmapPosFinal = heightmapPos;
++        Optional<BlockPos> optional = this.plutoConfig().useAsyncSpawningChunks && !ca.spottedleaf.moonrise.common.util.TickThread.isTickThread() ? java.util.concurrent.CompletableFuture.supplyAsync(() -> this.findLightningRod(heightmapPosFinal), this.chunkSource.mainThreadProcessor).join() : this.findLightningRod(heightmapPos);
++        // Pluto end - Async Spawning Chunks
+         if (optional.isPresent()) {
+             return optional.get();
+         } else {
