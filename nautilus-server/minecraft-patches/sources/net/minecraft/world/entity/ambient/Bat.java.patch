@@ -1,8 +1,8 @@
 --- a/net/minecraft/world/entity/ambient/Bat.java
 +++ b/net/minecraft/world/entity/ambient/Bat.java
-@@ -334,11 +_,20 @@
-     //private static final int ONE_HOUR = 20 * 60 * 60;
-     //private static int lastSpookyCheck = -ONE_HOUR;
+@@ -330,11 +_,20 @@
+     }
+ 
      public static boolean isHalloweenSeason(Level level) { return level.purpurConfig.forceHalloweenSeason || isHalloween(); } // Purpur - Halloween options and optimizations
 +    // Pufferfish start - only check for spooky season once an hour
 +    private static boolean isSpookySeason = false;

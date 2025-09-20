@@ -44,14 +44,13 @@
  tasks.jar {
      from(generateApiVersioningFile.map { it.outputs.files.singleFile }) {
          into("META-INF/maven/${project.group}/${project.name}")
-@@ -180,7 +_,10 @@
-     //(options as StandardJavadocDocletOptions).addStringOption("-add-modules", "jdk.incubator.vector") // Purpur - our javadocs need this for pufferfish's SIMD patch
+@@ -179,6 +_,9 @@
+ tasks.withType<Javadoc>().configureEach {
      (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet") // Purpur - silence Paper's bajillion javadoc warnings
      val options = options as StandardJavadocDocletOptions
 +    // Pufferfish start
 +    options.addStringOption("-add-modules", "jdk.incubator.vector")
-     options.overview = "../paper-api/src/main/javadoc/overview.html"
 +    // Pufferfish end
+     options.overview = "../paper-api/src/main/javadoc/overview.html"
      options.use()
      options.isDocFilesSubDirs = true
-     options.links(
