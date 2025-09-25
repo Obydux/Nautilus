@@ -64,8 +64,8 @@
 +                    double diffX = playerVec.x - entityVec.x, diffY = playerVec.y - entityVec.y, diffZ = playerVec.z - entityVec.z;
 +                    int squaredDistance = (int) (diffX * diffX + diffY * diffY + diffZ * diffZ);
 +                    entity.activatedPriority = squaredDistance > gg.pufferfish.pufferfish.PufferfishConfig.startDistanceSquared ?
-+                            Math.max(1, Math.min(squaredDistance >> gg.pufferfish.pufferfish.PufferfishConfig.activationDistanceMod, entity.activatedPriority)) :
-+                            1;
++                        Math.max(1, Math.min(squaredDistance >> gg.pufferfish.pufferfish.PufferfishConfig.activationDistanceMod, entity.activatedPriority)) :
++                        1;
 +                } else {
 +                    entity.activatedPriority = 1;
 +                }
@@ -73,12 +73,13 @@
              }
          }
      }
-@@ -177,12 +_,12 @@
+@@ -176,13 +_,13 @@
+      *
       * @param entity
       */
-     private static void activateEntity(final Entity entity) {
--        if (MinecraftServer.currentTick > entity.activatedTick) {
-+        if (MinecraftServer.currentTick > entity.activatedTick) { // Pufferfish - diff on change
+-    private static void activateEntity(final Entity entity) {
++    private static void activateEntity(final Entity entity) { // Pufferfish - diff on change
+         if (MinecraftServer.currentTick > entity.activatedTick) {
              if (entity.defaultActivationState) {
                  entity.activatedTick = MinecraftServer.currentTick;
                  return;

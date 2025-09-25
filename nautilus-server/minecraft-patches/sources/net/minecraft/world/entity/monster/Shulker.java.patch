@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Shulker.java
 +++ b/net/minecraft/world/entity/monster/Shulker.java
-@@ -405,7 +_,7 @@
+@@ -401,7 +_,7 @@
  
      @Nullable
      protected Direction findAttachableSurface(BlockPos pos) {
@@ -9,7 +9,7 @@
              if (this.canStayAt(pos, direction)) {
                  return direction;
              }
-@@ -439,6 +_,7 @@
+@@ -435,6 +_,7 @@
      }
  
      protected boolean teleportSomewhere() {
@@ -17,7 +17,7 @@
          if (!this.isNoAi() && this.isAlive()) {
              BlockPos blockPos = this.blockPosition();
  
-@@ -519,6 +_,7 @@
+@@ -515,6 +_,7 @@
          AABB boundingBox = this.getBoundingBox();
          // Purpur start - Shulker spawn from bullet options
          if ((!this.level().purpurConfig.shulkerSpawnFromBulletRequireOpenLid || !this.isClosed()) && this.teleportSomewhere()) {

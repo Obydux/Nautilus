@@ -119,16 +119,16 @@ public class SentryContext {
 		private Event event;
 		private RegisteredListener registeredListener;
 
-		@Nullable
+        @Nullable
 		public Plugin getPlugin() {
 			return plugin;
 		}
-		
+
 		public void setPlugin(@Nullable Plugin plugin) {
 			this.plugin = plugin;
 		}
 
-		@Nullable
+        @Nullable
 		public Command getCommand() {
 			return command;
 		}
@@ -137,16 +137,16 @@ public class SentryContext {
 			this.command = command;
 		}
 
-		@Nullable
+        @Nullable
 		public String getCommandLine() {
 			return commandLine;
 		}
-		
+
 		public void setCommandLine(@Nullable String commandLine) {
 			this.commandLine = commandLine;
 		}
 
-		@Nullable
+        @Nullable
 		public Event getEvent() {
 			return event;
 		}
@@ -155,7 +155,7 @@ public class SentryContext {
 			this.event = event;
 		}
 
-		@Nullable
+        @Nullable
 		public RegisteredListener getRegisteredListener() {
 			return registeredListener;
 		}

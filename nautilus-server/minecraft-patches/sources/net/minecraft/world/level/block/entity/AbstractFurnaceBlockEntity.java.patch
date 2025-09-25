@@ -27,7 +27,7 @@
                          furnace.setRecipeUsed(recipeHolder);
                      }
  
-@@ -288,27 +_,55 @@
+@@ -288,27 +_,54 @@
          if (usedLavaFromUnderneath) furnace.items.set(1, ItemStack.EMPTY); // Purpur - Furnace uses lava from underneath
      }
  
@@ -44,7 +44,6 @@
 +        super.setBlockState(blockState);
 +        this.canBurnCache = net.minecraft.util.TriState.DEFAULT;
 +    }
-+
 +    // Pluto end - Cache canBurn result in Furnaces
 +
      private static boolean canBurn(

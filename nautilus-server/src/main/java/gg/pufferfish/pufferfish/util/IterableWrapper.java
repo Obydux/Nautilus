@@ -1,8 +1,7 @@
 package gg.pufferfish.pufferfish.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Iterator;
+import org.jetbrains.annotations.NotNull;
 
 public class IterableWrapper<T> implements Iterable<T> {
 

@@ -1,16 +1,16 @@
 --- a/net/minecraft/world/entity/monster/piglin/Piglin.java
 +++ b/net/minecraft/world/entity/monster/piglin/Piglin.java
-@@ -357,11 +_,12 @@
+@@ -345,11 +_,13 @@
          return !this.cannotHunt;
      }
  
-+    private int behaviorTick = 0; // Pufferfish
++    private int behaviorTick; // Pufferfish
      @Override
      protected void customServerAiStep(ServerLevel level) {
          ProfilerFiller profilerFiller = Profiler.get();
          profilerFiller.push("piglinBrain");
--        if ((getRider() == null || !this.isControllable())) // Purpur - only use brain if no rider
-+        if ((getRider() == null || !this.isControllable()) && this.behaviorTick++ % this.activatedPriority == 0) // Purpur - only use brain if no rider // Pufferfish
+         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
++        if (this.behaviorTick++ % this.activatedPriority == 0) // Pufferfish
          this.getBrain().tick(level, this);
          profilerFiller.pop();
          PiglinAi.updateActivity(this);

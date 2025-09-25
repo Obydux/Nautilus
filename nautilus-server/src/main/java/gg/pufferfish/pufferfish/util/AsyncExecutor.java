@@ -1,13 +1,12 @@
 package gg.pufferfish.pufferfish.util;
 
 import com.google.common.collect.Queues;
-import gg.pufferfish.pufferfish.PufferfishLogger;
-
 import java.util.Queue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
+import gg.pufferfish.pufferfish.PufferfishLogger;
 
 public class AsyncExecutor implements Runnable {
 	

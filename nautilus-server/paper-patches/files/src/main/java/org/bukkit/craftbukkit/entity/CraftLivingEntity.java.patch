@@ -1,16 +1,14 @@
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-@@ -915,6 +_,18 @@
+@@ -890,6 +_,16 @@
          this.getHandle().getBrain().setMemory(CraftMemoryKey.bukkitToMinecraft(memoryKey), CraftMemoryMapper.toNms(t));
      }
  
 +    // Pluto start - Expose some sound related functions
-+    @Override
 +    public float getSoundVolume() {
 +        return this.getHandle().plutoGetSoundVolume();
 +    }
 +
-+    @Override
 +    public float getVoicePitch() {
 +        return this.getHandle().plutoGetVoicePitch();
 +    }

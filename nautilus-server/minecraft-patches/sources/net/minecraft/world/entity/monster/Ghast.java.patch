@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Ghast.java
 +++ b/net/minecraft/world/entity/monster/Ghast.java
-@@ -364,7 +_,7 @@
+@@ -359,7 +_,7 @@
                  } else if (blockState.is(BlockTags.HAPPY_GHAST_AVOIDS)) {
                      return false;
                  } else {

@@ -7,21 +7,18 @@
 -    static final Color[] colors = {
 +    public static final Color[] colors = { // Pufferfish - public access
          // Start generate - MapPalette#colors
-         // @GeneratedFrom 1.21.8
          new Color(0x00000000, true),
-@@ -395,9 +_,15 @@
+         new Color(0x00000000, true),
+@@ -394,6 +_,12 @@
          temp.getRGB(0, 0, temp.getWidth(), temp.getHeight(), pixels, 0, temp.getWidth());
  
          byte[] result = new byte[temp.getWidth() * temp.getHeight()];
-+        if (!gg.pufferfish.pufferfish.simd.SIMDDetection.isEnabled) { // Pufferfish
++        // Pufferfish start
++        if (gg.pufferfish.pufferfish.simd.SIMDDetection.isEnabled) {
++            gg.pufferfish.pufferfish.simd.VectorMapPalette.matchColorVectorized(pixels, result);
++            return result;
++        }
++        // Pufferfish end
          for (int i = 0; i < pixels.length; i++) {
              result[i] = matchColor(new Color(pixels[i], true));
          }
-+        // Pufferfish start
-+        } else {
-+            gg.pufferfish.pufferfish.simd.VectorMapPalette.matchColorVectorized(pixels, result);
-+        }
-+        // Pufferfish end
-         return result;
-     }
- 

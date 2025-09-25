@@ -1,9 +1,8 @@
 package gg.pufferfish.pufferfish;
 
-import org.bukkit.Bukkit;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bukkit.Bukkit;
 
 public class PufferfishLogger extends Logger {
     public static final PufferfishLogger LOGGER = new PufferfishLogger();

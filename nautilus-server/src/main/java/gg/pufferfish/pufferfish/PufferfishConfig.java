@@ -1,20 +1,19 @@
 package gg.pufferfish.pufferfish;
 
-import gg.pufferfish.pufferfish.sentry.SentryManager;
 import gg.pufferfish.pufferfish.simd.SIMDDetection;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.entity.EntityType;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.List;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.EntityType;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.jetbrains.annotations.Nullable;
+import gg.pufferfish.pufferfish.sentry.SentryManager;
 
 public class PufferfishConfig {
 	
@@ -39,9 +38,7 @@ public class PufferfishConfig {
 		getString("info.version", "1.0");
 		setComment("info",
 				"Pufferfish Configuration",
-				"Check out Pufferfish Host for maximum performance server hosting: https://pufferfish.host",
-				"Join our Discord for support: https://discord.gg/reZw4vQV9H",
-				"Download new builds at https://ci.pufferfish.host/job/Pufferfish");
+				"Check out Pufferfish Host for maximum performance server hosting: https://pufferfish.host");
 		
 		for (Method method : PufferfishConfig.class.getDeclaredMethods()) {
 			if (Modifier.isStatic(method.getModifiers()) && Modifier.isPrivate(method.getModifiers()) && method.getParameterCount() == 0 &&

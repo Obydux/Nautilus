@@ -1,9 +1,9 @@
 package gg.pufferfish.pufferfish.sentry;
 
-import gg.pufferfish.pufferfish.PufferfishConfig;
 import io.sentry.Sentry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import gg.pufferfish.pufferfish.PufferfishConfig;
 
 public class SentryManager {
 	

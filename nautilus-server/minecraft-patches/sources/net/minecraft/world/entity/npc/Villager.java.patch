@@ -11,9 +11,9 @@
      @Override
      protected void customServerAiStep(ServerLevel level) {
          // Paper start - EAR 2
-@@ -404,7 +_,11 @@
+@@ -403,7 +_,11 @@
+             this.isLobotomized = false;
          }
-         // Purpur end - Lobotomize stuck villagers
          if (!inactive && (getRider() == null || !this.isControllable())) { // Purpur - Ridables
 -            this.getBrain().tick(level, this); // Paper - EAR 2
 +            // Pufferfish start
@@ -22,5 +22,5 @@
 +            }
 +            // Pufferfish end
          }
-         else if (this.isLobotomized && shouldRestock()) restock(); // Purpur - Lobotomize stuck villagers
-         profilerFiller.pop();
+         else if (this.isLobotomized && shouldRestock()) restock();
+         // Purpur end - Lobotomize stuck villagers

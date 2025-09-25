@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/NaturalSpawner.java
 +++ b/net/minecraft/world/level/NaturalSpawner.java
-@@ -193,6 +_,65 @@
+@@ -195,6 +_,66 @@
          profilerFiller.pop();
      }
  
@@ -36,6 +36,7 @@
 +        List<Runnable> tasks = new ArrayList<>();
 +        for (MobCategory mobCategory : categories) {
 +            if (pluto$canSpawn(level, chunk, spawnState, mobCategory) <= 0) continue;
++
 +            final Runnable runnable = pluto$spawnCategoryForChunk(mobCategory, level, chunk, spawnState);
 +            if (runnable == null) continue;
 +            tasks.add(runnable);
