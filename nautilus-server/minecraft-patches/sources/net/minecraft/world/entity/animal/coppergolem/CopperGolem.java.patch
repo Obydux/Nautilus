@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/entity/animal/coppergolem/CopperGolem.java
 +++ b/net/minecraft/world/entity/animal/coppergolem/CopperGolem.java
-@@ -181,11 +_,13 @@
-         this.setWeatherState(input.read("weather_state", WeatheringCopper.WeatherState.CODEC).orElse(WeatheringCopper.WeatherState.UNAFFECTED));
+@@ -241,11 +_,13 @@
+         this.setSummoner(input.read("Purpur.Summoner", net.minecraft.core.UUIDUtil.CODEC).orElse(null)); // Purpur - Summoner API
      }
  
 +    private int behaviourTick = 0; // Pluto - Add DAB to more entities
