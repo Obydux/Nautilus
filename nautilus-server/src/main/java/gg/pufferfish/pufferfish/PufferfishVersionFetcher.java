@@ -31,8 +31,8 @@ public class PufferfishVersionFetcher implements VersionFetcher {
 	private static final HttpClient client = HttpClient.newHttpClient();
 	
 	// Nautilus start - Branding
-	private static final URI JENKINS_URI = URI.create("https://ci.obydux.win/job/Nautilus/job/1.21.9/lastSuccessfulBuild/buildNumber");
-	private static final String GITHUB_FORMAT = "https://api.github.com/repos/Obydux/Nautilus/compare/ver/1.21.9...%s";
+	private static final URI JENKINS_URI = URI.create("https://ci.obydux.win/job/Nautilus/job/1.21.10/lastSuccessfulBuild/buildNumber");
+	private static final String GITHUB_FORMAT = "https://api.github.com/repos/Obydux/Nautilus/compare/ver/1.21.10...%s";
 	// Nautilus end - Branding
 	
 	private static final HttpResponse.BodyHandler<JsonObject> JSON_OBJECT_BODY_HANDLER = responseInfo -> HttpResponse.BodySubscribers

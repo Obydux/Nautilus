@@ -8,8 +8,8 @@
     <img src="https://img.shields.io/discord/1383468620566237234" alt="Discord" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
   </a>
         
-  <a href="https://ci.obydux.win/job/Nautilus/job/1.21.9/" class="badge-link" target="_blank" rel="noopener noreferrer">
-    <img src="https://img.shields.io/jenkins/build?jobUrl=https://ci.obydux.win/job/Nautilus/job/1.21.9/" alt="Jenkins Build" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+  <a href="https://ci.obydux.win/job/Nautilus/job/1.21.10/" class="badge-link" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/jenkins/build?jobUrl=https://ci.obydux.win/job/Nautilus/job/1.21.10/" alt="Jenkins Build" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
   </a>
         
   <a href="https://github.com/sponsors/Obydux" class="badge-link" target="_blank" rel="noopener noreferrer">
@@ -28,7 +28,7 @@ Pufferfish's changes are coming from Yive's version of the software which has be
 You can download the latest JAR file [here](https://ci.obydux.win/job/Nautilus/).
 
 ## API
-You can find the javadocs [here](https://repo.obydux.win/javadoc/snapshots/win/obydux/nautilus/nautilus-api/1.21.9-R0.1-SNAPSHOT).
+You can find the javadocs [here](https://repo.obydux.win/javadoc/snapshots/win/obydux/nautilus/nautilus-api/1.21.10-R0.1-SNAPSHOT).
 
 Maven:
 ```xml
@@ -43,7 +43,7 @@ Maven:
     <dependency>
         <groupId>win.obydux.nautilus</groupId>
         <artifactId>nautilus-api</artifactId>
-        <version>1.21.9-R0.1-SNAPSHOT</version>
+        <version>1.21.10-R0.1-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -57,7 +57,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'win.obydux.nautilus:nautilus-api:1.21.9-R0.1-SNAPSHOT'
+    compileOnly 'win.obydux.nautilus:nautilus-api:1.21.10-R0.1-SNAPSHOT'
 }
 ```
 

@@ -1,6 +1,6 @@
 --- a/purpur-api/build.gradle.kts
 +++ b/purpur-api/build.gradle.kts
-@@ -40,6 +_,7 @@
+@@ -39,6 +_,7 @@
  }
  
  dependencies {
@@ -8,7 +8,7 @@
      // api dependencies are listed transitively to API consumers
      api("com.google.guava:guava:33.3.1-jre")
      api("com.google.code.gson:gson:2.11.0")
-@@ -101,17 +_,21 @@
+@@ -100,17 +_,21 @@
          java {
              srcDir(generatedDir)
              srcDir(file("../paper-api/src/main/java"))
@@ -30,7 +30,7 @@
          }
      }
  }
-@@ -159,6 +_,13 @@
+@@ -158,6 +_,13 @@
      }
  }
  
@@ -44,7 +44,7 @@
  tasks.jar {
      from(generateApiVersioningFile.map { it.outputs.files.singleFile }) {
          into("META-INF/maven/${project.group}/${project.name}")
-@@ -179,6 +_,9 @@
+@@ -178,6 +_,9 @@
  tasks.withType<Javadoc>().configureEach {
      (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet") // Purpur - silence Paper's bajillion javadoc warnings
      val options = options as StandardJavadocDocletOptions

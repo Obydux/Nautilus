@@ -47,7 +47,7 @@
              this.spawnSprintParticle();
          }
  
-@@ -1212,10 +_,13 @@
+@@ -1215,10 +_,13 @@
                  this.minorHorizontalCollision = false;
              }
  
@@ -64,7 +64,7 @@
              }
  
              if (this.isRemoved()) {
-@@ -1257,7 +_,7 @@
+@@ -1260,7 +_,7 @@
                  if (!this.level().isClientSide() || this.isLocalInstanceAuthoritative()) {
                      Entity.MovementEmission movementEmission = this.getMovementEmission();
                      if (movementEmission.emitsAnything() && !this.isPassenger()) {
@@ -73,7 +73,7 @@
                      }
                  }
  
-@@ -1279,12 +_,16 @@
+@@ -1282,12 +_,16 @@
          float f = 0.6F;
          float f1 = (float)(movement.length() * 0.6F);
          float f2 = (float)(movement.horizontalDistance() * 0.6F);
@@ -92,7 +92,7 @@
              boolean flag = onPos.equals(pos);
              boolean flag1 = this.vibrationAndSoundEffectsFromBlock(pos, state, movementEmission.emitsSounds(), flag, movement);
              if (!flag) {
-@@ -1357,6 +_,7 @@
+@@ -1360,6 +_,7 @@
              boolean isOnFire = this.isOnFire();
              boolean isFreezing = this.isFreezing();
              int remainingFireTicks = this.getRemainingFireTicks();
@@ -100,7 +100,7 @@
              this.checkInsideBlocks(movements, this.insideEffectCollector);
              this.insideEffectCollector.applyAndClear(this);
              if (this.isInRain()) {
-@@ -1434,7 +_,7 @@
+@@ -1437,7 +_,7 @@
      protected void processFlappingMovement() {
          if (this.isFlapping()) {
              this.onFlap();
@@ -109,7 +109,7 @@
                  this.gameEvent(GameEvent.FLAP);
              }
          }
-@@ -1442,15 +_,15 @@
+@@ -1445,15 +_,15 @@
  
      @Deprecated
      public BlockPos getOnPosLegacy() {
@@ -128,7 +128,7 @@
      }
  
      protected BlockPos getOnPos(float yOffset) {
-@@ -1474,9 +_,45 @@
+@@ -1477,9 +_,45 @@
          }
      }
  
@@ -175,7 +175,7 @@
          return jumpFactor == 1.0 ? jumpFactor1 : jumpFactor;
      }
  
-@@ -1484,7 +_,7 @@
+@@ -1487,7 +_,7 @@
          BlockState blockState = this.level().getBlockState(this.blockPosition());
          float speedFactor = blockState.getBlock().getSpeedFactor();
          if (!blockState.is(Blocks.WATER) && !blockState.is(Blocks.BUBBLE_COLUMN)) {
@@ -184,7 +184,7 @@
          } else {
              return speedFactor;
          }
-@@ -1842,9 +_,10 @@
+@@ -1847,9 +_,10 @@
      }
  
      protected BlockPos getPrimaryStepSoundBlockPos(BlockPos pos) {
@@ -198,7 +198,7 @@
      }
  
      protected void playCombinationStepSounds(BlockState primaryState, BlockState secondaryState) {
-@@ -1994,10 +_,25 @@
+@@ -1999,10 +_,25 @@
          return this.wasTouchingWater;
      }
  
@@ -226,7 +226,7 @@
      }
  
      public boolean isInWaterOrRain() {
-@@ -2045,6 +_,13 @@
+@@ -2050,6 +_,13 @@
          this.fluidHeight.clear();
          this.updateInWaterStateAndDoWaterCurrentPushing();
          double d = this.level().dimensionType().ultraWarm() ? 0.007 : 0.0023333333333333335;
@@ -240,7 +240,7 @@
          boolean flag = this.updateFluidHeightAndDoFluidPushing(FluidTags.LAVA, d);
          return this.isInWater() || flag;
      }
-@@ -2078,7 +_,7 @@
+@@ -2083,7 +_,7 @@
              FluidState fluidState = this.level().getFluidState(blockPos);
              double d = blockPos.getY() + fluidState.getHeight(this.level(), blockPos);
              if (d > eyeY) {
@@ -249,7 +249,7 @@
              }
          }
      }
-@@ -2124,11 +_,11 @@
+@@ -2129,11 +_,11 @@
  
      @Deprecated
      protected BlockState getBlockStateOnLegacy() {
@@ -263,7 +263,7 @@
      }
  
      public boolean canSpawnSprintParticle() {
-@@ -2136,19 +_,25 @@
+@@ -2141,19 +_,25 @@
      }
  
      protected void spawnSprintParticle() {
@@ -295,7 +295,7 @@
              }
  
              this.level()
-@@ -5487,6 +_,43 @@
+@@ -5492,6 +_,43 @@
              return this.save;
          }
      }
