@@ -6,11 +6,11 @@
  
 +    // Pluto start - Expose some sound related functions
 +    public float getSoundVolume() {
-+        return this.getHandle().plutoGetSoundVolume();
++        return this.getHandle().pluto$GetSoundVolume();
 +    }
 +
 +    public float getVoicePitch() {
-+        return this.getHandle().plutoGetVoicePitch();
++        return this.getHandle().pluto$GetVoicePitch();
 +    }
 +    // Pluto end - Expose some sound related functions
 +
