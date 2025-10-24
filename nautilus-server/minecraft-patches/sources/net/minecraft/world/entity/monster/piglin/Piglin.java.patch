@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/piglin/Piglin.java
 +++ b/net/minecraft/world/entity/monster/piglin/Piglin.java
-@@ -345,11 +_,13 @@
+@@ -350,11 +_,13 @@
          return !this.cannotHunt;
      }
  

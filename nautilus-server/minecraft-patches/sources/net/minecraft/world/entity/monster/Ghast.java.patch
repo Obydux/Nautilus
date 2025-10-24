@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Ghast.java
 +++ b/net/minecraft/world/entity/monster/Ghast.java
-@@ -359,7 +_,7 @@
+@@ -364,7 +_,7 @@
                  } else if (blockState.is(BlockTags.HAPPY_GHAST_AVOIDS)) {
                      return false;
                  } else {
@@ -9,7 +9,7 @@
                      if (!fluidState.isEmpty() && (!flag || this.ghast.collidedWithFluid(fluidState, pos, from, to))) {
                          if (fluidState.is(FluidTags.WATER)) {
                              return isInLava;
-@@ -516,7 +_,7 @@
+@@ -521,7 +_,7 @@
                  if (!level.getBlockState(blockPos).isAir()) {
                      return false;
                  } else {
