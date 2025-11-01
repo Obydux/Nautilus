@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/net/minecraft/world/entity/monster/warden/Warden.java
-@@ -300,11 +_,13 @@
+@@ -301,11 +_,13 @@
          }
      }
  

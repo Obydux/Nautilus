@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/npc/Villager.java
 +++ b/net/minecraft/world/entity/npc/Villager.java
-@@ -386,6 +_,10 @@
+@@ -387,6 +_,10 @@
      }
      // Paper end - EAR 2
  
@@ -11,7 +11,7 @@
      @Override
      protected void customServerAiStep(ServerLevel level) {
          // Paper start - EAR 2
-@@ -403,7 +_,11 @@
+@@ -404,7 +_,11 @@
              this.isLobotomized = false;
          }
          if (!inactive && (getRider() == null || !this.isControllable())) { // Purpur - Ridables
