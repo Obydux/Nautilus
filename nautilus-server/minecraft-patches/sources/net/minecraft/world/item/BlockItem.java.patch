@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/item/BlockItem.java
 +++ b/net/minecraft/world/item/BlockItem.java
-@@ -256,6 +_,7 @@
+@@ -255,6 +_,7 @@
          ItemContainerContents itemContainerContents = itemEntity.getItem().set(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
          if (itemContainerContents != null) {
              if (itemEntity.level().purpurConfig.shulkerBoxItemDropContentsWhenDestroyed && this.getBlock() instanceof ShulkerBoxBlock) // Purpur - option to disable shulker box items from dropping contents when destroyed

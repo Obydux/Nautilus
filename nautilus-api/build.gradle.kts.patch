@@ -1,6 +1,6 @@
 --- a/purpur-api/build.gradle.kts
 +++ b/purpur-api/build.gradle.kts
-@@ -39,6 +_,7 @@
+@@ -41,6 +_,7 @@
  }
  
  dependencies {
@@ -8,7 +8,7 @@
      // api dependencies are listed transitively to API consumers
      api("com.google.guava:guava:33.3.1-jre")
      api("com.google.code.gson:gson:2.11.0")
-@@ -100,17 +_,21 @@
+@@ -102,17 +_,21 @@
          java {
              srcDir(generatedDir)
              srcDir(file("../paper-api/src/main/java"))
@@ -30,27 +30,25 @@
          }
      }
  }
-@@ -158,6 +_,13 @@
-     }
+@@ -178,6 +_,13 @@
+     apiVersion.set(rootProject.providers.gradleProperty("apiVersion"))
  }
  
 +// Pufferfish Start
 +tasks.withType<JavaCompile> {
-+        val compilerArgs = options.compilerArgs
-+        compilerArgs.add("--add-modules=jdk.incubator.vector")
-+    }
++    val compilerArgs = options.compilerArgs
++    compilerArgs.add("--add-modules=jdk.incubator.vector")
++}
 +// Pufferfish End
 +
  tasks.jar {
-     from(generateApiVersioningFile.map { it.outputs.files.singleFile }) {
-         into("META-INF/maven/${project.group}/${project.name}")
-@@ -178,6 +_,9 @@
+     from(generateApiVersioningFile.flatMap { it.outputFile })
+     manifest {
+@@ -196,6 +_,7 @@
  tasks.withType<Javadoc>().configureEach {
      (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet") // Purpur - silence Paper's bajillion javadoc warnings
      val options = options as StandardJavadocDocletOptions
-+    // Pufferfish start
-+    options.addStringOption("-add-modules", "jdk.incubator.vector")
-+    // Pufferfish end
++    options.addStringOption("-add-modules", "jdk.incubator.vector") // Pufferfish
      options.overview = "../paper-api/src/main/javadoc/overview.html"
      options.use()
      options.isDocFilesSubDirs = true

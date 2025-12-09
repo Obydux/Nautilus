@@ -29,11 +29,11 @@ public class PufferfishVersionFetcher implements VersionFetcher {
 	
 	private static final Logger LOGGER = Logger.getLogger("PufferfishVersionFetcher");
 	private static final HttpClient client = HttpClient.newHttpClient();
-	
-	// Nautilus start - Branding
-	private static final URI JENKINS_URI = URI.create("https://ci.obydux.win/job/Nautilus/job/1.21.10/lastSuccessfulBuild/buildNumber");
-	private static final String GITHUB_FORMAT = "https://api.github.com/repos/Obydux/Nautilus/compare/ver/1.21.10...%s";
-	// Nautilus end - Branding
+
+    // Nautilus start - Branding
+    private static final URI JENKINS_URI = URI.create("https://ci.obydux.win/job/Nautilus/job/1.21.11/lastSuccessfulBuild/buildNumber");
+    private static final String GITHUB_FORMAT = "https://api.github.com/repos/Obydux/Nautilus/compare/ver/1.21.11...%s";
+    // Nautilus end - Branding
 	
 	private static final HttpResponse.BodyHandler<JsonObject> JSON_OBJECT_BODY_HANDLER = responseInfo -> HttpResponse.BodySubscribers
 			.mapping(
@@ -109,7 +109,7 @@ public class PufferfishVersionFetcher implements VersionFetcher {
 	
 	private @NotNull Component getResponseMessage(final int versionDiff) {
 		return switch (Math.max(-1, Math.min(1, versionDiff))) {
-			case -1 -> text("You are running an unsupported version of Nautilus.", RED); // Nautilus - Branding
+			case -1 -> text("You are running an unsupported version of Pluto.", RED); // Pluto - Branding
 			case 0 -> text("You are on the latest version!", GREEN);
 			default -> text("You are running " + versionDiff + " version" + (versionDiff == 1 ? "" : "s") + " behind. " +
 							"Please update your server when possible to maintain stability and security, and to receive the latest optimizations.",

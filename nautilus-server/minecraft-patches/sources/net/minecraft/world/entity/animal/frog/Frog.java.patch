@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/frog/Frog.java
 +++ b/net/minecraft/world/entity/animal/frog/Frog.java
-@@ -258,11 +_,13 @@
+@@ -257,11 +_,13 @@
          VariantUtils.readVariant(input, Registries.FROG_VARIANT).ifPresent(this::setVariant);
      }
  

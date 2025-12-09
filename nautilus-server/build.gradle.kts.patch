@@ -1,11 +1,11 @@
 --- a/purpur-server/build.gradle.kts
 +++ b/purpur-server/build.gradle.kts
-@@ -33,9 +_,33 @@
+@@ -32,9 +_,33 @@
              outputDir = rootDirectory.dir("paper-server")
          }
      }
 -    activeFork = purpur
-+    //activeFork = purpur // Nautilus
++    // activeFork = purpur // Nautilus
      // Purpur end - Rebrand
  
 +    // Nautilus start - Rebrand
@@ -33,8 +33,17 @@
 +    // Nautilus end - Rebrand
 +
      spigot {
-         enabled = true
+         enabled = false
          buildDataRef = "42d18d4c4653ffc549778dbe223f6994a031d69e"
+@@ -58,6 +_,8 @@
+     }
+ }
+ 
++tasks.withType<JavaCompile> { options.compilerArgs.add("--add-modules=jdk.incubator.vector") } // Pufferfish
++
+ tasks.generateDevelopmentBundle {
+     libraryRepositories.addAll(
+         "https://repo.maven.apache.org/maven2/",
 @@ -122,10 +_,14 @@
      main {
          java { srcDir("../paper-server/src/main/java") }
@@ -59,35 +68,32 @@
      implementation("ca.spottedleaf:concurrentutil:0.0.7")
      implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
      implementation("org.jline:jline-terminal-jni:3.27.1") // fall back to jni on java 21
-@@ -228,14 +_,14 @@
+@@ -229,14 +_,14 @@
          val gitBranch = git.exec(providers, "rev-parse", "--abbrev-ref", "HEAD").get().trim()
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
 -            "Implementation-Title" to "Purpur", // Purpur
-+            "Implementation-Title" to "Nautilus", // Purpur // Nautilus
++            "Implementation-Title" to "Nautilus", // Nautilus
              "Implementation-Version" to implementationVersion,
              "Implementation-Vendor" to date,
 -            "Specification-Title" to "Purpur", // Purpur
-+            "Specification-Title" to "Nautilus", // Purpur // Nautilus
++            "Specification-Title" to "Nautilus", // Nautilus
              "Specification-Version" to project.version,
 -            "Specification-Vendor" to "Purpur Team", // Purpur
 -            "Brand-Id" to "purpurmc:purpur", // Purpur
 -            "Brand-Name" to "Purpur", // Purpur
-+            "Specification-Vendor" to "Obydux", // Purpur // Nautilus
-+            "Brand-Id" to "obydux:nautilus", // Purpur // Nautilus
-+            "Brand-Name" to "Nautilus", // Purpur // Nautilus
++            "Specification-Vendor" to "Obydux", // Nautilus
++            "Brand-Id" to "obydux:nautilus", // Nautilus
++            "Brand-Name" to "Nautilus", // Nautilus
              "Build-Number" to (build ?: ""),
              "Build-Time" to buildTime.toString(),
              "Git-Branch" to gitBranch,
-@@ -252,9 +_,9 @@
-     options.compilerArgs.add("-parameters")
- }
+@@ -255,7 +_,7 @@
  
--// Bump compile tasks to 1GB memory to avoid OOMs
-+// Bump compile tasks to 4GB memory to avoid OOMs
+ // Bump compile tasks to 1GB memory to avoid OOMs
  tasks.withType<JavaCompile>().configureEach {
 -    options.forkOptions.memoryMaximumSize = "1G"
-+    options.forkOptions.memoryMaximumSize = "4G" // Nautilus
++    options.forkOptions.memoryMaximumSize = "4G" // Pufferfish
  }
  
  val scanJarForBadCalls by tasks.registering(io.papermc.paperweight.tasks.ScanJarForBadCalls::class) {

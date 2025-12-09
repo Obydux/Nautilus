@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/piglin/PiglinBrute.java
 +++ b/net/minecraft/world/entity/monster/piglin/PiglinBrute.java
-@@ -152,11 +_,13 @@
+@@ -151,11 +_,13 @@
          return stack.is(Items.GOLDEN_AXE) && super.wantsToPickUp(level, stack);
      }
  

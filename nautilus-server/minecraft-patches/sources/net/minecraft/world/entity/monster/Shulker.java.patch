@@ -1,15 +1,15 @@
 --- a/net/minecraft/world/entity/monster/Shulker.java
 +++ b/net/minecraft/world/entity/monster/Shulker.java
-@@ -401,7 +_,7 @@
+@@ -398,7 +_,7 @@
+     }
  
-     @Nullable
-     protected Direction findAttachableSurface(BlockPos pos) {
+     protected @Nullable Direction findAttachableSurface(BlockPos pos) {
 -        for (Direction direction : Direction.values()) {
 +        for (Direction direction : Direction.VALUES) { // Pluto - Avoid excessive calls to Enum#values
              if (this.canStayAt(pos, direction)) {
                  return direction;
              }
-@@ -435,6 +_,7 @@
+@@ -432,6 +_,7 @@
      }
  
      protected boolean teleportSomewhere() {
@@ -17,11 +17,11 @@
          if (!this.isNoAi() && this.isAlive()) {
              BlockPos blockPos = this.blockPosition();
  
-@@ -515,6 +_,7 @@
-         AABB boundingBox = this.getBoundingBox();
-         // Purpur start - Shulker spawn from bullet options
+@@ -514,6 +_,7 @@
          if ((!this.level().purpurConfig.shulkerSpawnFromBulletRequireOpenLid || !this.isClosed()) && this.teleportSomewhere()) {
-+            if (this.level().plutoConfig().disableShulkerSplitting) return; // Pluto - Shulker configuration
              float chance = this.level().purpurConfig.shulkerSpawnFromBulletBaseChance;
              if (!this.level().purpurConfig.shulkerSpawnFromBulletNearbyEquation.isBlank()) {
++                if (this.level().plutoConfig().disableShulkerSplitting) return; // Pluto - Shulker configuration
                  int nearby = this.level().getEntities((net.minecraft.world.level.entity.EntityTypeTest) EntityType.SHULKER, boundingBox.inflate(this.level().purpurConfig.shulkerSpawnFromBulletNearbyRange), Entity::isAlive).size();
+                 try {
+                     chance -= ((Number) scriptEngine.eval("let nearby = " + nearby + "; " + this.level().purpurConfig.shulkerSpawnFromBulletNearbyEquation)).floatValue();

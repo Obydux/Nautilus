@@ -38,32 +38,32 @@ public class SchedulersCommand implements PlutoSubcommand {
         }
 
         final Component threadHover = Component.join(
-                JoinConfiguration.newlines(),
-                Component.text("Folia Async Scheduler Threads: " + (Bukkit.getAsyncScheduler() instanceof FoliaAsyncScheduler scheduler ? scheduler.pluto$getThreadCount() : 0),
-                        NamedTextColor.AQUA),
-                Component.text("Bukkit Async Scheduler Threads: " + (Bukkit.getScheduler() instanceof CraftScheduler scheduler ? scheduler.pluto$getThreadCount() : 0),
-                        NamedTextColor.AQUA)
+            JoinConfiguration.newlines(),
+            Component.text("Folia Async Scheduler Threads: " + (Bukkit.getAsyncScheduler() instanceof FoliaAsyncScheduler scheduler ? scheduler.pluto$getThreadCount() : 0),
+                NamedTextColor.AQUA),
+            Component.text("Bukkit Async Scheduler Threads: " + (Bukkit.getScheduler() instanceof CraftScheduler scheduler ? scheduler.pluto$getThreadCount() : 0),
+                NamedTextColor.AQUA)
         );
         sender.sendMessage(
-                Component.text()
-                        .content("Schedulers:")
-                        .color(NamedTextColor.GRAY)
-                        .hoverEvent(threadHover)
-                        .build()
+            Component.text()
+                .content("Schedulers:")
+                .color(NamedTextColor.GRAY)
+                .hoverEvent(threadHover)
+                .build()
         );
         for (final String plugin : plugins) {
             final Component hover = Component.join(
-                    JoinConfiguration.newlines(),
-                    createFoliaComponent(foliaTasks.getOrDefault(plugin, Map.of())),
-                    createBukkitComponent(activeWorkers.getOrDefault(plugin, 0), pendingTasks.getOrDefault(plugin, 0))
+                JoinConfiguration.newlines(),
+                createFoliaComponent(foliaTasks.getOrDefault(plugin, Map.of())),
+                createBukkitComponent(activeWorkers.getOrDefault(plugin, 0), pendingTasks.getOrDefault(plugin, 0))
             );
 
             sender.sendMessage(
-                    Component.text()
-                            .content(" - " + plugin)
-                            .color(NamedTextColor.GOLD)
-                            .hoverEvent(hover)
-                            .build()
+                Component.text()
+                    .content(" - " + plugin)
+                    .color(NamedTextColor.GOLD)
+                    .hoverEvent(hover)
+                    .build()
             );
         }
         return true;
@@ -79,13 +79,13 @@ public class SchedulersCommand implements PlutoSubcommand {
                 final int count = states.getOrDefault(state, 0);
                 if (count == 0) continue;
                 lines.add(Component.text(" - " + state + ": " + count,
-                        NamedTextColor.AQUA));
+                    NamedTextColor.AQUA));
             }
         }
 
         return Component.join(
-                JoinConfiguration.newlines(),
-                lines.toArray(Component[]::new)
+            JoinConfiguration.newlines(),
+            lines.toArray(Component[]::new)
         );
     }
 
@@ -102,8 +102,8 @@ public class SchedulersCommand implements PlutoSubcommand {
         }
 
         return Component.join(
-                JoinConfiguration.newlines(),
-                lines.toArray(Component[]::new)
+            JoinConfiguration.newlines(),
+            lines.toArray(Component[]::new)
         );
     }
 }

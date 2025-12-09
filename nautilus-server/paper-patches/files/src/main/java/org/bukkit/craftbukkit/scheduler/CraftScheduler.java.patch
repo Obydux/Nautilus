@@ -1,9 +1,10 @@
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-@@ -132,6 +_,12 @@
+@@ -132,6 +_,13 @@
      }
      // Paper end
  
++
 +    // Pluto start - Add schedulers subcommand
 +    public int pluto$getThreadCount() {
 +        return asyncScheduler instanceof CraftAsyncScheduler ? asyncScheduler.pluto$getThreadCount() : 0;
