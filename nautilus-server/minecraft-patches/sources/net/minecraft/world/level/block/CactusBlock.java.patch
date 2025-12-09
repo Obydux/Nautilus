@@ -58,10 +58,10 @@
      protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 -        for (Direction direction : Direction.Plane.HORIZONTAL) {
 -            BlockState blockState = level.getBlockState(pos.relative(direction));
--            if ((level.getWorldBorder().world.purpurConfig.cactusBreaksFromSolidNeighbors && blockState.isSolid()) || level.getFluidState(pos.relative(direction)).is(FluidTags.LAVA)) { // Purpur - Cactus breaks from solid neighbors config
+-            if ((level.getWorldBorder().world == null || level.getWorldBorder().world.purpurConfig.cactusBreaksFromSolidNeighbors) && blockState.isSolid() || level.getFluidState(pos.relative(direction)).is(FluidTags.LAVA)) { // Purpur - Cactus breaks from solid neighbors config
 +        // Pluto start - Check if the cactus can even survive being placed
 +        return canSurvive(level, pos);
-+    }
++        }
 +
 +    protected boolean canSurvive(LevelReader level, BlockPos pos) {
 +        // Pluto end - Check if the cactus can even survive being placed
