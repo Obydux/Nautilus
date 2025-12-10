@@ -9,6 +9,20 @@
  
      public void inactiveTick() {
      }
+@@ -548,12 +_,11 @@
+     public boolean isSunBurnTick() {
+         if (!this.level().isClientSide() && this.level().environmentAttributes().getValue(EnvironmentAttributes.MONSTERS_BURN, this.position())) {
+             float lightLevelDependentMagicValue = this.getLightLevelDependentMagicValue();
+-            BlockPos blockPos = BlockPos.containing(this.getX(), this.getEyeY(), this.getZ());
+             boolean flag = this.isInWater() || this.isInPowderSnow || this.wasInPowderSnow;
+             if (lightLevelDependentMagicValue > 0.5F
+                 && this.random.nextFloat() * 30.0F < (lightLevelDependentMagicValue - 0.4F) * 2.0F
+                 && !flag
+-                && this.level().canSeeSky(blockPos)) {
++                && this.level().canSeeSky(BlockPos.containing(this.getX(), this.getEyeY(), this.getZ()))) { // Pluto - Memory allocation optimisations
+                 return true;
+             }
+         }
 @@ -870,6 +_,14 @@
              return;
          }
