@@ -4,7 +4,7 @@
  
      @Override
      public com.destroystokyo.paper.util.VersionFetcher getVersionFetcher() {
--        return new com.destroystokyo.paper.PaperVersionFetcher();
+-        return new org.purpurmc.purpur.PurpurVersionFetcher(); // Purpur - use old Paper version checker
 +        return new gg.pufferfish.pufferfish.PufferfishVersionFetcher(); // Pufferfish
      }
  

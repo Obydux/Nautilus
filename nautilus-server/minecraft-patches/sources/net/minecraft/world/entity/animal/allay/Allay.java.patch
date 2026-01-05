@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/net/minecraft/world/entity/animal/allay/Allay.java
-@@ -266,11 +_,13 @@
+@@ -273,11 +_,13 @@
          return 0.4F;
      }
  
@@ -14,7 +14,7 @@
          this.getBrain().tick(level, this);
          profilerFiller.pop();
          profilerFiller.push("allayActivityUpdate");
-@@ -439,6 +_,7 @@
+@@ -446,6 +_,7 @@
      @Override
      public void updateDynamicGameEventListener(BiConsumer<DynamicGameEventListener<?>, ServerLevel> listenerConsumer) {
          if (this.level() instanceof ServerLevel serverLevel) {
@@ -22,7 +22,7 @@
              listenerConsumer.accept(this.dynamicVibrationListener, serverLevel);
              listenerConsumer.accept(this.dynamicJukeboxListener, serverLevel);
          }
-@@ -545,7 +_,7 @@
+@@ -552,7 +_,7 @@
      }
  
      public boolean canDuplicate() {

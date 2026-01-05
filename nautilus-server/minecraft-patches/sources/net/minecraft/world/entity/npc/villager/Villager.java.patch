@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/net/minecraft/world/entity/npc/villager/Villager.java
-@@ -386,7 +_,10 @@
+@@ -393,7 +_,10 @@
          super.inactiveTick();
      }
      // Paper end - EAR 2
@@ -12,7 +12,7 @@
      @Override
      protected void customServerAiStep(ServerLevel level) {
          // Paper start - EAR 2
-@@ -403,7 +_,7 @@
+@@ -410,7 +_,7 @@
          } else {
              this.isLobotomized = false;
          }

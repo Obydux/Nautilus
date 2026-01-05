@@ -19,7 +19,7 @@
              this.targetSelector.tick();
          }
      }
-@@ -771,12 +_,38 @@
+@@ -777,12 +_,38 @@
      }
      // Paper end - allow changing despawnInPeaceful
  
@@ -59,7 +59,7 @@
              if (nearestPlayer != null) {
                  // Paper start - Configurable despawn distances
                  final io.papermc.paper.configuration.WorldConfiguration.Entities.Spawning.DespawnRangePair despawnRangePair = this.level().paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory());
-@@ -824,16 +_,20 @@
+@@ -830,16 +_,20 @@
          int i = this.tickCount + this.getId();
          if (i % 2 != 0 && this.tickCount > 1) {
              profilerFiller.push("targetSelector");
@@ -80,7 +80,7 @@
              this.goalSelector.tick();
              profilerFiller.pop();
          }
-@@ -992,6 +_,8 @@
+@@ -998,6 +_,8 @@
                  return player.getVehicle() == Mob.this || player.isWithinEntityInteractionRange(Mob.this, 4.0);
              }
  
@@ -89,7 +89,7 @@
              // Paper start
              private final List<org.bukkit.entity.HumanEntity> viewers = new java.util.ArrayList<>();
              private int maxStackSize = MAX_STACK;
-@@ -1028,6 +_,13 @@
+@@ -1034,6 +_,13 @@
                  }
                  return null;
              }

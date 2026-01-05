@@ -23,7 +23,7 @@
                  return true;
              }
          }
-@@ -870,6 +_,14 @@
+@@ -871,6 +_,14 @@
              return;
          }
          // Paper end - entity despawn time limit
@@ -38,7 +38,7 @@
          this.baseTick();
      }
  
-@@ -897,7 +_,7 @@
+@@ -898,7 +_,7 @@
          }
  
          if (this instanceof ServerPlayer) this.handlePortal(); // CraftBukkit - Moved up to postTick
@@ -47,7 +47,7 @@
              this.spawnSprintParticle();
          }
  
-@@ -1229,10 +_,13 @@
+@@ -1230,10 +_,13 @@
                  this.minorHorizontalCollision = false;
              }
  
@@ -64,7 +64,7 @@
              }
  
              if (this.isRemoved()) {
-@@ -1274,7 +_,7 @@
+@@ -1275,7 +_,7 @@
                  if (!this.level().isClientSide() || this.isLocalInstanceAuthoritative()) {
                      Entity.MovementEmission movementEmission = this.getMovementEmission();
                      if (movementEmission.emitsAnything() && !this.isPassenger()) {
@@ -73,7 +73,7 @@
                      }
                  }
  
-@@ -1296,12 +_,16 @@
+@@ -1297,12 +_,16 @@
          float f = 0.6F;
          float f1 = (float)(movement.length() * 0.6F);
          float f2 = (float)(movement.horizontalDistance() * 0.6F);
@@ -92,7 +92,7 @@
              boolean flag = onPos.equals(pos);
              boolean flag1 = this.vibrationAndSoundEffectsFromBlock(pos, state, movementEmission.emitsSounds(), flag, movement);
              if (!flag) {
-@@ -1378,6 +_,7 @@
+@@ -1379,6 +_,7 @@
              boolean isOnFire = this.isOnFire();
              boolean isFreezing = this.isFreezing();
              int remainingFireTicks = this.getRemainingFireTicks();
@@ -100,7 +100,7 @@
              this.checkInsideBlocks(movements, this.insideEffectCollector);
              this.insideEffectCollector.applyAndClear(this);
              if (this.isInRain()) {
-@@ -1455,7 +_,7 @@
+@@ -1456,7 +_,7 @@
      protected void processFlappingMovement() {
          if (this.isFlapping()) {
              this.onFlap();
@@ -109,7 +109,7 @@
                  this.gameEvent(GameEvent.FLAP);
              }
          }
-@@ -1495,9 +_,45 @@
+@@ -1496,9 +_,45 @@
          }
      }
  
@@ -156,7 +156,7 @@
          return jumpFactor == 1.0 ? jumpFactor1 : jumpFactor;
      }
  
-@@ -1505,7 +_,7 @@
+@@ -1506,7 +_,7 @@
          BlockState blockState = this.level().getBlockState(this.blockPosition());
          float speedFactor = blockState.getBlock().getSpeedFactor();
          if (!blockState.is(Blocks.WATER) && !blockState.is(Blocks.BUBBLE_COLUMN)) {
@@ -165,7 +165,7 @@
          } else {
              return speedFactor;
          }
-@@ -1865,9 +_,10 @@
+@@ -1866,9 +_,10 @@
      }
  
      protected BlockPos getPrimaryStepSoundBlockPos(BlockPos pos) {
@@ -179,7 +179,7 @@
      }
  
      protected void playCombinationStepSounds(BlockState primaryState, BlockState secondaryState) {
-@@ -2017,10 +_,24 @@
+@@ -2018,10 +_,24 @@
          return this.wasTouchingWater;
      }
  
@@ -206,7 +206,7 @@
      }
  
      public boolean isInWaterOrRain() {
-@@ -2067,6 +_,13 @@
+@@ -2068,6 +_,13 @@
          this.fluidHeight.clear();
          this.updateInWaterStateAndDoWaterCurrentPushing();
          double d = this.level.environmentAttributes().getDimensionValue(EnvironmentAttributes.FAST_LAVA) ? 0.007 : 0.0023333333333333335;
@@ -220,7 +220,7 @@
          boolean flag = this.updateFluidHeightAndDoFluidPushing(FluidTags.LAVA, d);
          return this.isInWater() || flag;
      }
-@@ -2100,7 +_,7 @@
+@@ -2101,7 +_,7 @@
              FluidState fluidState = this.level().getFluidState(blockPos);
              double d = blockPos.getY() + fluidState.getHeight(this.level(), blockPos);
              if (d > eyeY) {
@@ -229,7 +229,7 @@
              }
          }
      }
-@@ -2146,11 +_,11 @@
+@@ -2147,11 +_,11 @@
  
      @Deprecated
      protected BlockState getBlockStateOnLegacy() {
@@ -243,7 +243,7 @@
      }
  
      public boolean canSpawnSprintParticle() {
-@@ -2158,19 +_,25 @@
+@@ -2159,19 +_,25 @@
      }
  
      protected void spawnSprintParticle() {

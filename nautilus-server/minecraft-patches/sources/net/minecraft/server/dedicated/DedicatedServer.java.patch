@@ -2,7 +2,7 @@
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -293,6 +_,10 @@
          org.purpurmc.purpur.PurpurConfig.registerCommands();
-         // Purpur end - Purpur config files
+         */// Purpur end - Purpur config files // Purpur end - Migrate Setting to reintroduce end void rings
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
 +        gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
 +        gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
