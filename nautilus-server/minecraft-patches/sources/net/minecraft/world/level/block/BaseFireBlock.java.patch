@@ -19,7 +19,7 @@
                  Optional<PortalShape> optional = PortalShape.findEmptyPortalShape(level, pos, Direction.Axis.X);
                  if (optional.isPresent()) {
                      optional.get().createPortalBlocks(level, (context == null) ? null : context.getPlayer()); // CraftBukkit - player
-@@ -204,11 +_,15 @@
+@@ -204,11 +_,17 @@
          if (!inPortalDimension(level)) {
              return false;
          } else {
@@ -32,9 +32,11 @@
              boolean flag = false;
  
 -            for (Direction direction1 : Direction.values()) {
--                if (level.getBlockState(mutableBlockPos.set(pos).move(direction1)).is(Blocks.OBSIDIAN)) {
+-                if (PortalShape.FRAME.test(level.getBlockState(mutableBlockPos.set(pos).move(direction1)), level, mutableBlockPos)) { // Purpur - Crying obsidian valid for portal frames
++            BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(); // Pluto - Memory allocation optimisations
++
 +            for (Direction direction1 : Direction.VALUES) { // Pluto - Avoid excessive calls to Enum#values
-+                if (level.pluto$getBlockState(x + direction1.getStepX(), y + direction1.getStepY(), z + direction1.getStepZ()).is(Blocks.OBSIDIAN)) { // Pluto - Memory allocation optimisations
++                if (PortalShape.FRAME.test(level.pluto$getBlockState(x + direction1.getStepX(), y + direction1.getStepY(), z + direction1.getStepZ()), level, mutableBlockPos.set(x + direction1.getStepX(), y + direction1.getStepY(), z + direction1.getStepZ()))) { // Purpur - Crying obsidian valid for portal frames // Pluto - Memory allocation optimisations
                      flag = true;
                      break;
                  }
