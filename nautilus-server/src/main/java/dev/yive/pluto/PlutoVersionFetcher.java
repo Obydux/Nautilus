@@ -48,15 +48,15 @@ public class PlutoVersionFetcher implements VersionFetcher {
         BUILD_INFO = ServerBuildInfo.buildInfo();
         USER_AGENT = BUILD_INFO.brandName() + "/" + BUILD_INFO.asString(VERSION_SIMPLE);
 
-        // TODO: Probably have to change this with the new versioning of 26.x.
-        String downloadPage = "https://ci.obydux.win/job/Nautilus/";
+        String downloadPage = "https://ci.obydux.win/job/Nautilus/job";
         final String versionId = BUILD_INFO.minecraftVersionId();
         if (versionId.contains("-")) {
             downloadPage += versionId.substring(0, versionId.indexOf("-"));
         } else if (versionId.contains(".")) {
             downloadPage += versionId;
         }
-        DOWNLOAD_PAGE = downloadPage;
+        // Fallback to the main folder for Nautilus if a version wasn't found.
+        DOWNLOAD_PAGE = downloadPage.endsWith("/job/") ? "https://ci.obydux.win/job/Nautilus/" : downloadPage;
     }
 
     @Override

@@ -1160,11 +1160,22 @@ public class PlutoConfig {
         private void useFasterNearbyPlayerDespawnCheck() {
             useFasterNearbyPlayerDespawnCheck = getBoolean("entities.global.faster-despawn-nearby-player-check", useFasterNearbyPlayerDespawnCheck);
             setComments("entities.global.faster-despawn-nearby-player-check",
-                    List.of(
-                            "Optimises the nearby player lookup per entity by using",
-                            "the simulation distance to find nearby players instead",
-                            "of looping over every single player in the entity's world."
-                    )
+                List.of(
+                    "Optimises the nearby player lookup per entity by using",
+                    "the simulation distance to find nearby players instead",
+                    "of looping over every single player in the entity's world."
+                )
+            );
+        }
+
+        public int itemMergeWithNeighboursLimit = 100;
+        private void itemEntityMergeWithNeighboursLimit() {
+            itemMergeWithNeighboursLimit = getInt("entities.item.merge-with-neighbours-limit", itemMergeWithNeighboursLimit);
+            setComments("entities.item.merge-with-neighbours-limit",
+                List.of(
+                    "Implements a limit for the merge with neighbours check.",
+                    "This might make dealing with 1000s of dropped items in a single spot a bit easier."
+                )
             );
         }
     }
