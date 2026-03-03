@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/boss/wither/WitherBoss.java
 +++ b/net/minecraft/world/entity/boss/wither/WitherBoss.java
-@@ -235,6 +_,13 @@
+@@ -234,6 +_,13 @@
      }
      // Purpur end - Mobs always drop experience
  
