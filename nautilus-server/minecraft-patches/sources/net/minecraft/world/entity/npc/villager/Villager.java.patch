@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/net/minecraft/world/entity/npc/villager/Villager.java
-@@ -393,7 +_,10 @@
+@@ -368,7 +_,10 @@
          super.inactiveTick();
      }
      // Paper end - EAR 2
@@ -10,9 +10,9 @@
 +    private int behaviorTick = 0;
 +    // Pufferfish end
      @Override
-     protected void customServerAiStep(ServerLevel level) {
+     protected void customServerAiStep(final ServerLevel level) {
          // Paper start - EAR 2
-@@ -410,7 +_,7 @@
+@@ -385,7 +_,7 @@
          } else {
              this.isLobotomized = false;
          }

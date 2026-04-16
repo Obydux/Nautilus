@@ -1,21 +1,21 @@
 --- a/net/minecraft/world/level/block/BasePressurePlateBlock.java
 +++ b/net/minecraft/world/level/block/BasePressurePlateBlock.java
-@@ -147,6 +_,18 @@
-         return side == Direction.UP ? this.getSignalForState(state) : 0;
+@@ -155,6 +_,18 @@
+         return direction == Direction.UP ? this.getSignalForState(state) : Redstone.SIGNAL_MIN;
      }
  
 +    // Pluto start - Memory allocation optimisations
 +    @Override
-+    protected int pluto$getSignal(BlockState blockState, BlockGetter level, int x, int y, int z, Direction direction) {
-+        return this.getSignalForState(blockState);
++    protected int pluto$getSignal(final BlockState state, final BlockGetter level, final int x, final int y, final int z, final Direction direction) {
++        return this.getSignalForState(state);
 +    }
 +
 +    @Override
-+    protected int pluto$getDirectSignal(BlockState blockState, BlockGetter level, int x, int y, int z, Direction side) {
-+        return side == Direction.UP ? this.getSignalForState(blockState) : 0;
++    protected int pluto$getDirectSignal(final BlockState state, final BlockGetter level, final int x, final int y, final int z, final Direction direction) {
++        return direction == Direction.UP ? this.getSignalForState(state) : Redstone.SIGNAL_MIN;
 +    }
 +    // Pluto end - Memory allocation optimisations
 +
      @Override
-     protected boolean isSignalSource(BlockState state) {
+     protected boolean isSignalSource(final BlockState state) {
          return true;

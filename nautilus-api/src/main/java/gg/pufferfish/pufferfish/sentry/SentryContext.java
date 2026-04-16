@@ -119,8 +119,8 @@ public class SentryContext {
 		private Event event;
 		private RegisteredListener registeredListener;
 
-        @Nullable
-        public Plugin getPlugin() {
+		@Nullable
+		public Plugin getPlugin() {
 			return plugin;
 		}
 		
@@ -128,17 +128,17 @@ public class SentryContext {
 			this.plugin = plugin;
 		}
 
-        @Nullable
-        public Command getCommand() {
+		@Nullable
+		public Command getCommand() {
 			return command;
 		}
-
+		
 		public void setCommand(@Nullable Command command) {
 			this.command = command;
 		}
 
-        @Nullable
-        public String getCommandLine() {
+		@Nullable
+		public String getCommandLine() {
 			return commandLine;
 		}
 		
@@ -146,8 +146,8 @@ public class SentryContext {
 			this.commandLine = commandLine;
 		}
 
-        @Nullable
-        public Event getEvent() {
+		@Nullable
+		public Event getEvent() {
 			return event;
 		}
 		
@@ -155,8 +155,8 @@ public class SentryContext {
 			this.event = event;
 		}
 
-        @Nullable
-        public RegisteredListener getRegisteredListener() {
+		@Nullable
+		public RegisteredListener getRegisteredListener() {
 			return registeredListener;
 		}
 		

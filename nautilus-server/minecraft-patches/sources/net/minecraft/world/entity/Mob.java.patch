@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/Mob.java
 +++ b/net/minecraft/world/entity/Mob.java
-@@ -218,14 +_,16 @@
+@@ -212,14 +_,16 @@
          return this.lookControl;
      }
  
@@ -19,36 +19,36 @@
              this.targetSelector.tick();
          }
      }
-@@ -777,12 +_,41 @@
+@@ -781,12 +_,41 @@
      }
      // Paper end - allow changing despawnInPeaceful
  
 +    // Pluto start - Avoid looping over all players in a world per entity for despawns
-+    private @Nullable Entity pluto$getNearestPlayer(Entity entity, double maxDistance, @Nullable Predicate<Entity> predicate) {
++    private @Nullable Entity pluto$getNearestPlayer(final Entity entity, final double range, final @Nullable Predicate<Entity> predicate) {
 +        // Fallback if this entity is somehow not from a server level or if the world has a small amount of players.
-+        if (this.level().players().size() <= 10 || !(this.level() instanceof ServerLevel serverLevel)) return this.level().findNearbyPlayer(entity, maxDistance, predicate);
++        if (this.level().players().size() <= 10 || !(this.level() instanceof ServerLevel serverLevel)) return this.level().findNearbyPlayer(entity, range, predicate);
 +
 +        // Copied from EntityGetter#findNearbyPlayer(double, double, double, double, Predicate), but using moonrise's nearby players.
 +        double x = entity.getX();
 +        double y = entity.getY();
 +        double z = entity.getZ();
-+        double d = -1.0;
-+        Player player = null;
++        double best = -1.0;
++        Player result = null;
 +
 +        final ca.spottedleaf.moonrise.common.list.ReferenceList<net.minecraft.server.level.ServerPlayer> players = serverLevel.moonrise$getNearbyPlayers().getPlayers(entity.blockPosition(), ca.spottedleaf.moonrise.common.misc.NearbyPlayers.NearbyMapType.TICK_VIEW_DISTANCE);
 +        if (players == null) return null;
 +
-+        for (final net.minecraft.server.level.ServerPlayer player1 : players) {
-+            if (predicate == null || predicate.test(player1)) {
-+                double d1 = player1.distanceToSqr(x, y, z);
-+                if ((maxDistance < 0.0 || d1 < maxDistance * maxDistance) && (d == -1.0 || d1 < d)) {
-+                    d = d1;
-+                    player = player1;
++        for (final net.minecraft.server.level.ServerPlayer player : players) {
++            if (predicate == null || predicate.test(player)) {
++                double dist = player.distanceToSqr(x, y, z);
++                if ((range < 0.0 || dist < range * range) && (best == -1.0 || dist < best)) {
++                    best = dist;
++                    result = player;
 +                }
 +            }
 +        }
 +
-+        return player;
++        return result;
 +    }
 +    // Pluto end - Avoid looping over all players in a world per entity for despawns
 +
@@ -57,33 +57,33 @@
          if (this.level().getDifficulty() == Difficulty.PEACEFUL && this.shouldDespawnInPeaceful()) { // Paper - allow changing despawnInPeaceful
              this.discard(EntityRemoveEvent.Cause.DESPAWN); // CraftBukkit - add Bukkit remove cause
          } else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()) {
--            Entity nearestPlayer = this.level().findNearbyPlayer(this, -1.0, EntitySelector.PLAYER_AFFECTS_SPAWNING); // Paper - Affects Spawning API
-+            Entity nearestPlayer = this.level().plutoConfig().useFasterNearbyPlayerDespawnCheck ? pluto$getNearestPlayer(this, -1.0, EntitySelector.PLAYER_AFFECTS_SPAWNING) : this.level().findNearbyPlayer(this, -1.0, EntitySelector.PLAYER_AFFECTS_SPAWNING); // Paper - Affects Spawning API // Pluto - Avoid looping over all players in a world per entity for despawns
-             if (nearestPlayer != null) {
+-            Entity player = this.level().findNearbyPlayer(this, -1.0, EntitySelector.PLAYER_AFFECTS_SPAWNING); // Paper - Affects Spawning API
++            Entity player = this.level().plutoConfig().useFasterNearbyPlayerDespawnCheck ? pluto$getNearestPlayer(this, -1.0, EntitySelector.PLAYER_AFFECTS_SPAWNING) : this.level().findNearbyPlayer(this, -1.0, EntitySelector.PLAYER_AFFECTS_SPAWNING); // Paper - Affects Spawning API // Pluto - Avoid looping over all players in a world per entity for despawns
+             if (player != null) {
                  // Paper start - Configurable despawn distances
                  final io.papermc.paper.configuration.WorldConfiguration.Entities.Spawning.DespawnRangePair despawnRangePair = this.level().paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory());
-@@ -830,16 +_,20 @@
-         int i = this.tickCount + this.getId();
-         if (i % 2 != 0 && this.tickCount > 1) {
-             profilerFiller.push("targetSelector");
+@@ -834,16 +_,20 @@
+         int idBasedTickCount = this.tickCount + this.getId();
+         if (idBasedTickCount % 2 != 0 && this.tickCount > 1) {
+             profiler.push("targetSelector");
 +            if (!this.level().plutoConfig().disableTargetSelector && this.targetSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking // Pluto - Option to disable entity target/goal selectors
              this.targetSelector.tickRunningGoals(false);
-             profilerFiller.pop();
-             profilerFiller.push("goalSelector");
+             profiler.pop();
+             profiler.push("goalSelector");
 +            if (!this.level().plutoConfig().disableGoalSelector && this.goalSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking // Pluto - Option to disable entity target/goal selectors
              this.goalSelector.tickRunningGoals(false);
-             profilerFiller.pop();
+             profiler.pop();
          } else {
-             profilerFiller.push("targetSelector");
+             profiler.push("targetSelector");
 +            if (!this.level().plutoConfig().disableTargetSelector && this.targetSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking // Pluto - Option to disable entity target/goal selectors
              this.targetSelector.tick();
-             profilerFiller.pop();
-             profilerFiller.push("goalSelector");
+             profiler.pop();
+             profiler.push("goalSelector");
 +            if (!this.level().plutoConfig().disableGoalSelector && this.goalSelector.inactiveTick(this.activatedPriority, false)) // Pufferfish - use this to alternate ticking // Pluto - Option to disable entity target/goal selectors
              this.goalSelector.tick();
-             profilerFiller.pop();
+             profiler.pop();
          }
-@@ -998,6 +_,8 @@
+@@ -1006,6 +_,8 @@
                  return player.getVehicle() == Mob.this || player.isWithinEntityInteractionRange(Mob.this, 4.0);
              }
  
@@ -92,7 +92,7 @@
              // Paper start
              private final List<org.bukkit.entity.HumanEntity> viewers = new java.util.ArrayList<>();
              private int maxStackSize = MAX_STACK;
-@@ -1034,6 +_,13 @@
+@@ -1042,6 +_,13 @@
                  }
                  return null;
              }

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/boss/wither/WitherBoss.java
 +++ b/net/minecraft/world/entity/boss/wither/WitherBoss.java
-@@ -234,6 +_,13 @@
+@@ -236,6 +_,13 @@
      }
      // Purpur end - Mobs always drop experience
  
@@ -12,5 +12,5 @@
 +    // Pufferfish end
 +
      @Override
-     protected PathNavigation createNavigation(Level level) {
+     protected PathNavigation createNavigation(final Level level) {
          FlyingPathNavigation flyingPathNavigation = new FlyingPathNavigation(this, level);

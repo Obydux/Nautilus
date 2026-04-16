@@ -1,16 +1,15 @@
 --- a/net/minecraft/world/entity/monster/breeze/Breeze.java
 +++ b/net/minecraft/world/entity/monster/breeze/Breeze.java
-@@ -232,11 +_,13 @@
-         return pos.closerThan(center, 4.0, 10.0);
+@@ -229,10 +_,12 @@
+         return target.closerThan(ourPosition, 4.0, 10.0);
      }
  
 +    private int behaviourTick = 0; // Pluto - Add DAB to more entities
      @Override
-     protected void customServerAiStep(ServerLevel level) {
-         ProfilerFiller profilerFiller = Profiler.get();
-         profilerFiller.push("breezeBrain");
-         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
+     protected void customServerAiStep(final ServerLevel level) {
+         ProfilerFiller profiler = Profiler.get();
+         profiler.push("breezeBrain");
 +        if (this.behaviourTick++ % this.activatedPriority == 0) // Pluto - Add DAB to more entities
+         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
          this.getBrain().tick(level, this);
-         profilerFiller.popPush("breezeActivityUpdate");
-         BreezeAi.updateActivity(this);
+         profiler.popPush("breezeActivityUpdate");

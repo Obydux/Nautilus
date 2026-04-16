@@ -1,0 +1,51 @@
+--- a/src/main/java/org/bukkit/craftbukkit/util/DummyLevelAccessor.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/DummyLevelAccessor.java
+@@ -203,6 +_,48 @@
+         throw new UnsupportedOperationException("Not supported yet.");
+     }
+ 
++    // Pluto start - Memory allocation optimisations
++    @Override
++    public BlockState pluto$getBlockState(final int x, final int y, final int z) {
++        return Blocks.AIR.defaultBlockState();
++    }
++
++    @Override
++    public BlockState pluto$getBlockState(final long packedPos) {
++        return Blocks.AIR.defaultBlockState();
++    }
++
++    @Override
++    public BlockState pluto$getBlockStateIfLoaded(final int x, final int y, final int z) {
++        throw new UnsupportedOperationException("Not supported yet.");
++    }
++
++    @Override
++    public BlockState pluto$getBlockStateIfLoaded(final long packedPos) {
++        throw new UnsupportedOperationException("Not supported yet.");
++    }
++
++    @Override
++    public FluidState pluto$getFluidState(final int x, final int y, final int z) {
++        return Fluids.EMPTY.defaultFluidState();
++    }
++
++    @Override
++    public FluidState pluto$getFluidState(final long packedPos) {
++        return Fluids.EMPTY.defaultFluidState();
++    }
++
++    @Override
++    public FluidState pluto$getFluidStateIfLoaded(final int x, final int y, final int z) {
++        throw new UnsupportedOperationException("Not supported yet.");
++    }
++
++    @Override
++    public FluidState pluto$getFluidStateIfLoaded(final long packedPos) {
++        throw new UnsupportedOperationException("Not supported yet.");
++    }
++    // Pluto end - Memory allocation optimisations
++
+     @Override
+     public BlockState getBlockState(BlockPos pos) {
+         return Blocks.AIR.defaultBlockState(); // SPIGOT-6515

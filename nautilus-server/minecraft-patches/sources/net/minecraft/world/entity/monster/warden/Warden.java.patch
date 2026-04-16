@@ -1,16 +1,15 @@
 --- a/net/minecraft/world/entity/monster/warden/Warden.java
 +++ b/net/minecraft/world/entity/monster/warden/Warden.java
-@@ -300,11 +_,13 @@
+@@ -309,10 +_,12 @@
          }
      }
  
 +    private int behaviorTick = 0; // Pufferfish
      @Override
-     protected void customServerAiStep(ServerLevel level) {
-         ProfilerFiller profilerFiller = Profiler.get();
-         profilerFiller.push("wardenBrain");
-         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
+     protected void customServerAiStep(final ServerLevel level) {
+         ProfilerFiller profiler = Profiler.get();
+         profiler.push("wardenBrain");
 +        if (this.behaviorTick++ % this.activatedPriority == 0) // Pufferfish
+         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
          this.getBrain().tick(level, this);
-         profilerFiller.pop();
-         super.customServerAiStep(level);
+         profiler.pop();

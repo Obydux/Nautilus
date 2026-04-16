@@ -1,16 +1,16 @@
 --- a/net/minecraft/world/level/block/DaylightDetectorBlock.java
 +++ b/net/minecraft/world/level/block/DaylightDetectorBlock.java
-@@ -57,6 +_,13 @@
+@@ -56,6 +_,13 @@
          return state.getValue(POWER);
      }
  
 +    // Pluto start - Memory allocation optimisations
 +    @Override
-+    protected int pluto$getSignal(BlockState blockState, BlockGetter level, int x, int y, int z, Direction direction) {
-+        return blockState.getValue(POWER);
++    protected int pluto$getSignal(final BlockState state, final BlockGetter level, final int x, final int y, final int z, final Direction direction) {
++        return state.getValue(POWER);
 +    }
 +    // Pluto end - Memory allocation optimisations
 +
-     private static void updateSignalStrength(BlockState state, Level level, BlockPos pos) {
-         int i = level.getBrightness(LightLayer.SKY, pos) - level.getSkyDarken();
-         float f = level.environmentAttributes().getValue(EnvironmentAttributes.SUN_ANGLE, pos) * (float) (Math.PI / 180.0);
+     private static void updateSignalStrength(final BlockState state, final Level level, final BlockPos pos) {
+         int target = level.getEffectiveSkyBrightness(pos);
+         float sunAngle = level.environmentAttributes().getValue(EnvironmentAttributes.SUN_ANGLE, pos) * Mth.DEG_TO_RAD;

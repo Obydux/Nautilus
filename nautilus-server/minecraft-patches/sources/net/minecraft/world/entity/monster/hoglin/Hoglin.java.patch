@@ -1,16 +1,15 @@
 --- a/net/minecraft/world/entity/monster/hoglin/Hoglin.java
 +++ b/net/minecraft/world/entity/monster/hoglin/Hoglin.java
-@@ -207,11 +_,13 @@
-         return (Brain<Hoglin>)super.getBrain();
+@@ -178,10 +_,12 @@
+         return (Brain<Hoglin>) super.getBrain();
      }
  
 +    private int behaviorTick; // Pufferfish
      @Override
-     protected void customServerAiStep(ServerLevel level) {
-         ProfilerFiller profilerFiller = Profiler.get();
-         profilerFiller.push("hoglinBrain");
-         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
+     protected void customServerAiStep(final ServerLevel level) {
+         ProfilerFiller profiler = Profiler.get();
+         profiler.push("hoglinBrain");
 +        if (this.behaviorTick++ % this.activatedPriority == 0) // Pufferfish
+         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
          this.getBrain().tick(level, this);
-         profilerFiller.pop();
-         HoglinAi.updateActivity(this);
+         profiler.pop();

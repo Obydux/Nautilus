@@ -775,13 +775,9 @@ public class PlutoConfig {
             );
         }
 
-        public boolean disableShulkersDroppingContentsWhenDestroyed = false;
         public boolean disableShulkerSplitting = false;
         public boolean disableShulkerTeleporting = false;
         private void shulkerSettings() {
-            disableShulkersDroppingContentsWhenDestroyed = getBoolean("entities.item.disable-dropping-shulker-box-contents-when-destroyed", disableShulkersDroppingContentsWhenDestroyed);
-            setComments("entities.item.disable-dropping-shulker-box-contents-when-destroyed", List.of("Prevents shulker boxes from dropping items when broken."));
-
             disableShulkerSplitting = getBoolean("entities.shulker.disable-splitting-from-bullets", disableShulkerSplitting);
             setComments("entities.shulker.disable-splitting-from-bullets",
                     List.of(

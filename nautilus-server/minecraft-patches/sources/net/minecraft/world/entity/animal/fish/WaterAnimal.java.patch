@@ -1,14 +1,14 @@
 --- a/net/minecraft/world/entity/animal/fish/WaterAnimal.java
 +++ b/net/minecraft/world/entity/animal/fish/WaterAnimal.java
-@@ -77,7 +_,9 @@
-         i = level.getMinecraftWorld().paperConfig().entities.spawning.wateranimalSpawnHeight.minimum.or(i);
+@@ -81,7 +_,9 @@
+         minSpawnLevel = level.getMinecraftWorld().paperConfig().entities.spawning.wateranimalSpawnHeight.minimum.or(minSpawnLevel);
          // Paper end - Make water animal spawn height configurable
-         return ((spawnReason == EntitySpawnReason.SPAWNER && level.getMinecraftWorld().purpurConfig.spawnerFixMC238526) || (pos.getY() >= i && pos.getY() <= seaLevel)) // Purpur - MC-238526 - Fix spawner not spawning water animals correctly
+         return ((spawnReason == EntitySpawnReason.SPAWNER && level.getMinecraftWorld().purpurConfig.spawnerFixMC238526) || (pos.getY() >= minSpawnLevel && pos.getY() <= seaLevel)) // Purpur - MC-238526 - Fix spawner not spawning water animals correctly
 -            && level.getFluidState(pos.below()).is(FluidTags.WATER)
 -            && level.getBlockState(pos.above()).is(Blocks.WATER);
-+            // Pluto start - Memory allocation optimisations
-+            && level.pluto$getFluidState(pos.getX(), pos.getY() - 1, pos.getZ()).is(FluidTags.WATER)
-+            && level.pluto$getBlockState(pos.getX(), pos.getY() + 1, pos.getZ()).is(Blocks.WATER);
-+            // Pluto ebd - Memory efficient block lookups
++        // Pluto start - Memory allocation optimisations
++        && level.pluto$getFluidState(pos.getX(), pos.getY() - 1, pos.getZ()).is(FluidTags.WATER)
++        && level.pluto$getBlockState(pos.getX(), pos.getY() + 1, pos.getZ()).is(Blocks.WATER);
++        // Pluto ebd - Memory efficient block lookups
      }
  }

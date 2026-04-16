@@ -35,20 +35,17 @@ import org.slf4j.Logger;
 public class PlutoVersionFetcher implements VersionFetcher {
     private static final Logger LOGGER = LogUtils.getClassLogger();
     private static final ComponentLogger COMPONENT_LOGGER = ComponentLogger.logger(
-            LogManager.getRootLogger().getName());
+        LogManager.getRootLogger().getName());
     private static final int DISTANCE_ERROR = -1;
     private static final int DISTANCE_UNKNOWN = -2;
     private static final String DOWNLOAD_PAGE;
     private static final String REPOSITORY = "Obydux/Nautilus";
-    private static final ServerBuildInfo BUILD_INFO;
-    private static final String USER_AGENT;
+    private static final ServerBuildInfo BUILD_INFO = ServerBuildInfo.buildInfo();
+    private static final String USER_AGENT = BUILD_INFO.brandName() + "/" + BUILD_INFO.asString(VERSION_SIMPLE);
     private static final Gson GSON = new Gson();
 
     static {
-        BUILD_INFO = ServerBuildInfo.buildInfo();
-        USER_AGENT = BUILD_INFO.brandName() + "/" + BUILD_INFO.asString(VERSION_SIMPLE);
-
-        String downloadPage = "https://ci.obydux.win/job/Nautilus/job";
+        String downloadPage = "https://ci.obydux.win/job/Nautilus/job/";
         final String versionId = BUILD_INFO.minecraftVersionId();
         if (versionId.contains("-")) {
             downloadPage += versionId.substring(0, versionId.indexOf("-"));
@@ -116,11 +113,11 @@ public class PlutoVersionFetcher implements VersionFetcher {
             case 0 -> text("You are running the latest version", NamedTextColor.GREEN);
             case DISTANCE_UNKNOWN -> text("Unknown version", NamedTextColor.YELLOW);
             default -> text("You are " + distance + " version(s) behind", NamedTextColor.YELLOW)
-                    .append(Component.newline())
-                    .append(text("Download the new version at: ")
-                            .append(text(DOWNLOAD_PAGE, NamedTextColor.GOLD)
-                                    .hoverEvent(text("Click to open", NamedTextColor.WHITE))
-                                    .clickEvent(ClickEvent.openUrl(DOWNLOAD_PAGE))));
+                .append(Component.newline())
+                .append(text("Download the new version at: ")
+                    .append(text(DOWNLOAD_PAGE, NamedTextColor.GOLD)
+                        .hoverEvent(text("Click to open", NamedTextColor.WHITE))
+                        .clickEvent(ClickEvent.openUrl(DOWNLOAD_PAGE))));
         };
     }
 

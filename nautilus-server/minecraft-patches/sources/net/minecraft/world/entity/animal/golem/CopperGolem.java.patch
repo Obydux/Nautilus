@@ -1,16 +1,15 @@
 --- a/net/minecraft/world/entity/animal/golem/CopperGolem.java
 +++ b/net/minecraft/world/entity/animal/golem/CopperGolem.java
-@@ -240,11 +_,13 @@
+@@ -239,10 +_,12 @@
          this.setSummoner(input.read("Purpur.Summoner", net.minecraft.core.UUIDUtil.CODEC).orElse(null)); // Purpur - Summoner API
      }
  
 +    private int behaviourTick = 0; // Pluto - Add DAB to more entities
      @Override
-     protected void customServerAiStep(ServerLevel level) {
-         ProfilerFiller profilerFiller = Profiler.get();
-         profilerFiller.push("copperGolemBrain");
-         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
+     protected void customServerAiStep(final ServerLevel level) {
+         ProfilerFiller profiler = Profiler.get();
+         profiler.push("copperGolemBrain");
 +        if (this.behaviourTick++ % this.activatedPriority == 0) // Pluto - Add DAB to more entities
+         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
          this.getBrain().tick(level, this);
-         profilerFiller.pop();
-         profilerFiller.push("copperGolemActivityUpdate");
+         profiler.pop();

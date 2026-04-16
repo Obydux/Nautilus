@@ -6,7 +6,7 @@
      private final net.minecraft.world.entity.LivingEntity entity; // Purpur - Ridables
 +    private final java.util.function.Function<Holder<Attribute>, AttributeInstance> createInstance; // Pufferfish
  
-     public AttributeMap(AttributeSupplier supplier) {
+     public AttributeMap(final AttributeSupplier supplier) {
          // Purpur start - Ridables
 @@ -28,6 +_,7 @@
          this.entity = entity;
@@ -15,13 +15,13 @@
 +        this.createInstance = holder -> this.supplier.createInstance(this::onAttributeModified, holder); // Pufferfish
      }
  
-     private void onAttributeModified(AttributeInstance instance) {
+     private void onAttributeModified(final AttributeInstance attributeInstance) {
 @@ -50,7 +_,7 @@
      }
  
-     public @Nullable AttributeInstance getInstance(Holder<Attribute> attribute) {
--        return this.attributes.computeIfAbsent(attribute, holder -> this.supplier.createInstance(this::onAttributeModified, (Holder<Attribute>)holder));
+     public @Nullable AttributeInstance getInstance(final Holder<Attribute> attribute) {
+-        return this.attributes.computeIfAbsent(attribute, key -> this.supplier.createInstance(this::onAttributeModified, (Holder<Attribute>)key));
 +        return this.attributes.computeIfAbsent(attribute, this.createInstance); // Pufferfish - cache lambda, as for some reason java allocates it anyways
      }
  
-     public boolean hasAttribute(Holder<Attribute> attribute) {
+     public boolean hasAttribute(final Holder<Attribute> attribute) {
