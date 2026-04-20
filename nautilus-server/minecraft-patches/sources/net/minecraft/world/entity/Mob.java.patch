@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/Mob.java
 +++ b/net/minecraft/world/entity/Mob.java
-@@ -212,14 +_,16 @@
+@@ -212,15 +_,17 @@
          return this.lookControl;
      }
  
@@ -9,6 +9,7 @@
      @Override
      public void inactiveTick() {
          super.inactiveTick();
+         if (!this.aware) return; // Paper - Do not tick AI for inactive unaware mobs
 -        if (this.goalSelector.inactiveTick()) {
 +        boolean isThrottled = gg.pufferfish.pufferfish.PufferfishConfig.throttleInactiveGoalSelectorTick && _pufferfish_inactiveTickDisableCounter++ % 20 != 0; // Pufferfish - throttle inactive goal selector ticking
 +        if (!this.level().plutoConfig().disableGoalSelector && this.goalSelector.inactiveTick(this.activatedPriority, true) && !isThrottled) { // Pufferfish - pass activated priroity // Pufferfish - throttle inactive goal selector ticking // Pluto - Option to disable entity target/goal selectors
@@ -19,7 +20,7 @@
              this.targetSelector.tick();
          }
      }
-@@ -781,12 +_,41 @@
+@@ -782,12 +_,41 @@
      }
      // Paper end - allow changing despawnInPeaceful
  
@@ -62,7 +63,7 @@
              if (player != null) {
                  // Paper start - Configurable despawn distances
                  final io.papermc.paper.configuration.WorldConfiguration.Entities.Spawning.DespawnRangePair despawnRangePair = this.level().paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory());
-@@ -834,16 +_,20 @@
+@@ -835,16 +_,20 @@
          int idBasedTickCount = this.tickCount + this.getId();
          if (idBasedTickCount % 2 != 0 && this.tickCount > 1) {
              profiler.push("targetSelector");
@@ -83,7 +84,7 @@
              this.goalSelector.tick();
              profiler.pop();
          }
-@@ -1006,6 +_,8 @@
+@@ -1007,6 +_,8 @@
                  return player.getVehicle() == Mob.this || player.isWithinEntityInteractionRange(Mob.this, 4.0);
              }
  
@@ -92,7 +93,7 @@
              // Paper start
              private final List<org.bukkit.entity.HumanEntity> viewers = new java.util.ArrayList<>();
              private int maxStackSize = MAX_STACK;
-@@ -1042,6 +_,13 @@
+@@ -1043,6 +_,13 @@
                  }
                  return null;
              }
