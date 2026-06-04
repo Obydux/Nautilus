@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
-@@ -179,14 +_,22 @@
+@@ -175,14 +_,22 @@
          int x = pos.getX();
          int y = pos.getY();
          int z = pos.getZ();
@@ -16,7 +16,8 @@
 +            y1 = y;
 +            z1 = z;
              entity.checkingBeamSections = Lists.newArrayList();
-             entity.lastCheckY = pos.getY() - 1;
+-            entity.lastCheckY = checkPos.getY() - 1;
++            entity.lastCheckY = pos.getY() - 1;
          } else {
 -            checkPos = new BlockPos(x, entity.lastCheckY + 1, z);
 +            x1 = x;
@@ -26,7 +27,7 @@
          }
  
          BeaconBeamOwner.Section lastBeamSection = entity.checkingBeamSections.isEmpty()
-@@ -194,8 +_,11 @@
+@@ -190,8 +_,11 @@
              : entity.checkingBeamSections.get(entity.checkingBeamSections.size() - 1);
          int lastSetBlock = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
  
@@ -40,7 +41,7 @@
              if (state.getBlock() instanceof BeaconBeamBlock beaconBeamBlock) {
                  int color = beaconBeamBlock.getColor().getTextureDiffuseColor();
                  if (entity.checkingBeamSections.size() <= 1) {
-@@ -223,7 +_,7 @@
+@@ -219,7 +_,7 @@
                  lastBeamSection.increaseHeight();
              }
  
@@ -49,7 +50,7 @@
              entity.lastCheckY++;
          }
  
-@@ -280,7 +_,7 @@
+@@ -276,7 +_,7 @@
  
              for (int lx = x - step; lx <= x + step && isOk; lx++) {
                  for (int lz = z - step; lz <= z + step; lz++) {

@@ -28,7 +28,7 @@ Pufferfish's changes are coming from Yive's version of the software which has be
 You can download the latest JAR file [here](https://ci.obydux.win/job/Nautilus/).
 
 ## API
-You can find the javadocs [here](https://repo.obydux.win/javadoc/snapshots/win/obydux/nautilus/nautilus-api/26.1.2.build.1-alpha).
+You can find the javadocs [here](https://repo.obydux.win/javadoc/snapshots/win/obydux/nautilus/nautilus-api/26.1.2-R0.1-SNAPSHOT).
 
 Maven:
 ```xml
@@ -43,7 +43,7 @@ Maven:
     <dependency>
         <groupId>win.obydux.nautilus</groupId>
         <artifactId>nautilus-api</artifactId>
-        <version>[26.1.2.build,)</version>
+        <version>26.1.2-R0.1-SNAPSHOT</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -57,7 +57,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'win.obydux.nautilus:nautilus-api:26.1.2.build.+'
+    compileOnly 'win.obydux.nautilus:nautilus-api:26.1.2-R0.1-SNAPSHOT'
 }
 ```
 

@@ -8,7 +8,7 @@
      public boolean lagging = false; // Purpur - Lagging threshold
      protected boolean upnp = false; // Purpur - UPnP Port Forwarding
      // Paper start - improve tick loop
-@@ -2814,6 +_,7 @@
+@@ -2801,6 +_,7 @@
      // CraftBukkit end
  
      private ProfilerFiller createProfiler() {

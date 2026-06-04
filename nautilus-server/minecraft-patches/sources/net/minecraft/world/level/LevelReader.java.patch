@@ -16,12 +16,12 @@
      default boolean isEmptyBlock(final BlockPos pos) {
          return this.getBlockState(pos).isAir();
      }
-@@ -106,8 +_,13 @@
-             if (!this.canSeeSky(scanPoint)) {
-                 return false;
-             } else {
--                for (BlockPos var4 = scanPoint.below(); var4.getY() > pos.getY(); var4 = var4.below()) {
--                    BlockState state = this.getBlockState(var4);
+@@ -108,8 +_,13 @@
+             return false;
+         }
+ 
+-        for (BlockPos var4 = scanPoint.below(); var4.getY() > pos.getY(); var4 = var4.below()) {
+-            BlockState state = this.getBlockState(var4);
 +                // Pluto start - Memory allocation optimisations
 +                final int originY = pos.getY();
 +                final int x = scanPoint.getX();
@@ -29,9 +29,9 @@
 +                for (int var4 = scanPoint.getY(); var4 > originY; var4--) {
 +                    BlockState state = this.pluto$getBlockState(x, var4, z);
 +                    // Pluto end - Memory allocation optimisations
-                     if (state.getLightDampening() > 0 && !state.liquid()) {
-                         return false;
-                     }
+             if (state.getLightDampening() > 0 && !state.liquid()) {
+                 return false;
+             }
 @@ -157,12 +_,11 @@
          int y1 = Mth.ceil(box.maxY);
          int z0 = Mth.floor(box.minZ);

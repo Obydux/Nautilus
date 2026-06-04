@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/happyghast/HappyGhast.java
 +++ b/net/minecraft/world/entity/animal/happyghast/HappyGhast.java
-@@ -434,11 +_,13 @@
+@@ -433,11 +_,13 @@
          return (Brain<HappyGhast>) super.getBrain();
      }
  

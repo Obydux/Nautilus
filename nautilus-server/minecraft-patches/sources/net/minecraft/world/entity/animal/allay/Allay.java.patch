@@ -13,7 +13,7 @@
          if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
          this.getBrain().tick(level, this);
          profiler.pop();
-@@ -428,6 +_,7 @@
+@@ -432,6 +_,7 @@
      @Override
      public void updateDynamicGameEventListener(final BiConsumer<DynamicGameEventListener<?>, ServerLevel> action) {
          if (this.level() instanceof ServerLevel serverLevel) {
@@ -21,7 +21,7 @@
              action.accept(this.dynamicVibrationListener, serverLevel);
              action.accept(this.dynamicJukeboxListener, serverLevel);
          }
-@@ -534,7 +_,7 @@
+@@ -538,7 +_,7 @@
      }
  
      public boolean canDuplicate() {
