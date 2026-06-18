@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/net/minecraft/world/entity/npc/villager/Villager.java
-@@ -368,7 +_,10 @@
+@@ -359,7 +_,10 @@
          super.inactiveTick();
      }
      // Paper end - EAR 2
@@ -12,12 +12,12 @@
      @Override
      protected void customServerAiStep(final ServerLevel level) {
          // Paper start - EAR 2
-@@ -385,7 +_,7 @@
+@@ -376,7 +_,7 @@
          } else {
              this.isLobotomized = false;
          }
 -        if (!inactive && (getRider() == null || !this.isControllable())) { // Purpur - Ridables
-+        if (!inactive && this.behaviorTick++ % this.activatedPriority == 0 && (getRider() == null || !this.isControllable())) { // Purpur - Ridables
++        if (!inactive && this.behaviorTick++ % this.activatedPriority == 0 && (getRider() == null || !this.isControllable())) { // Purpur - Ridables // Pufferfish
              this.getBrain().tick(level, this); // Paper - EAR 2
          }
          else if (this.isLobotomized && shouldRestock(level)) restock();

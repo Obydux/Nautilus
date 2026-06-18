@@ -1,18 +1,27 @@
 --- a/net/minecraft/server/MinecraftServer.java
 +++ b/net/minecraft/server/MinecraftServer.java
 @@ -337,6 +_,7 @@
-     public boolean isIteratingOverLevels = false; // Paper - Throw exception on world create while being ticked
-     private final Set<String> pluginsBlockingSleep = new java.util.HashSet<>(); // Paper - API to allow/disallow tick sleeping
      public static final long SERVER_INIT = System.nanoTime(); // Paper - Lag compensation
-+    public gg.pufferfish.pufferfish.util.AsyncExecutor mobSpawnExecutor = new gg.pufferfish.pufferfish.util.AsyncExecutor("MobSpawning"); // Pufferfish - optimize mob spawning
      public boolean lagging = false; // Purpur - Lagging threshold
      protected boolean upnp = false; // Purpur - UPnP Port Forwarding
++    public gg.pufferfish.pufferfish.util.AsyncExecutor mobSpawnExecutor = new gg.pufferfish.pufferfish.util.AsyncExecutor("MobSpawning"); // Pufferfish - optimize mob spawning
      // Paper start - improve tick loop
-@@ -2801,6 +_,7 @@
+     public final ca.spottedleaf.moonrise.common.time.TickData tickTimes1s  = new ca.spottedleaf.moonrise.common.time.TickData(java.util.concurrent.TimeUnit.SECONDS.toNanos(1L));
+     public final ca.spottedleaf.moonrise.common.time.TickData tickTimes5s  = new ca.spottedleaf.moonrise.common.time.TickData(java.util.concurrent.TimeUnit.SECONDS.toNanos(5L));
+@@ -1373,7 +_,7 @@
+                     final long ticksBehind = Math.max(1L, this.tickSchedule.getPeriodsAhead(thisTickNanos, tickStart));
+                     final long catchup = (long)Math.max(
+                         1,
+-                        org.purpurmc.purpur.PurpurConfig.tpsCatchup ? 5 : 1 //ConfigHolder.getConfig().tickLoop.catchupTicks.getOrDefault(MoonriseConfig.TickLoop.DEFAULT_CATCHUP_TICKS).intValue() // Purpur - Configurable TPS Catchup
++                        5 //ConfigHolder.getConfig().tickLoop.catchupTicks.getOrDefault(MoonriseConfig.TickLoop.DEFAULT_CATCHUP_TICKS).intValue()
+                     );
+ 
+                     lagging = getTPS()[0] < org.purpurmc.purpur.PurpurConfig.laggingThreshold; // Purpur - Lagging threshold
+@@ -2807,6 +_,7 @@
      // CraftBukkit end
  
      private ProfilerFiller createProfiler() {
 +        if (gg.pufferfish.pufferfish.PufferfishConfig.disableMethodProfiler) return net.minecraft.util.profiling.InactiveProfiler.INSTANCE; // Pufferfish
          if (this.willStartRecordingMetrics) {
              this.metricsRecorder = ActiveMetricsRecorder.createStarted(
-                 new ServerMetricsSamplersProvider(Util.timeSource, this.isDedicatedServer()),
+                 new ServerMetricsSamplersProvider(Util.timeSource(), this.isDedicatedServer()),

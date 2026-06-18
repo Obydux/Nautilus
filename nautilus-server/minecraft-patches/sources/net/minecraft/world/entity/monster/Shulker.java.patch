@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Shulker.java
 +++ b/net/minecraft/world/entity/monster/Shulker.java
-@@ -399,7 +_,7 @@
+@@ -411,7 +_,7 @@
      }
  
      protected @Nullable Direction findAttachableSurface(final BlockPos target) {
@@ -9,7 +9,7 @@
              if (this.canStayAt(target, direction)) {
                  return direction;
              }
-@@ -433,6 +_,7 @@
+@@ -445,6 +_,7 @@
      }
  
      protected boolean teleportSomewhere() {

@@ -8,7 +8,7 @@
 +        @Override public long getChunkPos() { return ChunkPos.ZERO.longKey(); } // Pluto - Optimise block entity ticking
      };
      private final Map<BlockPos, LevelChunk.RebindableTickingBlockEntityWrapper> tickersInLevel = Maps.newHashMap();
-     public boolean loaded;
+     private boolean loaded;
 @@ -99,6 +_,18 @@
      public boolean needsDecoration;
      // CraftBukkit end
@@ -85,7 +85,7 @@
 +
      public @Nullable BlockEntity getBlockEntity(final BlockPos pos, final LevelChunk.EntityCreationType creationType) {
          // CraftBukkit start
-         BlockEntity blockEntity = this.level.capturedTileEntities.get(pos);
+         BlockEntity blockEntity = this.level.capturedBlockEntities.get(pos);
 @@ -522,6 +_,30 @@
              );
      }
@@ -117,7 +117,7 @@
      @Override
      public void setBlockEntity(final BlockEntity blockEntity) {
          BlockPos pos = blockEntity.getBlockPos();
-@@ -934,17 +_,19 @@
+@@ -932,17 +_,19 @@
          private final T blockEntity;
          private final BlockEntityTicker<T> ticker;
          private boolean loggedInvalidBlockState;
@@ -138,7 +138,7 @@
                      try {
                          ProfilerFiller profiler = Profiler.get();
                          profiler.push(this::getType);
-@@ -1048,6 +_,8 @@
+@@ -1046,6 +_,8 @@
          public String toString() {
              return this.ticker + " <wrapped>";
          }

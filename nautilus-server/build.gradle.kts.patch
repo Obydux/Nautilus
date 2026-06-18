@@ -33,7 +33,7 @@
 +    // Nautilus end - Rebrand
 +
      /*updatingMinecraft { // Purpur start - TODO - snapshot - we don't need this
-         // oldPaperCommit = "711c5de2b05df39b72c44ff54e9f9381f8d153cb"
+         // oldPaperCommit = "d4fe85375af18bfa88f44d7c1e6a61904ae550cc"
      }*/ // Purpur end - TODO - snapshot - we don't need this
  }
  
@@ -94,7 +94,7 @@
 +// Bump compile tasks to 4GB memory to avoid OOMs
  tasks.withType<JavaCompile>().configureEach {
 -    options.forkOptions.memoryMaximumSize = "1G"
-+    options.forkOptions.memoryMaximumSize = "4G" // Pufferfish
++    options.forkOptions.memoryMaximumSize = "4G" // Nautilus
  }
  
  val scanJarForBadCalls by tasks.registering(io.papermc.paperweight.tasks.ScanJarForBadCalls::class) {

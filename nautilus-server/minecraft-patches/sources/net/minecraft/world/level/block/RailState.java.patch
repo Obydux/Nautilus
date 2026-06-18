@@ -6,22 +6,22 @@
  
 -        testPos = pos.above();
 -        testState = this.level.getBlockState(testPos);
-+            // Pluto start - Memory allocation optimisations
-+            final int x = pos.getX();
-+            final int y = pos.getY();
-+            final int z = pos.getZ();
-+            testState = this.level.pluto$getBlockState(x, y + 1, z);
++        // Pluto start - Memory allocation optimisations
++        final int x = pos.getX();
++        final int y = pos.getY();
++        final int z = pos.getZ();
++        testState = this.level.pluto$getBlockState(x, y + 1, z);
          if (BaseRailBlock.isRail(testState)) {
 -            return new RailState(this.level, testPos, testState);
-+                return new RailState(this.level, pos.above(), testState);
++            return new RailState(this.level, pos.above(), testState);
          }
  
 -        testPos = pos.below();
 -        testState = this.level.getBlockState(testPos);
 -        return BaseRailBlock.isRail(testState) ? new RailState(this.level, testPos, testState) : null;
-+                testState = this.level.pluto$getBlockState(x, y - 1, z);
-+                return BaseRailBlock.isRail(testState) ? new RailState(this.level, pos.below(), testState) : null;
-+                // Pluto end - Memory allocation optimisations
++        testState = this.level.pluto$getBlockState(x, y - 1, z);
++        return BaseRailBlock.isRail(testState) ? new RailState(this.level, pos.below(), testState) : null;
++        // Pluto end - Memory allocation optimisations
      }
  
      private boolean connectsTo(final RailState rail) {

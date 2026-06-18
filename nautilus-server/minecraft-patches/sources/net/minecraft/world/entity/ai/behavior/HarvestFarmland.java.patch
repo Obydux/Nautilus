@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/ai/behavior/HarvestFarmland.java
 +++ b/net/minecraft/world/entity/ai/behavior/HarvestFarmland.java
-@@ -82,11 +_,15 @@
+@@ -82,11 +_,14 @@
      }
  
      private boolean validPos(final BlockPos blockPos, final ServerLevel level) {
@@ -12,9 +12,9 @@
 +        BlockState state = chunk.getBlockState(blockPos);
          Block block = state.getBlock();
 -        Block blockBelow = level.getBlockState(blockPos.below()).getBlock();
-         if (this.clericWartFarmer) return block == net.minecraft.world.level.block.Blocks.NETHER_WART && state.getValue(net.minecraft.world.level.block.NetherWartBlock.AGE) == 3 || state.isAir() && block == net.minecraft.world.level.block.Blocks.SOUL_SAND; // Purpur - Option for Villager Clerics to farm Nether Wart
--        return block instanceof CropBlock && ((CropBlock)block).isMaxAge(state) || state.isAir() && blockBelow instanceof FarmlandBlock;
-+        return block instanceof CropBlock && ((CropBlock)block).isMaxAge(state) || state.isAir() && chunk.getBlockState(blockPos.getX(), blockPos.getY() - 1, blockPos.getZ()).getBlock() instanceof FarmlandBlock;
+-        if (this.clericWartFarmer) return block == net.minecraft.world.level.block.Blocks.NETHER_WART && state.getValue(net.minecraft.world.level.block.NetherWartBlock.AGE) == 3 || state.isAir() && block == net.minecraft.world.level.block.Blocks.SOUL_SAND; // Purpur - Option for Villager Clerics to farm Nether Wart
+-        return block instanceof CropBlock cropBlock && cropBlock.isMaxAge(state) || state.isAir() && blockBelow instanceof FarmlandBlock;
++        return block instanceof CropBlock cropBlock && cropBlock.isMaxAge(state) || state.isAir() && chunk.getBlockState(blockPos.getX(), blockPos.getY() - 1, blockPos.getZ()).getBlock() instanceof FarmlandBlock;
 +        // Pluto end - Decrease chunk/block lookups
      }
  
@@ -32,14 +32,14 @@
                  Block block = blockState.getBlock();
 -                Block blockBelow = level.getBlockState(this.aboveFarmlandPos.below()).getBlock();
 +                // Pluto end - Decrease chunk/block lookups
-                 if (block instanceof CropBlock && ((CropBlock)block).isMaxAge(blockState) && !this.clericWartFarmer || this.clericWartFarmer && block == net.minecraft.world.level.block.Blocks.NETHER_WART && blockState.getValue(net.minecraft.world.level.block.NetherWartBlock.AGE) == 3) { // Purpur - Option for Villager Clerics to farm Nether Wart
+                 if (block instanceof CropBlock cropBlock && cropBlock.isMaxAge(blockState) && !this.clericWartFarmer || this.clericWartFarmer && block == net.minecraft.world.level.block.Blocks.NETHER_WART && blockState.getValue(net.minecraft.world.level.block.NetherWartBlock.AGE) == 3) { // Purpur - Option for Villager Clerics to farm Nether Wart
                      if (org.bukkit.craftbukkit.event.CraftEventFactory.callEntityChangeBlockEvent(body, this.aboveFarmlandPos, blockState.getFluidState().createLegacyBlock())) { // CraftBukkit // Paper - fix wrong block state
                      level.destroyBlock(this.aboveFarmlandPos, true, body);
                      } // CraftBukkit
                  }
  
 -                if (blockState.isAir() && blockBelow instanceof FarmlandBlock &&  !this.clericWartFarmer || this.clericWartFarmer && blockBelow == net.minecraft.world.level.block.Blocks.SOUL_SAND && body.hasFarmSeeds()) { // Purpur - Option for Villager Clerics to farm Nether Wart
-+                if (blockState.isAir() && chunk.getBlockState(this.aboveFarmlandPos.getX(), this.aboveFarmlandPos.getY() - 1, this.aboveFarmlandPos.getZ()).getBlock() instanceof FarmlandBlock &&  !this.clericWartFarmer || this.clericWartFarmer && chunk.getBlockState(this.aboveFarmlandPos.getX(), this.aboveFarmlandPos.getY() - 1, this.aboveFarmlandPos.getZ()).getBlock() == net.minecraft.world.level.block.Blocks.SOUL_SAND && body.hasFarmSeeds()) { // Purpur - Option for Villager Clerics to farm Nether Wart // Pluto - Decrease chunk/block lookups
++                if (blockState.isAir() && chunk.getBlockState(this.aboveFarmlandPos.getX(), this.aboveFarmlandPos.getY() - 1, this.aboveFarmlandPos.getZ()).getBlock() instanceof FarmlandBlock && body.hasFarmSeeds()) { // Pluto - Decrease chunk/block lookups
                      SimpleContainer inventory = body.getInventory();
  
                      for (int i = 0; i < inventory.getContainerSize(); i++) {

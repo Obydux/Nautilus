@@ -5,7 +5,7 @@
          Set<Direction> faces = EnumSet.noneOf(Direction.class);
  
 -        for (Direction direction : Direction.values()) {
-+            for (Direction direction : DIRECTIONS) { // Pluto - Avoid excessive calls to Enum#values
++        for (Direction direction : DIRECTIONS) { // Pluto - Avoid excessive calls to Enum#values
              if (hasFace(state, direction)) {
                  faces.add(direction);
              }

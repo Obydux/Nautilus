@@ -5,7 +5,7 @@
                                  BlockState belowState = level.getBlockState(belowPos.setWithOffset(pos, Direction.DOWN));
                                  if (!state.is(Blocks.WATER)
 -                                    && level.getFluidState(pos).isEmpty()
-+                                        && state.getFluidState().isEmpty() // Pluto - Decrease chunk/block lookups
++                                    && state.getFluidState().isEmpty() // Pluto - Decrease chunk/block lookups
                                      && state.getCollisionShape(level, pos, context).isEmpty()
                                      && belowState.isFaceSturdy(level, belowPos, Direction.UP)) {
                                      BlockPos targetPos = pos.immutable();

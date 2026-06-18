@@ -8,11 +8,12 @@
  
      public AttributeMap(final AttributeSupplier supplier) {
          // Purpur start - Ridables
-@@ -28,6 +_,7 @@
+@@ -28,6 +_,8 @@
          this.entity = entity;
          // Purpur end - Ridables
          this.supplier = defaultAttributes;
 +        this.createInstance = holder -> this.supplier.createInstance(this::onAttributeModified, holder); // Pufferfish
++
      }
  
      private void onAttributeModified(final AttributeInstance attributeInstance) {

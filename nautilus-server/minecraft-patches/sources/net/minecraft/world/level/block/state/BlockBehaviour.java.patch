@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/state/BlockBehaviour.java
 +++ b/net/minecraft/world/level/block/state/BlockBehaviour.java
-@@ -336,6 +_,12 @@
+@@ -330,6 +_,12 @@
          return 0;
      }
  
@@ -13,7 +13,7 @@
      protected VoxelShape getShape(final BlockState state, final BlockGetter level, final BlockPos pos, final CollisionContext context) {
          return Shapes.block();
      }
-@@ -396,6 +_,12 @@
+@@ -398,6 +_,12 @@
          return Redstone.SIGNAL_MIN;
      }
  
@@ -26,7 +26,7 @@
      public final Optional<ResourceKey<LootTable>> getLootTable() {
          return this.drops;
      }
-@@ -764,6 +_,12 @@
+@@ -771,6 +_,12 @@
              return this.getBlock().getSignal(this.asState(), level, pos, direction);
          }
  
@@ -39,7 +39,7 @@
          public boolean hasAnalogOutputSignal() {
              return this.getBlock().hasAnalogOutputSignal(this.asState());
          }
-@@ -783,6 +_,12 @@
+@@ -790,6 +_,12 @@
          public int getDirectSignal(final BlockGetter level, final BlockPos pos, final Direction direction) {
              return this.getBlock().getDirectSignal(this.asState(), level, pos, direction);
          }

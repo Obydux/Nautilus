@@ -1,7 +1,7 @@
 --- a/net/minecraft/world/level/block/RedstoneWallTorchBlock.java
 +++ b/net/minecraft/world/level/block/RedstoneWallTorchBlock.java
 @@ -90,6 +_,13 @@
-         return state.getValue(LIT) && state.getValue(FACING) != direction ? Redstone.SIGNAL_MAX : Redstone.SIGNAL_MIN;
+         return state.getValue(FACING) != direction ? this.ownSignal(state, level, pos) : Redstone.SIGNAL_MIN;
      }
  
 +    // Pluto start - Memory allocation optimisations

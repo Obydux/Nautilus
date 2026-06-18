@@ -14,7 +14,7 @@
          }
  
 -        BlockState belowState = level.getBlockState(pos.below());
-+            BlockState belowState = level.pluto$getBlockState(pos.getX(), pos.getY() - 1, pos.getZ()); // Pluto - Memory allocation optimisations
++        BlockState belowState = level.pluto$getBlockState(pos.getX(), pos.getY() - 1, pos.getZ()); // Pluto - Memory allocation optimisations
          return belowState.is(this) && belowState.getValue(HALF) == DoubleBlockHalf.LOWER;
      }
  

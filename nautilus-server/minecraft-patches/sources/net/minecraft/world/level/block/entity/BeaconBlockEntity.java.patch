@@ -1,15 +1,15 @@
 --- a/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 +++ b/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
-@@ -175,14 +_,22 @@
+@@ -177,14 +_,22 @@
          int x = pos.getX();
          int y = pos.getY();
          int z = pos.getZ();
 -        BlockPos checkPos;
+         boolean isTintedGlass = false; // Purpur - allow beacon effects when covered by tinted glass
 +        // Pluto start - Memory allocation optimisations
 +        int x1;
 +        int y1;
 +        int z1;
-         boolean isTintedGlass = false; // Purpur - allow beacon effects when covered by tinted glass
          if (entity.lastCheckY < y) {
 -            checkPos = pos;
 +            x1 = x;
@@ -27,7 +27,7 @@
          }
  
          BeaconBeamOwner.Section lastBeamSection = entity.checkingBeamSections.isEmpty()
-@@ -190,8 +_,11 @@
+@@ -192,8 +_,11 @@
              : entity.checkingBeamSections.get(entity.checkingBeamSections.size() - 1);
          int lastSetBlock = level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
  
@@ -41,7 +41,7 @@
              if (state.getBlock() instanceof BeaconBeamBlock beaconBeamBlock) {
                  int color = beaconBeamBlock.getColor().getTextureDiffuseColor();
                  if (entity.checkingBeamSections.size() <= 1) {
-@@ -219,7 +_,7 @@
+@@ -221,7 +_,7 @@
                  lastBeamSection.increaseHeight();
              }
  
@@ -50,7 +50,7 @@
              entity.lastCheckY++;
          }
  
-@@ -276,7 +_,7 @@
+@@ -278,7 +_,7 @@
  
              for (int lx = x - step; lx <= x + step && isOk; lx++) {
                  for (int lz = z - step; lz <= z + step; lz++) {

@@ -23,15 +23,15 @@
                      // Paper end
                  } else {
 -                    logger.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PURPUR - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur - Rebrand
-+                    logger.log(Level.SEVERE, "--- DO NOT REPORT THIS TO NAUTILUS - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Nautilus - Rebrand
++                    logger.log(Level.SEVERE, "--- DO NOT REPORT THIS TO NAUTILUS - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Purpur - Rebrand // Nautilus - Rebrand
                      logger.log(Level.SEVERE, "The server has not responded for " + (currentTime - lastTick) / 1000 + " seconds! Creating thread dump");
                  }
                  // Paper end - Different message for short timeout
                  logger.log(Level.SEVERE, "------------------------------");
 -                logger.log(Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Purpur!):"); // Paper // Purpur - Rebrand
-+                logger.log(Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Nautilus!):"); // Paper // Nautilus - Rebrand
++                logger.log(Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Nautilus!):"); // Paper // Purpur - Rebrand // Nautilus - Rebrand
                  FeatureHooks.dumpAllChunkLoadInfo(MinecraftServer.getServer(), isLongTimeout); // Paper - log detailed tick information
-                 WatchdogThread.dumpThread(ManagementFactory.getThreadMXBean().getThreadInfo(MinecraftServer.getServer().serverThread.threadId(), Integer.MAX_VALUE), logger);
+                 WatchdogThread.dumpThread(ManagementFactory.getThreadMXBean().getThreadInfo(MinecraftServer.getServer().getRunningThread().threadId(), Integer.MAX_VALUE), logger);
                  logger.log(Level.SEVERE, "------------------------------");
 @@ -120,7 +_,7 @@
                          WatchdogThread.dumpThread(thread, logger);

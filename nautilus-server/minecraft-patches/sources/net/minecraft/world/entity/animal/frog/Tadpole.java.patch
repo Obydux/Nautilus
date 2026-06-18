@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/animal/frog/Tadpole.java
 +++ b/net/minecraft/world/entity/animal/frog/Tadpole.java
-@@ -118,10 +_,12 @@
+@@ -119,11 +_,13 @@
          return SoundEvents.TADPOLE_FLOP;
      }
  
@@ -9,7 +9,8 @@
      protected void customServerAiStep(final ServerLevel level) {
          ProfilerFiller profiler = Profiler.get();
          profiler.push("tadpoleBrain");
-+        if (this.behaviorTick++ % this.activatedPriority == 0) // Pufferfish
          if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
++        if (this.behaviorTick++ % this.activatedPriority == 0) // Pufferfish
          this.getBrain().tick(level, this);
          profiler.pop();
+         profiler.push("tadpoleActivityUpdate");

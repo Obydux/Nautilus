@@ -14,7 +14,7 @@
          BlockPos above = pos.above();
  
 -        for (Direction direction : Direction.values()) {
-+            for (Direction direction : Direction.VALUES) { // Pluto - Avoid excessive calls to Enum#values
++        for (Direction direction : Direction.VALUES) { // Pluto - Avoid excessive calls to Enum#values
              if (direction != Direction.DOWN && level.hasSignal(above.relative(direction), direction)) {
                  return true;
              }

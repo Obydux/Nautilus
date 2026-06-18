@@ -17,21 +17,21 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class SentryContext {
-	
+
 	private static final Gson GSON = new Gson();
-	
+
 	public static void setPluginContext(@Nullable Plugin plugin) {
 		if (plugin != null) {
 			ThreadContext.put("pufferfishsentry_pluginname", plugin.getName());
 			ThreadContext.put("pufferfishsentry_pluginversion", plugin.getDescription().getVersion());
 		}
 	}
-	
+
 	public static void removePluginContext() {
 		ThreadContext.remove("pufferfishsentry_pluginname");
 		ThreadContext.remove("pufferfishsentry_pluginversion");
 	}
-	
+
 	public static void setSenderContext(@Nullable CommandSender sender) {
 		if (sender != null) {
 			ThreadContext.put("pufferfishsentry_playername", sender.getName());
@@ -40,15 +40,15 @@ public class SentryContext {
 			}
 		}
 	}
-	
+
 	public static void removeSenderContext() {
 		ThreadContext.remove("pufferfishsentry_playername");
 		ThreadContext.remove("pufferfishsentry_playerid");
 	}
-	
+
 	public static void setEventContext(@Nullable Event event, @Nullable RegisteredListener registration) {
 		setPluginContext(registration.getPlugin());
-		
+
 		try {
 			// Find the player that was involved with this event
 			Player player = null;
@@ -56,36 +56,36 @@ public class SentryContext {
 				player = ((PlayerEvent) event).getPlayer();
 			} else {
 				Class<? extends Event> eventClass = event.getClass();
-				
+
 				Field playerField = null;
-				
+
 				for (Field field : eventClass.getDeclaredFields()) {
 					if (field.getType().equals(Player.class)) {
 						playerField = field;
 						break;
 					}
 				}
-				
+
 				if (playerField != null) {
 					playerField.setAccessible(true);
 					player = (Player) playerField.get(event);
 				}
 			}
-			
+
 			if (player != null) {
 				setSenderContext(player);
 			}
 		} catch (Exception e) {} // We can't really safely log exceptions.
-		
+
 		ThreadContext.put("pufferfishsentry_eventdata", GSON.toJson(serializeFields(event)));
 	}
-	
+
 	public static void removeEventContext() {
 		removePluginContext();
 		removeSenderContext();
 		ThreadContext.remove("pufferfishsentry_eventdata");
 	}
-	
+
 	private static Map<String, String> serializeFields(Object object) {
 		Map<String, String> fields = new TreeMap<>();
 		fields.put("_class", object.getClass().getName());
@@ -94,7 +94,7 @@ public class SentryContext {
 				if (Modifier.isStatic(declaredField.getModifiers())) {
 					continue;
 				}
-				
+
 				String fieldName = declaredField.getName();
 				if (fieldName.equals("handlers")) {
 					continue;
@@ -110,9 +110,9 @@ public class SentryContext {
 		}
 		return fields;
 	}
-	
+
 	public static class State {
-		
+
 		private Plugin plugin;
 		private Command command;
 		private String commandLine;
@@ -123,7 +123,7 @@ public class SentryContext {
 		public Plugin getPlugin() {
 			return plugin;
 		}
-		
+
 		public void setPlugin(@Nullable Plugin plugin) {
 			this.plugin = plugin;
 		}
@@ -132,7 +132,7 @@ public class SentryContext {
 		public Command getCommand() {
 			return command;
 		}
-		
+
 		public void setCommand(@Nullable Command command) {
 			this.command = command;
 		}
@@ -141,7 +141,7 @@ public class SentryContext {
 		public String getCommandLine() {
 			return commandLine;
 		}
-		
+
 		public void setCommandLine(@Nullable String commandLine) {
 			this.commandLine = commandLine;
 		}
@@ -150,7 +150,7 @@ public class SentryContext {
 		public Event getEvent() {
 			return event;
 		}
-		
+
 		public void setEvent(@Nullable Event event) {
 			this.event = event;
 		}
@@ -159,7 +159,7 @@ public class SentryContext {
 		public RegisteredListener getRegisteredListener() {
 			return registeredListener;
 		}
-		
+
 		public void setRegisteredListener(@Nullable RegisteredListener registeredListener) {
 			this.registeredListener = registeredListener;
 		}

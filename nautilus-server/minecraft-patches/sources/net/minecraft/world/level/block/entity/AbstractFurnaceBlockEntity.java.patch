@@ -56,11 +56,11 @@
          int resultCount = resultItemStack.getCount() + burnResult.count();
          int maxResultCount = Math.min(maxStackSize, burnResult.getMaxStackSize());
 -        return resultCount <= maxResultCount;
-+            // Pluto start - Cache canBurn result in Furnaces
-+            boolean result = resultCount <= maxResultCount;
-+            furnace.canBurnCache = net.minecraft.util.TriState.from(result);
-+            return result;
-+            // Pluto end - Cache canBurn result in Furnaces
++        // Pluto start - Cache canBurn result in Furnaces
++        boolean result = resultCount <= maxResultCount;
++        furnace.canBurnCache = net.minecraft.util.TriState.from(result);
++        return result;
++        // Pluto end - Cache canBurn result in Furnaces
      }
  
 -    private static boolean burn(final NonNullList<ItemStack> items, final ItemStack inputItemStack, ItemStack result, RecipeHolder<? extends AbstractCookingRecipe> recipe, final net.minecraft.world.level.Level level, final BlockPos blockPos) { // CraftBukkit

@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/JukeboxBlock.java
 +++ b/net/minecraft/world/level/block/JukeboxBlock.java
-@@ -104,6 +_,13 @@
+@@ -105,6 +_,13 @@
              : Redstone.SIGNAL_MIN;
      }
  

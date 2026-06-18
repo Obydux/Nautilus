@@ -788,16 +788,11 @@ public class PlutoConfig {
             );
         }
 
-        public boolean disableShulkerSplitting = false;
+        public boolean disableShulkersDroppingContentsWhenDestroyed = false;
         public boolean disableShulkerTeleporting = false;
         private void shulkerSettings() {
-            disableShulkerSplitting = getBoolean("entities.shulker.disable-splitting-from-bullets", disableShulkerSplitting);
-            setComments("entities.shulker.disable-splitting-from-bullets",
-                    List.of(
-                            "Prevents shulkers from splitting when hit by their own bullet.",
-                            "This will prevent players from abusing shulker farms"
-                    )
-            );
+            disableShulkersDroppingContentsWhenDestroyed = getBoolean("entities.item.disable-dropping-shulker-box-contents-when-destroyed", disableShulkersDroppingContentsWhenDestroyed);
+            setComments("entities.item.disable-dropping-shulker-box-contents-when-destroyed", List.of("Prevents shulker boxes from dropping items when broken."));
 
             disableShulkerTeleporting = getBoolean("entities.shulker.disable-random-teleports", disableShulkerTeleporting);
             setComments("entities.shulker.disable-random-teleports",
@@ -836,8 +831,8 @@ public class PlutoConfig {
 
         private void spawnerTTL() {
             // Set a few default ones to create the section
-            net.minecraft.world.entity.EntityType.ZOMBIE.spawnerTTL = getInt("blocks.spawner.ttl." + net.minecraft.world.entity.EntityType.getKey(net.minecraft.world.entity.EntityType.ZOMBIE).getPath().toLowerCase(java.util.Locale.ROOT), -1);
-            net.minecraft.world.entity.EntityType.SNOW_GOLEM.spawnerTTL = getInt("blocks.spawner.ttl." + net.minecraft.world.entity.EntityType.getKey(net.minecraft.world.entity.EntityType.SNOW_GOLEM).getPath().toLowerCase(java.util.Locale.ROOT), -1);
+            net.minecraft.world.entity.EntityTypes.ZOMBIE.spawnerTTL = getInt("blocks.spawner.ttl." + net.minecraft.world.entity.EntityType.getKey(net.minecraft.world.entity.EntityTypes.ZOMBIE).getPath().toLowerCase(java.util.Locale.ROOT), -1);
+            net.minecraft.world.entity.EntityTypes.SNOW_GOLEM.spawnerTTL = getInt("blocks.spawner.ttl." + net.minecraft.world.entity.EntityType.getKey(net.minecraft.world.entity.EntityTypes.SNOW_GOLEM).getPath().toLowerCase(java.util.Locale.ROOT), -1);
             setComments("blocks.spawner.ttl",
                     List.of(
                             "This section will make entities spawned from spawners have a time to live rate in ticks.",

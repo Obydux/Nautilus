@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/LeverBlock.java
 +++ b/net/minecraft/world/level/block/LeverBlock.java
-@@ -144,6 +_,18 @@
+@@ -139,6 +_,18 @@
          return state.getValue(POWERED) && getConnectedDirection(state) == direction ? Redstone.SIGNAL_MAX : Redstone.SIGNAL_MIN;
      }
  

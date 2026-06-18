@@ -5,7 +5,7 @@
          }
  
 -        FluidState replacedFluidState = context.getLevel().getFluidState(context.getClickedPos());
-+            FluidState replacedFluidState = state.getFluidState(); // Pluto - Decrease chunk/block lookups
++        FluidState replacedFluidState = state.getFluidState(); // Pluto - Decrease chunk/block lookups
          boolean isWaterSource = replacedFluidState.is(Fluids.WATER);
          return super.getStateForPlacement(context).setValue(WATERLOGGED, isWaterSource);
      }
