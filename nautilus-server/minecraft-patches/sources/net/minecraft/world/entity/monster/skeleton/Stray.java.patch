@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/skeleton/Stray.java
 +++ b/net/minecraft/world/entity/monster/skeleton/Stray.java
-@@ -71,14 +_,20 @@
+@@ -72,14 +_,20 @@
      public static boolean checkStraySpawnRules(
          final EntityType<Stray> type, final ServerLevelAccessor level, final EntitySpawnReason spawnReason, final BlockPos pos, final RandomSource random
      ) {
