@@ -4,7 +4,7 @@
 
 # upstreamCommit --purpur HASH --pluto HASH
 # flag: --purpur HASH - (Optional) the commit hash to use for comparing commits between purpur (PurpurMC/Purpur/compare/HASH...HEAD)
-# flag: --pluto HASH - the commit hash to use for comparing commits between pluto (Yive/Pluto/compare/HASH...HEAD)
+# flag: --pluto HASH - the commit hash to use for comparing commits between pluto (Yive/Pluto/compare/HASH...ver/{mcVersion})
 
 function getCommits() {
     curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/"$1"/compare/"$2"..."$3" | jq -r '.commits[] | "'"$1"'@\(.sha[:8]) \(.commit.message | split("\r\n")[0] | split("\n")[0])" | sub("\\[ci( |-)skip]"; "[ci/skip]")'
@@ -16,6 +16,7 @@ PS1="$"
 
 purpurHash=$(git diff gradle.properties | awk '/^-purpurCommit =/{print $NF}')
 plutoHash=""
+mcVersion=$(awk -F' = ' '/^mcVersion =/{print $2}' gradle.properties)
 
 TEMP=$(getopt --long purpur:,pluto: -o "" -- "$@")
 eval set -- "$TEMP"
@@ -54,7 +55,8 @@ fi
 
 # Pluto updates
 if [ -n "$plutoHash" ]; then
-    pluto=$(getCommits "Yive/Pluto" "$plutoHash" "HEAD")
+    plutoBranch=$(echo $mcVersion | grep . -q && echo "ver/$mcVersion" || echo "HEAD")
+    pluto=$(getCommits "Yive/Pluto" "$plutoHash" "$plutoBranch")
 
     # Updates found
     if [ -n "$pluto" ]; then
