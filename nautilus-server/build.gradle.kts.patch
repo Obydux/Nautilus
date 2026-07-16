@@ -86,8 +86,8 @@
              "Build-Number" to (build ?: ""),
              "Build-Time" to buildTime.toString(),
              "Git-Branch" to gitBranch,
-@@ -227,9 +_,9 @@
-     options.compilerArgs.add("-parameters")
+@@ -236,9 +_,9 @@
+     )
  }
  
 -// Bump compile tasks to 1GB memory to avoid OOMs
