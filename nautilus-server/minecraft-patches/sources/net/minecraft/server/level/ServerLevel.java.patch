@@ -125,8 +125,8 @@
 +
                  if (isTrap) {
                      // Purpur start - Special mobs naturally spawn
-                     net.minecraft.world.entity.animal.equine.AbstractHorse skeletonHorse;
-@@ -1179,7 +_,10 @@
+                     net.minecraft.world.entity.animal.equine.AbstractHorse horse;
+@@ -1178,7 +_,10 @@
      public @Nullable BlockPos findLightningTargetAround(final BlockPos pos, boolean returnNullWhenNoTarget) {
          // Paper end - Add methods to find targets for lightning strikes
          BlockPos center = this.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, pos);

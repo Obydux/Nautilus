@@ -60,6 +60,16 @@ dependencies {
     compileOnly 'win.obydux.nautilus:nautilus-api:26.2-R0.1-SNAPSHOT'
 }
 ```
+Paperweight + Gradle KTS:
+```kts
+repositories {
+    maven("https://repo.obydux.win/snapshots")
+}
+
+dependencies {
+    paperweight.devBundle("win.obydux.nautilus", "26.2-R0.1-SNAPSHOT")
+}
+```
 
 ## Building
 
