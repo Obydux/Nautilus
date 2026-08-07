@@ -1,19 +1,5 @@
 --- a/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/net/minecraft/world/entity/animal/allay/Allay.java
-@@ -256,11 +_,13 @@
-         return 0.4F;
-     }
- 
-+    private int behaviorTick = 0; // Pufferfish
-     @Override
-     protected void customServerAiStep(final ServerLevel level) {
-         ProfilerFiller profiler = Profiler.get();
-         profiler.push("allayBrain");
-         if (getRider() == null || !this.isControllable()) // Purpur - only use brain if no rider
-+        if (this.behaviorTick++ % this.activatedPriority == 0) // Pufferfish
-         this.getBrain().tick(level, this);
-         profiler.pop();
-         profiler.push("allayActivityUpdate");
 @@ -433,6 +_,7 @@
      @Override
      public void updateDynamicGameEventListener(final BiConsumer<DynamicGameEventListener<?>, ServerLevel> action) {
