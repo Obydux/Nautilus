@@ -1,6 +1,6 @@
 --- a/purpur-api/build.gradle.kts
 +++ b/purpur-api/build.gradle.kts
-@@ -42,6 +_,7 @@
+@@ -57,6 +_,7 @@
  }
  
  dependencies {
@@ -8,7 +8,16 @@
      // api dependencies are listed transitively to API consumers
      api("com.google.guava:guava:33.6.0-jre")
      api("com.google.code.gson:gson:2.14.0")
-@@ -105,17 +_,21 @@
+@@ -109,7 +_,7 @@
+     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.0.3")
+ 
+     // checkstyle
+-    checkstyle(project(":purpur-checkstyle"))
++    //checkstyle(project(":purpur-checkstyle")) // Nautilus - Uncomment once this can be used in forks
+ }
+ 
+ val generatedDir: java.nio.file.Path = rootProject.layout.projectDirectory.dir("paper-api/src/generated/java").asFile.toPath() // Purpur
+@@ -123,17 +_,21 @@
          java {
              srcDir(generatedDir)
              srcDir(file("../paper-api/src/main/java"))
@@ -30,7 +39,7 @@
          }
      }
  }
-@@ -181,6 +_,13 @@
+@@ -199,6 +_,13 @@
      apiVersion.set(rootProject.providers.gradleProperty("apiVersion"))
  }
  
@@ -44,7 +53,7 @@
  tasks.jar {
      from(generateApiVersioningFile.flatMap { it.outputFile })
      manifest {
-@@ -199,6 +_,7 @@
+@@ -217,6 +_,7 @@
  tasks.withType<Javadoc>().configureEach {
      (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet") // Purpur - silence Paper's bajillion javadoc warnings
      val options = options as StandardJavadocDocletOptions
