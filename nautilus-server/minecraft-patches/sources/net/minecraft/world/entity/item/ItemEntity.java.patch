@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/net/minecraft/world/entity/item/ItemEntity.java
-@@ -135,6 +_,7 @@
+@@ -128,6 +_,7 @@
      @Override
      public void inactiveTick() {
          super.inactiveTick();
@@ -8,7 +8,7 @@
          if (this.pickupDelay > 0 && this.pickupDelay != 32767) {
              this.pickupDelay--;
          }
-@@ -154,12 +_,19 @@
+@@ -147,12 +_,19 @@
      }
      // Paper end - EAR 2
  
@@ -28,7 +28,7 @@
              if (this.pickupDelay > 0 && this.pickupDelay != 32767) {
                  this.pickupDelay--;
              }
-@@ -197,7 +_,7 @@
+@@ -190,7 +_,7 @@
                      groundFriction = 1F;
                  } else if (this.onGround()) {
                  // Paper end - Friction API
@@ -37,7 +37,7 @@
                  }
  
                  this.setDeltaMovement(this.getDeltaMovement().multiply(groundFriction, airDrag, groundFriction));
-@@ -209,11 +_,11 @@
+@@ -202,11 +_,11 @@
                  }
              }
  
@@ -54,7 +54,7 @@
                  this.mergeWithNeighbours();
              }
  
-@@ -246,6 +_,13 @@
+@@ -239,6 +_,13 @@
          return this.getOnPos(0.999999F);
      }
  
@@ -68,7 +68,7 @@
      private void setUnderwaterMovement() {
          this.setFluidMovement(0.99F);
      }
-@@ -262,8 +_,11 @@
+@@ -255,8 +_,11 @@
      private void mergeWithNeighbours() {
          if (this.isMergable()) {
              double radius = this.level().spigotConfig.itemMerge; // Spigot

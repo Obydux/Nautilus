@@ -1,10 +1,10 @@
 --- a/net/minecraft/world/entity/npc/villager/Villager.java
 +++ b/net/minecraft/world/entity/npc/villager/Villager.java
-@@ -376,6 +_,7 @@
+@@ -369,6 +_,7 @@
          super.inactiveTick();
      }
      // Paper end - EAR 2
-+    public long nextGolemPanic = -1;
++    public long nextGolemPanic = -1; // Pufferfish
  
      @Override
      protected void customServerAiStep(final ServerLevel level) {

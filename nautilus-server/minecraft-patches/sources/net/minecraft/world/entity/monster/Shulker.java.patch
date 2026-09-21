@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Shulker.java
 +++ b/net/minecraft/world/entity/monster/Shulker.java
-@@ -411,7 +_,7 @@
+@@ -414,7 +_,7 @@
      }
  
      protected @Nullable Direction findAttachableSurface(final BlockPos target) {
@@ -9,11 +9,11 @@
              if (this.canStayAt(target, direction)) {
                  return direction;
              }
-@@ -445,6 +_,7 @@
+@@ -448,6 +_,7 @@
      }
  
      protected boolean teleportSomewhere() {
 +        if (this.level().plutoConfig().disableShulkerTeleporting) return false; // Pluto - Shulker configuration
          if (!this.isNoAi() && this.isAlive()) {
-             BlockPos current = this.blockPosition();
- 
+             BlockPos oldPos = this.blockPosition();
+             Level level = this.level();

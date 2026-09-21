@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/monster/Silverfish.java
 +++ b/net/minecraft/world/entity/monster/Silverfish.java
-@@ -189,8 +_,7 @@
+@@ -188,8 +_,7 @@
              RandomSource random = this.mob.getRandom();
              if (getServerLevel(this.mob).getGameRules().get(GameRules.MOB_GRIEFING, getServerLevel(this.mob).purpurConfig.silverfishMobGriefingOverride) && random.nextInt(reducedTickDelay(10)) == 0) { // Purpur - Add mobGriefing override to everything affected
                  this.selectedDirection = Direction.getRandom(random);

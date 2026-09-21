@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/level/block/CoralBlock.java
 +++ b/net/minecraft/world/level/block/CoralBlock.java
-@@ -66,8 +_,13 @@
+@@ -54,8 +_,13 @@
  
      protected boolean scanForWater(final BlockGetter level, final BlockPos blockPos) {
          if (!((net.minecraft.world.level.LevelAccessor) level).getMinecraftWorld().purpurConfig.coralDieOutsideWater) return true; // Purpur - Config to not let coral die
