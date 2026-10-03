@@ -1,6 +1,6 @@
 --- a/net/minecraft/world/entity/Mob.java
 +++ b/net/minecraft/world/entity/Mob.java
-@@ -218,15 +_,17 @@
+@@ -219,15 +_,17 @@
          return this.lookControl;
      }
  
@@ -20,7 +20,7 @@
              this.targetSelector.tick();
          }
      }
-@@ -792,13 +_,42 @@
+@@ -799,13 +_,42 @@
          return this.isPassenger() || this.isLeashed();
      }
  
@@ -55,7 +55,7 @@
 +
      @Override
      public void checkDespawn() {
-         if (this.level().getDifficulty() == Difficulty.PEACEFUL && !this.getType().isAllowedInPeaceful()) {
+         if (this.level().getDifficulty() == Difficulty.PEACEFUL && this.despawnInPeacefulOverride.toBooleanOrElse(!this.getType().isAllowedInPeaceful())) { // Paper - allow changing despawnInPeaceful
              this.discard(EntityRemoveEvent.Cause.DESPAWN); // CraftBukkit - add Bukkit remove cause
          } else {
              boolean isPersistent = this.isPersistenceRequired() || this.requiresCustomPersistence();
@@ -64,7 +64,7 @@
              if (player != null) {
                  // Paper start - Configurable despawn distances
                  final io.papermc.paper.configuration.WorldConfiguration.Entities.Spawning.DespawnRangePair despawnRangePair = this.level().paperConfig().entities.spawning.despawnRanges.get(this.getType().getCategory());
-@@ -847,16 +_,20 @@
+@@ -854,16 +_,20 @@
          int idBasedTickCount = this.tickCount + this.getId();
          if (idBasedTickCount % 2 != 0 && this.tickCount > 1) {
              profiler.push("targetSelector");
@@ -85,7 +85,7 @@
              this.goalSelector.tick();
              profiler.pop();
          }
-@@ -1011,6 +_,8 @@
+@@ -1018,6 +_,8 @@
                  return player.getVehicle() == Mob.this || player.isWithinEntityInteractionRange(Mob.this, 4.0);
              }
  
@@ -94,7 +94,7 @@
              // Paper start
              private final List<org.bukkit.entity.HumanEntity> viewers = new java.util.ArrayList<>();
              private int maxStackSize = MAX_STACK;
-@@ -1047,6 +_,13 @@
+@@ -1054,6 +_,13 @@
                  }
                  return null;
              }
