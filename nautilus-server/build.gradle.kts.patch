@@ -63,7 +63,7 @@
  dependencies {
 -    implementation(project(":purpur-api")) // Purpur
 +    implementation(project(":nautilus-api")) // Nautilus
-     implementation(platform("ca.spottedleaf.leafpile:bom:1.2.4"))
+     implementation(platform("ca.spottedleaf.leafpile:bom:1.3.0"))
      implementation("ca.spottedleaf.leafpile:common")
      implementation("ca.spottedleaf.leafpile:concurrentutil")
 @@ -206,14 +_,14 @@
