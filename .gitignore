@@ -60,3 +60,7 @@ paper-api
 paper-server
 *.jar
 test-plugin.settings.gradle.kts
+nautilus-checkstyle/build.gradle.kts
+purpur-checkstyle
+paper-checkstyle
+.checkstyle

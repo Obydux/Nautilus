@@ -1,3 +1,4 @@
+import io.papermc.paperweight.checkstyle.PaperCheckstyleExt
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
@@ -23,6 +24,11 @@ paperweight {
             outputFile = file("nautilus-api/build.gradle.kts")
             patchFile = file("nautilus-api/build.gradle.kts.patch")
         }
+        patchFile {
+            path = "purpur-checkstyle/build.gradle.kts"
+            outputFile = file("nautilus-checkstyle/build.gradle.kts")
+            patchFile = file("nautilus-checkstyle/build.gradle.kts.patch")
+        }
         patchRepo("paperApi") {
             upstreamPath = "paper-api"
             patchesDir = file("nautilus-api/paper-patches")
@@ -34,6 +40,22 @@ paperweight {
             patchesDir = file("nautilus-api/purpur-patches")
             outputDir = file("purpur-api")
         }
+        patchRepo("paperCheckstyle") {
+            upstreamPath = "paper-checkstyle"
+            patchesDir = file("nautilus-checkstyle/paper-patches")
+            outputDir = file("paper-checkstyle")
+        }
+        patchDir("purpurCheckstyle") {
+            upstreamPath = "purpur-checkstyle"
+            excludes = setOf("build.gradle.kts", "build.gradle.kts.patch", "paper-patches")
+            patchesDir = file("nautilus-checkstyle/purpur-patches")
+            outputDir = file("purpur-checkstyle")
+        }
+        patchRepo("paperCheckstyleConfig") {
+            upstreamPath = ".checkstyle"
+            patchesDir = file("nautilus-checkstyle/config-patches")
+            outputDir = file(".checkstyle")
+        }
     }
 }
 
@@ -44,6 +66,29 @@ subprojects {
     extensions.configure<JavaPluginExtension> {
         toolchain {
             languageVersion = JavaLanguageVersion.of(25)
+        }
+    }
+
+    val tempDisabled = setOf("nautilus-server", "purpur-server", "paper-server", "test-plugin")
+
+    if (name !in tempDisabled) {
+        apply { plugin("io.papermc.paperweight.paper-checkstyle") }
+        extensions.configure<PaperCheckstyleExt> {
+            typeUseAnnotationsFile.set(rootProject.layout.projectDirectory.file(".checkstyle/type_use_annotations.txt"))
+        }
+
+        /*tasks.withType<PaperCheckstyleTask>().configureEach {
+            configDirectory = rootProject.layout.projectDirectory.dir(".checkstyle")
+            // configFile = layout.projectDirectory.file(".checkstyle/checkstyle.xml").asFile // use the base file if not overwritten
+            maxHeapSize = "2g"
+            reports {
+                xml.required = true
+                html.required = true
+            }
+        }*/
+
+        dependencies {
+            "checkstyle"(project(":nautilus-checkstyle"))
         }
     }
 

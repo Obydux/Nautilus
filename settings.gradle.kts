@@ -30,7 +30,7 @@ if (!file(".git").exists()) {
 
 rootProject.name = "nautilus"
 
-for (name in listOf("nautilus-api", "nautilus-server")) {
+for (name in listOf("nautilus-api", "nautilus-server", "nautilus-checkstyle")) {
     val projName = name.lowercase(Locale.ENGLISH)
     include(projName)
     findProject(":$projName")!!.projectDir = file(name)

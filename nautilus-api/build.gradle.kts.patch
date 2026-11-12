@@ -13,7 +13,7 @@
  
      // checkstyle
 -    checkstyle(project(":purpur-checkstyle"))
-+    //checkstyle(project(":purpur-checkstyle")) // Nautilus - Uncomment once this can be used in forks
++    checkstyle(project(":nautilus-checkstyle"))
  }
  
  val generatedDir: java.nio.file.Path = rootProject.layout.projectDirectory.dir("paper-api/src/generated/java").asFile.toPath() // Purpur
@@ -47,13 +47,13 @@
 +tasks.withType<JavaCompile> {
 +    val compilerArgs = options.compilerArgs
 +    compilerArgs.add("--add-modules=jdk.incubator.vector")
-+}
++    }
 +// Pufferfish End
 +
  tasks.jar {
      from(generateApiVersioningFile.flatMap { it.outputFile })
-     manifest {
-@@ -215,6 +_,7 @@
+ }
+@@ -210,6 +_,7 @@
  tasks.withType<Javadoc>().configureEach {
      (options as StandardJavadocDocletOptions).addStringOption("Xdoclint:none", "-quiet") // Purpur - silence Paper's bajillion javadoc warnings
      val options = options as StandardJavadocDocletOptions
